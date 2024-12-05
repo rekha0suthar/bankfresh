@@ -9,6 +9,9 @@ import {
 } from '../utils/index.js';
 import Account from '../models/account.js';
 import bcrypt from 'bcrypt';
+import svgCaptcha from 'svg-captcha';
+
+let sessionCaptcha = '';
 
 const createAccount = async (req, res) => {
   try {
@@ -22,10 +25,15 @@ const createAccount = async (req, res) => {
       address,
       identityProof,
       accountType,
+      captcha,
     } = req.body;
 
+    if (captcha != sessionCaptcha) {
+      return res.status(400).json({ msg: 'Invalid captcha' });
+    }
+
     const existUser = await User.findOne({
-      $or: [{ email }, { mobileNumber }, { identityProof }],
+      $or: [{ email }, { identityProof }],
     });
 
     if (existUser) {
@@ -56,6 +64,7 @@ const createAccount = async (req, res) => {
     const newAccount = await new Account({
       userId: newUser._id,
       accountNumber,
+      accountType,
       customerId,
       debitCard,
     }).save();
@@ -96,13 +105,29 @@ const signup = async (req, res) => {
   }
 };
 
+const getCaptcha = async (req, res) => {
+  try {
+    const captcha = svgCaptcha.create();
+    req.session.captcha = captcha.text;
+    sessionCaptcha = captcha.text;
+    console.log(captcha.text, req.session.captcha);
+    res.type('svg');
+    res.send(captcha.data);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
 // @desc  User Login
 // @route POST /api/user/login
 // @access public
 const login = async (req, res) => {
   try {
-    const { userId, customerId, password } = req.body;
+    const { userId, customerId, password, captcha } = req.body;
 
+    if (captcha != sessionCaptcha) {
+      return res.status(400).json({ msg: 'Invalid captcha' });
+    }
     const user = await User.findById(userId);
 
     const userAccount = await Account.findOne({ userId, customerId });
@@ -130,8 +155,8 @@ const login = async (req, res) => {
   }
 };
 
-// @desc  Fetch User Profile
-// @route GET /api/auth/:id
+// @desc  Fetch User Account
+// @route GET /api/auth/account/:id
 // @access private
 const getUserAccount = async (req, res) => {
   try {
@@ -149,4 +174,22 @@ const getUserAccount = async (req, res) => {
   }
 };
 
-export { createAccount, signup, login, getUserAccount };
+// @desc  Fetch User Profile
+// @route GET /api/auth/user/:id
+// @access private
+const getUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(403).json({ msg: ' User  does not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+export { createAccount, signup, login, getUserAccount, getUser, getCaptcha };

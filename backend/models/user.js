@@ -44,7 +44,7 @@ const userSchema = new Schema({
   },
   accountType: {
     type: String,
-    enum: ['Savings', 'Current'],
+    enum: ['Saving', 'Current'],
     required: true,
   },
   password: {

@@ -9,6 +9,10 @@ const accountSchema = new Schema({
     type: String,
     unique: true,
   },
+  accountType: {
+    type: String,
+    enum: ['Saving', 'Current'],
+  },
   customerId: {
     type: String,
     unique: true,
@@ -17,9 +21,18 @@ const accountSchema = new Schema({
     cardNumber: { type: String, unique: true },
     cvv: { type: String },
   },
-  mobileNumer: {
-    type: String,
-    required: true,
+
+  balance: {
+    type: Number,
+    default: 1000,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
