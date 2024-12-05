@@ -4,6 +4,7 @@ import { Context } from '../context/Context';
 import ImageCaptcha from '../components/ImageCaptcha';
 import InputGroup from '../components/InputGroup';
 import Address from '../components/Address';
+import { useNavigate } from 'react-router-dom';
 
 const CreateAcount = () => {
   const {
@@ -25,6 +26,8 @@ const CreateAcount = () => {
     setMobileNumber,
     createAccount,
   } = useContext(Context);
+
+  const navigate = useNavigate();
 
   return (
     <div className="account-form wd-6">
@@ -180,8 +183,8 @@ const CreateAcount = () => {
         </label>
       </div>
       <ImageCaptcha />
-
       <button onClick={createAccount}>Save and Continue</button>
+      <button onClick={() => navigate('/login')}>Login</button>
     </div>
   );
 };

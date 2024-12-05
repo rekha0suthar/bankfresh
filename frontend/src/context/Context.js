@@ -2,8 +2,9 @@ import React, { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { isValidEmail } from '../utils';
 
-const BASE_API_URL = 'http://localhost:8080/api';
+const BASE_API_URL = 'http://localhost:8888/api';
 
 const Context = createContext({});
 
@@ -27,22 +28,17 @@ const ContextProvider = ({ children }) => {
   });
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
   const [accountNumber, setAcountNumber] = useState('');
   const [debitCard, setDebitCard] = useState({});
   const [customerId, setCustomerId] = useState('');
+  const [captchaImg, setCaptchaImg] = useState('');
+  const [captcha, setCaptcha] = useState('');
 
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
-
-  const isValidEmail = () => {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailPattern.test(email);
-  };
 
   const createAccount = async () => {
     const newUser = {
@@ -55,30 +51,32 @@ const ContextProvider = ({ children }) => {
       address,
       identityProof: identity,
       accountType,
+      captcha,
     };
 
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/auth/account`,
-        newUser,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      console.log(response);
-      localStorage.setItem('userId', response.data.user._id);
-      setFullName('');
-      setAccountType('');
-      setAddress('');
-      setDob('');
-      setGender('');
-      setIdentity('');
-      setMobileNumber('');
-      setNationality('');
-      setEmail('');
-      navigate('/signup');
+      if (isValidEmail(email)) {
+        const response = await axios.post(
+          `${BASE_API_URL}/auth/account`,
+          newUser,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        localStorage.setItem('userId', response.data.user._id);
+        setFullName('');
+        setAccountType('');
+        setAddress('');
+        setDob('');
+        setGender('');
+        setIdentity('');
+        setMobileNumber('');
+        setNationality('');
+        setEmail('');
+        navigate('/signup');
+      }
     } catch (err) {
       console.error(err);
     }
@@ -89,9 +87,9 @@ const ContextProvider = ({ children }) => {
     const userId = localStorage.getItem('userId');
 
     try {
-      console.log(userId, 'id');
-      const response = await axios.get(`${BASE_API_URL}/auth/${userId}`);
-      console.log(response);
+      const response = await axios.get(
+        `${BASE_API_URL}/auth/account/${userId}`
+      );
       setAcountNumber(response.data.accountNumber);
       setDebitCard(response.data.debitCard);
       setCustomerId(response.data.customerId);
@@ -137,7 +135,7 @@ const ContextProvider = ({ children }) => {
     // preventing page from refresh
     e.preventDefault();
 
-    const newUser = { userId, customerId, password };
+    const newUser = { userId, customerId, password, captcha };
 
     try {
       setLoading(true);
@@ -162,57 +160,32 @@ const ContextProvider = ({ children }) => {
   // Method for logout
   const logout = () => {
     localStorage.removeItem('token'); // removing token from localstorage
-    localStorage.removeItem('userId');
     navigate('/'); // redirecting to login after logout
   };
 
-  const forgetPassword = async (e) => {
-    e.preventDefault();
+  const getUser = async () => {
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/auth/forget-password`,
-        { email },
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
+      const response = await axios.get(`${BASE_API_URL}/auth/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchCaptcha = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_API_URL}/auth/captcha?${new Date().getTime()}`
       );
-      console.log(response);
-      if (response.status === 200) {
-        setUser(response.data.user);
-        localStorage.setItem('userId', response.data.user._id);
-        navigate('/reset-password');
-      }
+      setCaptchaImg(response.data);
     } catch (err) {
       console.error(err);
     }
   };
-
-  const resetPassword = async (e) => {
-    e.preventDefault();
-    try {
-      const id = localStorage.getItem('userId');
-
-      console.log(userId, password);
-      if (password === confirmPassword) {
-        const response = await axios.put(
-          `${BASE_API_URL}/auth/reset-password`,
-          { id, password },
-          {
-            headers: { 'Content-Type': 'application/json' },
-          }
-        );
-        console.log(response);
-
-        navigate('/');
-      } else {
-        toast.error('Incorrect password match');
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // Method to update user secret
 
   return (
     <Context.Provider
@@ -247,18 +220,18 @@ const ContextProvider = ({ children }) => {
         setDebitCard,
         loading,
         setLoading,
+        captchaImg,
+        setCaptchaImg,
+        captcha,
+        setCaptcha,
         signup,
         login,
         logout,
+        fetchCaptcha,
         user,
         setUser,
         getUserAccount,
-        currentPage,
-        setCurrentPage,
-        totalPages,
-        setTotalPages,
-        forgetPassword,
-        resetPassword,
+        getUser,
         createAccount,
       }}
     >
