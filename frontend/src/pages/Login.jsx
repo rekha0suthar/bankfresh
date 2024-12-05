@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { Context } from '../context/Context';
 import '../styles/form.css';
-import Nav from '../components/Nav';
 import { useNavigate } from 'react-router-dom';
+import ImageCaptcha from '../components/ImageCaptcha';
+import InputGroup from '../components/InputGroup';
 
 const Login = () => {
   const {
@@ -24,43 +25,37 @@ const Login = () => {
 
   return (
     <>
-      <div className="account-form wd-5">
+      <div className="form-container">
         <h1>
           Welcome to <span>NetBanking</span>
         </h1>
 
-        <div>
-          <label className="label-box">Customer ID</label>
+        <InputGroup
+          inputValue={customerId}
+          setInputValue={setCustomerId}
+          nameValue="cusomterId"
+          labelValue="Customer ID"
+        />
 
-          <input
-            type="text"
-            className="input-box"
-            value={customerId}
-            onChange={(e) => setCustomerId(e.target.value)}
-            required
-          />
+        <InputGroup
+          inputValue={password}
+          setInputValue={setPassword}
+          nameValue="password"
+          labelValue="Password"
+          inputType="password"
+        />
+
+        <ImageCaptcha />
+
+        <div className="btns">
+          <button onClick={login}>{loading ? 'Logging ...' : 'Login'}</button>
+          <button onClick={() => navigate('/forget-password')}>
+            Forget Password
+          </button>
+          <button onClick={() => navigate('/signup')}>
+            New User Registration
+          </button>
         </div>
-
-        <div>
-          <label className="label-box">Password</label>
-
-          <input
-            type="password"
-            className="input-box"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="cc-number"
-          />
-        </div>
-
-        <button onClick={login}>{loading ? 'Logging ...' : 'Login'}</button>
-        <button onClick={() => navigate('/forget-password')}>
-          Forget Password
-        </button>
-        <button onClick={() => navigate('/signup')}>
-          New User Registration
-        </button>
       </div>
     </>
   );

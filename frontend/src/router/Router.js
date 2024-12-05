@@ -9,6 +9,7 @@ import ResetPassword from '../pages/ResetPassword';
 import OtpVerfication from '../pages/OtpVerification';
 import Home from '../pages/Home';
 import CreateAcount from '../pages/CreateAcount';
+import Dashboard from '../pages/Dashboard';
 
 export const Router = () => {
   return (
@@ -20,7 +21,9 @@ export const Router = () => {
       <Route path="/forget-password" Component={ForgetPassword} />
       <Route path="/reset-password" Component={ResetPassword} />
       <Route path="verify-otp" Component={OtpVerfication} />
-      <Route Component={ProtectedRoute}></Route>
+      <Route Component={ProtectedRoute}>
+        <Route path="/dashboard" Component={Dashboard} />
+      </Route>
     </Routes>
   );
 };

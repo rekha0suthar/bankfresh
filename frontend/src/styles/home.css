@@ -1,0 +1,63 @@
+.home {
+  background-image: url(../assets/bg.avif);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+}
+
+.nav-header {
+  justify-content: space-between;
+  color: white;
+  padding: 0px 10px;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  align-items: center;
+  display: flex;
+}
+
+.nav-header a {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.links {
+  max-width: 500px;
+  margin: 300px auto;
+  align-items: center;
+}
+
+.links h1,
+p {
+  color: white;
+}
+
+.links h1 {
+  font-size: 60px;
+}
+
+.links p {
+  margin-bottom: 50px;
+}
+
+.links a {
+  text-decoration: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
+}
+
+.account-link {
+  background-color: white;
+  border-radius: 20px;
+}
+
+.account-link:hover {
+  background-color: yellow;
+}

@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
 import '../styles/account-form.css';
 import { Context } from '../context/Context';
+import ImageCaptcha from '../components/ImageCaptcha';
+import InputGroup from '../components/InputGroup';
+import Address from '../components/Address';
 
 const CreateAcount = () => {
   const {
@@ -20,188 +23,163 @@ const CreateAcount = () => {
     setEmail,
     mobileNumber,
     setMobileNumber,
-    address,
-    setAddress,
     createAccount,
   } = useContext(Context);
+
   return (
-    <div className="account-form wd-7">
-      <div>
-        <label className="label-box">Full Name</label>
-        <input
-          type="text"
-          placeholder="Enter your full name"
-          className="input-box"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label className="label-box">DOB</label>
-        <input
-          type="Date"
-          className="input-box"
-          value={dob}
-          onChange={(e) => setDob(e.target.value)}
-          required
-        />
-      </div>
-
-      <div>
+    <div className="account-form wd-6">
+      <h1>Open New Account</h1>
+      {/* Full name field */}
+      <InputGroup
+        inputValue={fullName}
+        setInputValue={setFullName}
+        divClass="account-form-field"
+        inputClass="input-box"
+        labelClass="label-box"
+        labelValue="Full Name"
+        nameValue="fullname"
+        placeHolder="Enter your full name"
+      />
+      {/* Date of Birth Field */}
+      <InputGroup
+        inputValue={dob}
+        setInputValue={setDob}
+        divClass="account-form-field"
+        inputClass="input-box"
+        labelClass="label-box"
+        labelValue="Date of Birth"
+        nameValue="dob"
+        inputType="date"
+      />
+      {/* Identity Field */}
+      <InputGroup
+        inputValue={identity}
+        setInputValue={setIdentity}
+        divClass="account-form-field"
+        inputClass="input-box"
+        labelClass="label-box"
+        labelValue="Identity Proof"
+        nameValue="identity"
+        minLen={12}
+        maxLen={12}
+        placeHolder="Enter your aadhar number"
+      />
+      {/* Email Field */}
+      <InputGroup
+        inputValue={email}
+        setInputValue={setEmail}
+        divClass="account-form-field"
+        inputClass="input-box"
+        labelClass="label-box"
+        labelValue="Email"
+        nameValue="email"
+        placeHolder="Enter your email"
+        inputType="email"
+      />
+      {/* Mobile Number field */}
+      <InputGroup
+        inputValue={mobileNumber}
+        setInputValue={setMobileNumber}
+        divClass="account-form-field"
+        inputClass="input-box"
+        labelClass="label-box"
+        labelValue="Mobile Number"
+        nameValue="mobile-number"
+        minLen={10}
+        maxLen={12}
+        placeHolder="Enter your mobile number"
+      />
+      {/* AccountType field */}
+      <div className="account-form-field">
         {' '}
-        <label>Account Type</label>
-        <input
-          type="radio"
-          value="Savings"
-          name="accountType"
-          checked={accountType === 'Savings'}
-          onChange={(e) => setAccountType(e.target.value)}
-        />
-        <label>Savings</label>
-        <input
-          type="radio"
-          value="Current"
-          name="accountType"
-          checked={accountType === 'Current'}
-          onChange={(e) => setAccountType(e.target.value)}
-        />
-        <label>Current</label>
-      </div>
-      <div>
-        <label>Gender</label>
-        <input
-          type="radio"
-          value="Male"
-          name="gender"
-          checked={gender === 'Male'}
-          onChange={(e) => setGender(e.target.value)}
-        />
-        <label>Male</label>
-        <input
-          type="radio"
-          value="Female"
-          name="gender"
-          checked={gender === 'Female'}
-          onChange={(e) => setGender(e.target.value)}
-        />
-        <label>Female</label>
-        <input
-          type="radio"
-          value="Other"
-          name="gender"
-          checked={gender === 'Other'}
-          onChange={(e) => setGender(e.target.value)}
-        />
-        <label>Other</label>
-      </div>
-      <div>
-        {' '}
-        <label className="label-box">Identity Proof</label>
-        <input
-          type="text"
-          placeholder="Aadhar number"
-          className="input-box"
-          min={12}
-          max={12}
-          value={identity}
-          onChange={(e) => setIdentity(e.target.value)}
-          required
-        />
-      </div>
-
-      <div>
-        {' '}
-        <label>Nationality</label>
-        <input
-          type="radio"
-          value="Indian"
-          name="nationality"
-          checked={nationality === 'Indian'}
-          onChange={(e) => setNationality(e.target.value)}
-        />
-        <label>Indian</label>
-        <input
-          type="radio"
-          value="Foreigner"
-          name="nationality"
-          checked={nationality === 'Foreigner'}
-          onChange={(e) => setNationality(e.target.value)}
-        />
-        <label>Foreigner</label>
-      </div>
-      <div>
-        <label className="label-box">Email</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          className="input-box"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label className="label-box">Mobile Number</label>
-        <input
-          type="phone"
-          placeholder="Enter your mobile number"
-          className="input-box"
-          min={10}
-          max={12}
-          value={mobileNumber}
-          onChange={(e) => setMobileNumber(e.target.value)}
-          required
-        />
-      </div>
-      <div className="address">
-        <label className="label-box">Address</label>
-        <div>
+        <label className="label-box">
+          Account Type<span>*</span>
+        </label>
+        <div className="input-box">
           <input
-            type="text"
-            placeholder="Street"
-            value={address.street}
-            onChange={(e) => setAddress({ ...address, street: e.target.value })}
-            required
+            type="radio"
+            value="Saving"
+            name="accountType"
+            checked={accountType === 'Saving'}
+            onChange={(e) => setAccountType(e.target.value)}
           />
+          <label>Saving</label>
           <input
-            type="text"
-            placeholder="City"
-            value={address.city}
-            onChange={(e) => setAddress({ ...address, city: e.target.value })}
-            required
+            type="radio"
+            value="Current"
+            name="accountType"
+            checked={accountType === 'Current'}
+            onChange={(e) => setAccountType(e.target.value)}
           />
-          <br />
-          <input
-            type="text"
-            placeholder="State"
-            value={address.state}
-            onChange={(e) => setAddress({ ...address, state: e.target.value })}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            value={address.country}
-            onChange={(e) =>
-              setAddress({ ...address, country: e.target.value })
-            }
-            required
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Postal Code"
-            value={address.postalCode}
-            onChange={(e) =>
-              setAddress({ ...address, postalCode: e.target.value })
-            }
-            min={6}
-            max={6}
-            required
-          />
+          <label>Current</label>
         </div>
       </div>
+      {/* Gender field */}
+      <div className="account-form-field">
+        <label className="label-box">
+          Gender<span>*</span>
+        </label>
+        <div className="input-box">
+          <input
+            type="radio"
+            value="Male"
+            name="gender"
+            checked={gender === 'Male'}
+            onChange={(e) => setGender(e.target.value)}
+          />
+          <label>Male</label>
+          <input
+            type="radio"
+            value="Female"
+            name="gender"
+            checked={gender === 'Female'}
+            onChange={(e) => setGender(e.target.value)}
+          />
+          <label>Female</label>
+          <input
+            type="radio"
+            value="Other"
+            name="gender"
+            checked={gender === 'Other'}
+            onChange={(e) => setGender(e.target.value)}
+          />
+          <label>Other</label>
+        </div>
+      </div>
+
+      {/* Nationality field */}
+      <div className="account-form-field">
+        {' '}
+        <label className="label-box">
+          Nationality<span>*</span>
+        </label>
+        <div className="input-box">
+          <input
+            type="radio"
+            value="Indian"
+            name="nationality"
+            checked={nationality === 'Indian'}
+            onChange={(e) => setNationality(e.target.value)}
+          />
+          <label>Indian</label>
+          <input
+            type="radio"
+            value="Non-Indian"
+            name="nationality"
+            checked={nationality === 'Non-Indian'}
+            onChange={(e) => setNationality(e.target.value)}
+          />
+          <label>Non-Indian</label>
+        </div>
+      </div>
+      {/* Address field Component */}
+      <Address />
+      <div>
+        <label className="label-box">
+          Enter Captcha<span>*</span>
+        </label>
+      </div>
+      <ImageCaptcha />
 
       <button onClick={createAccount}>Save and Continue</button>
     </div>

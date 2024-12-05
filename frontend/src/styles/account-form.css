@@ -3,6 +3,7 @@
   background-color: white;
   box-shadow: 0px 0px 6px #ccc;
   padding: 20px;
+  line-height: 1.5;
 }
 
 .account-form h1 {
@@ -14,19 +15,34 @@
   color: orange;
 }
 
-.account-form div {
+.account-form div label span {
+  font-size: 20px;
+  margin-left: 2px;
+}
+
+.account-form .account-form-field {
   display: flex;
   justify-content: start;
   margin: 10px 0px;
   align-items: center;
 }
 
-.account-form div label {
+.account-form div label:first-child {
   text-align: start;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.account-form div input[type='radio'] {
+  margin-right: 5px;
+}
+
+.account-form .account-form-field .input-box label {
   margin-right: 10px;
 }
 
-.account-form div input {
+.account-form div input,
+.captcha input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -34,15 +50,18 @@
   outline: none;
 }
 
-.account-form div .label-box {
+.account-form .account-form-field .label-box {
   flex: 1;
 }
 
-.account-form div .input-box {
-  flex: 1;
+.account-form .account-form-field .input-box {
+  flex: 1.5;
 }
 
 .address {
+  display: flex !important;
+  flex-wrap: wrap;
+  max-width: 100%;
 }
 
 .address label {
@@ -50,11 +69,12 @@
 }
 
 .address div {
-  flex: 2;
+  flex: 1.5;
 }
 
 .address input {
-  margin: 10px;
+  margin: 5px;
+  width: 150px;
 }
 
 .account-form button {
@@ -67,11 +87,33 @@
   font-weight: bold;
   font-size: 18px;
   margin-right: 10px;
+  cursor: pointer;
 }
 
-.wd-7 {
-  max-width: 700px;
+.captcha {
+  gap: 20px;
+  height: 40px;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  align-items: center;
 }
+
+.refesh-captcha {
+  margin-left: -10px;
+  margin-top: -10px;
+  color: rgb(14, 188, 247);
+  cursor: pointer;
+}
+
+.captcha img {
+  border: 1px solid #ccc;
+  width: max-content !important;
+  height: 100%;
+}
+
+/* .wd-7 {
+  max-width: 600px;
+} */
 
 .wd-6 {
   max-width: 600px;
