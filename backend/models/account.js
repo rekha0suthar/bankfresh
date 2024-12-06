@@ -8,18 +8,25 @@ const accountSchema = new Schema({
   accountNumber: {
     type: String,
     unique: true,
+    required: true,
   },
   accountType: {
     type: String,
     enum: ['Saving', 'Current'],
+    required: true,
   },
   customerId: {
     type: String,
     unique: true,
+    required: true,
   },
   debitCard: {
-    cardNumber: { type: String, unique: true },
-    cvv: { type: String },
+    cardNumber: { type: String, unique: true, required: true },
+    cvv: { type: String, unique: true, required: true },
+    issueMonth: { type: String, required: true },
+    issueYear: { type: String, required: true },
+    expiryMonth: { type: String, required: true },
+    expiryYear: { type: String, required: true },
   },
 
   balance: {

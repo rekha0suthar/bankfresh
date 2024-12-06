@@ -34,6 +34,7 @@ const ContextProvider = ({ children }) => {
   const [customerId, setCustomerId] = useState('');
   const [captchaImg, setCaptchaImg] = useState('');
   const [captcha, setCaptcha] = useState('');
+  const [otp, setOtp] = useState('');
 
   const navigate = useNavigate();
 
@@ -75,8 +76,43 @@ const ContextProvider = ({ children }) => {
         setMobileNumber('');
         setNationality('');
         setEmail('');
-        navigate('/signup');
+        navigate('/verify-otp');
       }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const verifyOtp = async () => {
+    try {
+      const response = await axios.post(
+        `${BASE_API_URL}/auth/verify-otp`,
+        { userId, otp },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response);
+      navigate('/signup');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const resendOtp = async () => {
+    try {
+      const response = await axios.post(
+        `${BASE_API_URL}/auth/resend-otp`,
+        { userId },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response);
     } catch (err) {
       console.error(err);
     }
@@ -224,6 +260,8 @@ const ContextProvider = ({ children }) => {
         setCaptchaImg,
         captcha,
         setCaptcha,
+        otp,
+        setOtp,
         signup,
         login,
         logout,
@@ -233,6 +271,8 @@ const ContextProvider = ({ children }) => {
         getUserAccount,
         getUser,
         createAccount,
+        verifyOtp,
+        resendOtp,
       }}
     >
       {children}

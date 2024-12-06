@@ -8,6 +8,7 @@ import {
   signup,
 } from '../controllers/user.js';
 import { verifyToken } from '../middleware/verifyToken.js';
+import { resendOtp, verifyOtp } from '../controllers/otp.js';
 
 const router = Router();
 
@@ -17,4 +18,6 @@ router.post('/login', login);
 router.get('/account/:id', getUserAccount);
 router.get('/user/:id', verifyToken, getUser);
 router.get('/captcha', getCaptcha);
+router.post('/verify-otp', verifyOtp);
+router.post('/resend-otp', resendOtp);
 export default router;

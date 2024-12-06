@@ -6,10 +6,12 @@ import {
   generateAccountNumber,
   generateCustomerId,
   generateDebitCardDetails,
+  sendEmail,
 } from '../utils/index.js';
 import Account from '../models/account.js';
 import bcrypt from 'bcrypt';
 import svgCaptcha from 'svg-captcha';
+import { generateAndSendOtp } from './otp.js';
 
 let sessionCaptcha = '';
 
@@ -69,6 +71,12 @@ const createAccount = async (req, res) => {
       debitCard,
     }).save();
 
+    const subject = 'Your Bank Account Details';
+    const text = `Hello User, \n\nYour account has been created successfully on BankFresh. \n\nBelow is your account details. \nAccount Number: ${accountNumber}\nCustomer ID: ${customerId}\n Debit Card Number: ${debitCard.cardNumber}.\n\nThank you for choosing us.`;
+
+    await sendEmail(email, subject, text);
+    await generateAndSendOtp(email, mobileNumber);
+
     res
       .status(201)
       .json({ msg: 'Account created successfully', user: newUser });
@@ -110,7 +118,6 @@ const getCaptcha = async (req, res) => {
     const captcha = svgCaptcha.create();
     req.session.captcha = captcha.text;
     sessionCaptcha = captcha.text;
-    console.log(captcha.text, req.session.captcha);
     res.type('svg');
     res.send(captcha.data);
   } catch (err) {
