@@ -1,0 +1,141 @@
+.dashboard-section {
+  margin-top: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.balance-container {
+  background-color: blue;
+  box-shadow: 0px 0px 6px #ccc;
+  max-width: max-content;
+  height: max-content;
+  margin-left: 10px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  border-top-right-radius: 50px;
+}
+
+.balance-container p {
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 0.8;
+}
+
+.balance {
+  border: 5px solid orange;
+  border-radius: 50%;
+  max-width: max-content;
+  padding: 10px 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.date {
+  color: orange;
+}
+
+.debit-card {
+  background-image: url('https://c8.alamy.com/comp/2EAJTF1/gold-credit-card-on-a-white-background-2EAJTF1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 500px;
+  height: 300px;
+  position: relative;
+  margin-top: -40px;
+}
+
+.debit-card p {
+  color: black;
+}
+
+.debit-card h2 {
+  position: absolute;
+  top: 20%;
+  right: 15%;
+  color: white;
+  font-style: italic;
+}
+
+.debit-card h3 {
+  position: absolute;
+  top: 55%;
+  left: 20%;
+  color: white;
+  font-size: 32px;
+}
+
+.card-dates p {
+  position: absolute;
+  top: 70%;
+  color: white;
+  margin-top: 20px;
+  align-items: center;
+  display: flex;
+  font-weight: bold;
+}
+
+.card-dates p:first-child {
+  left: 20%;
+}
+
+.card-dates p:last-child {
+  left: 40%;
+}
+
+.debit-card-back {
+  background-image: url('https://c8.alamy.com/comp/2BN2211/back-side-of-a-golden-credit-card-with-a-holographic-sticker-and-security-code-isolated-on-a-white-background-design-element-saved-with-clipping-pat-2BN2211.jpg');
+  background-size: cover;
+  width: 500px;
+  height: 300px;
+  position: relative;
+  margin-top: -40px;
+}
+
+.debit-card-back h2 {
+  position: absolute;
+  top: 18%;
+  right: 18%;
+  color: white;
+  font-style: italic;
+}
+
+.debit-card-back h3 {
+  position: absolute;
+  top: 45%;
+  right: 28%;
+  color: black;
+  font-size: 16px;
+  font-style: oblique;
+}
+
+.side-bar-container {
+  padding: 0px 10px;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  margin-top: 80px;
+  display: flex;
+  gap: 10px;
+  justify-content: start;
+  background-color: rgb(10, 180, 236);
+}
+
+.services {
+  display: flex;
+  align-items: center;
+  color: white;
+  gap: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  border-right: 2px solid white;
+  padding-right: 10px;
+}
+
+.services:hover,
+.services p:hover {
+  color: orange;
+}

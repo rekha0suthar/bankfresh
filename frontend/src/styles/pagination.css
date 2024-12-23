@@ -1,0 +1,19 @@
+.pagination {
+  text-align: center;
+  background-color: white;
+  box-shadow: 0px 0px 6px #ccc;
+  max-width: max-content;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  background-color: transparent;
+  color: black;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}

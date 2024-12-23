@@ -1,0 +1,35 @@
+/* services.css */
+
+.account-summary {
+  margin: 160px 20px 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+h2 {
+  text-align: left;
+  margin-bottom: 10px;
+  margin-top: 0px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures borders are collapsed */
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 12px; /* Adds padding to table cells */
+  text-align: left; /* Aligns text to the left */
+}
+
+th {
+  border-bottom: 2px solid #888;
+}
+
+tbody tr:hover {
+  background-color: lightblue;
+  cursor: pointer;
+}

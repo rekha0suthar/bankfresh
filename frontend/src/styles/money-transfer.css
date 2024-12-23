@@ -1,0 +1,175 @@
+.main-container {
+  margin-top: 160px !important;
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 5px;
+}
+
+.main-wrapper {
+  border: 1px solid rgb(10, 180, 236);
+  border-radius: 30px;
+  margin: 10px 0px;
+  padding: 20px 30px;
+  color: rgb(48, 47, 47);
+  line-height: 1.5;
+}
+
+.heading {
+  background-color: rgb(10, 180, 236);
+  color: white;
+  padding: 10px 30px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.main-container p {
+  color: gray;
+  font-size: 16px;
+  margin-top: 0px;
+}
+
+.money-transfer-header {
+  display: flex;
+  border: 1px solid rgb(10, 180, 236);
+  background-color: #eee;
+  max-width: max-content;
+}
+
+.money-transfer-header h2 {
+  border-right: 1px solid rgb(10, 180, 236);
+  margin-bottom: 0px;
+  padding: 5px 0px;
+  font-weight: normal;
+  padding: 5px;
+  box-sizing: border-box;
+  color: rgb(48, 47, 47);
+}
+
+.money-transfer-header h2:hover {
+  cursor: pointer;
+  background-color: rgb(10, 180, 236);
+  color: white;
+}
+
+.main-wrapper ul {
+  padding-left: 0px;
+  list-style: none;
+  max-width: 700px;
+  line-height: 1.8;
+}
+
+.main-wrapper button {
+  background-color: rgb(10, 180, 236);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  margin-right: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.money-transfer div input,
+.money-transfer div select {
+  margin-right: 30px;
+  width: 250px;
+}
+
+input,
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px #ccc;
+  outline: none;
+  background-color: white;
+}
+
+.main-wrapper h3 {
+  margin-bottom: -10px;
+}
+
+.main-wrapper div label {
+  font-size: 18px;
+}
+
+.card-block {
+  padding: 20px 0px;
+}
+
+.generate-pin {
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+.generate-pin input {
+  margin-bottom: 10px;
+}
+
+.card-details {
+  margin-bottom: 20px;
+  margin-left: 30px;
+}
+
+.card-details span {
+  max-width: 250px;
+  margin-bottom: -5px;
+}
+
+span {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Transaction-password */
+.transaction-password {
+  max-width: 550px;
+}
+
+.trans-input {
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+/* Money transfer */
+.account-table {
+  border: 1px solid #ccc;
+  max-width: 700px;
+  margin: 20px 0px;
+}
+
+.confirm-detail {
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.confirm-detail span {
+  margin-bottom: 0px !important;
+}
+
+.review-msg {
+  background-color: rgb(152, 199, 243);
+  border-left: 5px solid blue;
+  padding: 5px 5px 0px;
+}
+
+.review-msg h3 {
+  margin: 0px;
+  font-size: 16px;
+}
+
+.review-msg p {
+  color: black;
+}
+
+.verify-payment {
+  margin-bottom: 20px;
+}
+
+.verify-payment input {
+  width: 30%;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}

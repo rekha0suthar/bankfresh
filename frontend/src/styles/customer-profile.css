@@ -1,0 +1,24 @@
+.profile-wrapper h2 {
+  color: rgb(109, 106, 106);
+  border-bottom: 1px solid #ccc;
+  font-weight: normal;
+  font-size: 20px;
+  margin-top: 20px;
+  padding: 5px 0px;
+}
+
+.user-field {
+  display: flex;
+  justify-content: space-between;
+  max-width: 600px;
+  margin: 10px 0px;
+}
+
+.address {
+  flex-wrap: wrap;
+  max-width: 250px;
+}
+
+button {
+  cursor: pointer;
+}

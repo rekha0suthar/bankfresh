@@ -1,0 +1,108 @@
+.nav-container {
+  justify-content: space-between;
+  background-color: orange;
+  padding: 0px 10px;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  align-items: center;
+  display: flex;
+}
+
+.nav-container h1 {
+  color: white;
+  text-align: center;
+}
+.nav-container h1:hover {
+  cursor: pointer;
+  color: yellow;
+}
+
+.nav-container a {
+  text-decoration: none;
+  color: white;
+  margin-top: -10px;
+  font-size: 18px;
+}
+
+.nav-container .btns {
+  display: flex;
+  gap: 30px;
+}
+
+.btns h2 {
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.logout-pop {
+  position: absolute;
+  top: 80%;
+  background-color: white;
+  color: gray;
+  padding: 0px 5px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 2px #ccc;
+  right: 10px;
+  width: max-content;
+}
+
+.logout-pop h2 {
+  font-size: 18px;
+}
+
+.user-profile {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.user-icon {
+  font-size: 24px;
+  cursor: pointer;
+  margin-left: 50px;
+}
+
+.logout {
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+}
+
+.user-container {
+  width: fit-content;
+  background-color: white;
+  box-shadow: 0px 0px 6px #ccc;
+  position: absolute;
+  top: -11%;
+  right: 1%;
+  z-index: 1;
+}
+
+.user-container p {
+  color: rgb(85, 83, 83);
+  text-align: left;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+.user-container p:not(:last-child) {
+  border-bottom: 1.5px solid #979595;
+}
+
+.user-container p:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 530px) {
+  .nav-container h1 {
+    font-size: 24px;
+  }
+
+  .btns h2 {
+    font-size: 20px;
+  }
+}
