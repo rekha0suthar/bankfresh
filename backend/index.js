@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.js';
-
+import accountRoutes from './routes/account.js';
 const PORT = 8888;
 dotenv.config();
 
@@ -27,6 +27,7 @@ app.use(
 );
 
 app.use('/api/auth', userRoutes);
+app.use('/api/account', accountRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
