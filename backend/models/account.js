@@ -27,11 +27,17 @@ const accountSchema = new Schema({
     issueYear: { type: String, required: true },
     expiryMonth: { type: String, required: true },
     expiryYear: { type: String, required: true },
+    pin: { type: String },
+    active: { type: Boolean, default: false },
+    blocked: { type: Boolean, default: false },
   },
 
   balance: {
     type: Number,
     default: 1000,
+  },
+  transactionPassword: {
+    type: String,
   },
   createdAt: {
     type: Date,
