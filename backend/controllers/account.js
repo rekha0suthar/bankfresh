@@ -1,4 +1,5 @@
 import Account from '../models/account.js';
+import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 
 const getBalance = async (req, res) => {
@@ -97,10 +98,36 @@ const generateCardPin = async (req, res) => {
   }
 };
 
+const getAccount = async (req, res) => {
+  try {
+    const { accountNumber } = req.body;
+    const account = await Account.findOne(
+      { accountNumber },
+      { accountNumber: 1, userId: 1 }
+    );
+    if (!account) {
+      return res.status(404).json({ message: 'Account not found' });
+    }
+    const userId = account.userId;
+    const userName = await User.findById(userId, { fullName: 1, _id: 0 });
+    if (!userName) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const accountDetails = {
+      accountNumber,
+      customerName: userName.fullName,
+    };
+    res.status(200).json(accountDetails);
+  } catch (err) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 export {
   getBalance,
   getDebitCard,
   accountDetails,
   blockUnblockDebitCart,
   generateCardPin,
+  getAccount,
 };
