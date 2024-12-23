@@ -1,15 +1,9 @@
 import React, { useContext } from 'react';
 import { CardContext } from '../../context/CardContext';
 
-const SetPin = () => {
-  const {
-    pin,
-    setPin,
-    confirmPin,
-    setConfirmPin,
-    handleGeneratePin,
-    setShowPinMsg,
-  } = useContext(CardContext);
+const SetPin = ({ handleGeneratePin }) => {
+  const { pin, setPin, confirmPin, setConfirmPin, setShowPinMsg } =
+    useContext(CardContext);
   return (
     <div className="generate-pin">
       <h4>Generate PIN</h4>
