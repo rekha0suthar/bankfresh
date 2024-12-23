@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import HigherOrderComponent from '../HigherOrderComponent';
 import { CardContext } from '../../context/CardContext';
-import PinGenerater from '../PinGenerater';
+import SetPin from './SetPin';
 import CardDetails from './CardInfo';
 import CardBlock from './CardBlock';
 import { Context } from '../../context/Context';
@@ -57,7 +57,7 @@ const Card = () => {
               text={debitCard.blocked ? 'Unblock Card' : 'Block Card'}
             />
           )}
-          {showPinMsg && <PinGenerater handleGeneratePin={handleGeneratePin} />}
+          {showPinMsg && <SetPin handleGeneratePin={handleGeneratePin} />}
           {showCardDetail && <CardDetails />}
           <button
             onClick={() => {
