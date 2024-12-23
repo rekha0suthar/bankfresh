@@ -7,6 +7,11 @@ import OtpVerfication from '../pages/OtpVerification';
 import Home from '../pages/Home';
 import CreateAcount from '../pages/CreateAcount';
 import Dashboard from '../pages/Dashboard';
+import AccountServices from '../pages/Account&Services';
+import MoneyTransfer from '../pages/MoneyTransfer';
+import Cards from '../pages/CardManagment';
+import CustomerProfile from '../pages/CustomerProfile';
+import TransactionPassword from '../pages/TransactionPassword';
 
 export const Router = () => {
   return (
@@ -16,6 +21,14 @@ export const Router = () => {
       <Route path="/signup" Component={Signup} />
       <Route path="/login" Component={Login} />
       <Route path="/verify-otp" Component={OtpVerfication} />
+      <Route Component={ProtectedRoute}>
+        <Route path="/dashboard" Component={Dashboard} />
+        <Route path="/account-summary" Component={AccountServices} />
+        <Route path="/money-transfer" Component={MoneyTransfer} />
+        <Route path="/cards" Component={Cards} />
+        <Route path="/customer-profile" Component={CustomerProfile} />
+        <Route path="/transaction-password" Component={TransactionPassword} />
+      </Route>
     </Routes>
   );
 };

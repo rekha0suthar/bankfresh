@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { isValidEmail } from '../utils';
+import { validityCheck } from '../utils';
 
 const BASE_API_URL = 'http://localhost:8888/api';
 
@@ -36,6 +36,10 @@ const ContextProvider = ({ children }) => {
   const [captcha, setCaptcha] = useState('');
   const [otp, setOtp] = useState('');
 
+  const [balance, setBalance] = useState();
+  const [account, setAccount] = useState({});
+  const [userAccount, setUserAccount] = useState({});
+
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
@@ -56,7 +60,7 @@ const ContextProvider = ({ children }) => {
     };
 
     try {
-      if (isValidEmail(email)) {
+      if (validityCheck(email, mobileNumber, identity)) {
         const response = await axios.post(
           `${BASE_API_URL}/auth/account`,
           newUser,
@@ -83,7 +87,7 @@ const ContextProvider = ({ children }) => {
     }
   };
 
-  const verifyOtp = async () => {
+  const verifyOtp = async (path) => {
     try {
       const response = await axios.post(
         `${BASE_API_URL}/auth/verify-otp`,
@@ -95,7 +99,11 @@ const ContextProvider = ({ children }) => {
         }
       );
       console.log(response);
-      navigate('/signup');
+      if (path) {
+        navigate('/dashboard');
+      } else {
+        navigate('/signup');
+      }
     } catch (err) {
       console.error(err);
     }
@@ -185,8 +193,8 @@ const ContextProvider = ({ children }) => {
 
       navigate('/dashboard'); // redirecting to dashboard after successfull login
     } catch (err) {
-      console.error(err);
-      toast.error('Incorrect email/password'); // error alert
+      console.log(err);
+      toast.error('Incorrect id or password/invalid captcha'); // error alert
       localStorage.removeItem('token');
     } finally {
       setLoading(false);
@@ -223,6 +231,207 @@ const ContextProvider = ({ children }) => {
     }
   };
 
+  // Fetch User Account Balance
+  const getBalance = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_API_URL}/account/${userId}/balance`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setBalance(response.data.balance);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Fetch User Debit Card
+  const getDebitCard = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_API_URL}/account/${userId}/debit-card`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setDebitCard(response.data.debitCard);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const accountSummary = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_API_URL}/account/${userId}/account-summary`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setAccount(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const blockUnblockDebitCart = async () => {
+    try {
+      const response = await axios.post(
+        `${BASE_API_URL}/account/block-unblock-card`,
+        { debitCard },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.msg);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const generateCardPin = async (pin) => {
+    try {
+      const response = await axios.post(
+        `${BASE_API_URL}/account/generate-pin`,
+        { debitCard, pin },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.msg);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getAccount = async (accountNumber) => {
+    try {
+      const response = await axios.post(
+        `${BASE_API_URL}/account/`,
+        { accountNumber },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUserAccount(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const setTransactionPassword = async (transactionPassword) => {
+    try {
+      const response = await axios.post(
+        `${BASE_API_URL}/transaction/set-transaction-password`,
+        { debitCard, transactionPassword },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.msg);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const sendMoney = async (
+    accountId,
+    receiverAccountNumber,
+    amount,
+    purpose
+  ) => {
+    try {
+      setLoading(true);
+
+      const response = await axios.post(
+        `${BASE_API_URL}/transaction/money-transfer`,
+        {
+          accountId,
+          receiverAccountNumber,
+          amount,
+          purpose,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLoading(false);
+      toast.success(response.data.msg);
+    } catch (err) {
+      toast.error(err.response.data.msg);
+    }
+  };
+
+  const transactionOtp = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${BASE_API_URL}/transaction/transaction-otp`,
+        {
+          userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLoading(false);
+      toast.success(response.data.msg);
+    } catch (err) {
+      toast.error(err.response.data.msg);
+    }
+  };
+
+  const transactionVerify = async (
+    accountId,
+    transactionPassword,
+    receiverAccountNumber,
+    amount,
+    purpose
+  ) => {
+    try {
+      setLoading(true);
+      await axios.post(
+        `${BASE_API_URL}/transaction/verify-transaction-password`,
+        {
+          accountId,
+          transactionPassword,
+          otp,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      await verifyOtp('dashboard');
+      await sendMoney(accountId, receiverAccountNumber, amount, purpose);
+      setLoading(false);
+    } catch (err) {
+      toast.error(err.response.data.msg);
+    }
+  };
   return (
     <Context.Provider
       value={{
@@ -262,6 +471,12 @@ const ContextProvider = ({ children }) => {
         setCaptcha,
         otp,
         setOtp,
+        balance,
+        setBalance,
+        account,
+        setAccount,
+        userAccount,
+        setUserAccount,
         signup,
         login,
         logout,
@@ -273,6 +488,16 @@ const ContextProvider = ({ children }) => {
         createAccount,
         verifyOtp,
         resendOtp,
+        getBalance,
+        getDebitCard,
+        accountSummary,
+        blockUnblockDebitCart,
+        generateCardPin,
+        setTransactionPassword,
+        getAccount,
+        sendMoney,
+        transactionOtp,
+        transactionVerify,
       }}
     >
       {children}
