@@ -63,7 +63,7 @@ const createAccount = async (req, res) => {
     const customerId = generateCustomerId();
     const debitCard = generateDebitCardDetails();
 
-    const newAccount = await new Account({
+    await new Account({
       userId: newUser._id,
       accountNumber,
       accountType,
@@ -135,9 +135,20 @@ const login = async (req, res) => {
     if (captcha != sessionCaptcha) {
       return res.status(400).json({ msg: 'Invalid captcha' });
     }
-    const user = await User.findById(userId);
 
-    const userAccount = await Account.findOne({ userId, customerId });
+    let user;
+
+    if (userId !== null) {
+      user = await User.findById({ userId });
+    } else {
+      const account = await Account.findOne(
+        { customerId },
+        { userId: 1, _id: 0 }
+      );
+      user = await User.findById({ _id: account.userId });
+    }
+
+    const userAccount = await Account.findOne({ customerId });
 
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
@@ -169,7 +180,10 @@ const getUserAccount = async (req, res) => {
   try {
     const { id: userId } = req.params;
 
-    const userAccount = await Account.findOne({ userId });
+    const userAccount = await Account.findOne(
+      { userId },
+      { accountNumber: 1, customerId: 1, debitCard: 1 }
+    );
 
     if (!userAccount) {
       return res.status(403).json({ msg: ' User account does not found' });
