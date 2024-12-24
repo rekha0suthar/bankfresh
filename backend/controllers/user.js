@@ -167,7 +167,14 @@ const login = async (req, res) => {
     user.updateLogin();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res.status(200).json({ msg: 'User login successfull', token, user });
+    res
+      .status(200)
+      .json({
+        msg: 'User login successfull',
+        token,
+        user,
+        accountId: userAccount._id,
+      });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }

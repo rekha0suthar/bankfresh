@@ -45,3 +45,16 @@ export const sendEmail = async (email, subject, text) => {
 
   await transporter.sendMail(mailOptions);
 };
+
+export const convertToCSV = (transactions) => {
+  const header = ['Transaction Date', 'Descritpion', 'Amount', 'Balance'];
+  const rows = transactions.map((transaction) => [
+    new Date(transaction.transactionDate),
+    `${transaction.description} / from ${transaction.senderAccountNumber} / to ${transaction.receiverAccountNumber}`,
+    `₹ ${transaction.amount}`,
+    `₹ ${transaction.balance}`,
+  ]);
+
+  const csvContent = [header, ...rows].map((e) => e.join(',')).join('\n');
+  return csvContent;
+};
