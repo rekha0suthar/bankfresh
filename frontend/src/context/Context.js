@@ -1,10 +1,29 @@
 import React, { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { validityCheck } from '../utils';
-
-const BASE_API_URL = 'http://localhost:8888/api';
+import {
+  accountSummaryApi,
+  cardBlockUnblockApi,
+  cardPinApi,
+  createAccountApi,
+  downloadStatementApi,
+  fetchCaptchaApi,
+  getAccountApi,
+  getBalanceApi,
+  getDebitCardApi,
+  getTransactionsApi,
+  getUserAccountApi,
+  getUserApi,
+  loginApi,
+  moneyTransferApi,
+  resendOtpApi,
+  setTransactionPasswordApi,
+  signupApi,
+  transactionOtpApi,
+  transactionPasswordVerifyApi,
+  verifyOtpApi,
+} from '../apis';
 
 const Context = createContext({});
 
@@ -43,7 +62,6 @@ const ContextProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
   const accountId = localStorage.getItem('accountId');
 
@@ -63,16 +81,8 @@ const ContextProvider = ({ children }) => {
 
     try {
       if (validityCheck(email, mobileNumber, identity)) {
-        const response = await axios.post(
-          `${BASE_API_URL}/auth/account`,
-          newUser,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        localStorage.setItem('userId', response.data.user._id);
+        const { data } = await createAccountApi(newUser);
+        localStorage.setItem('userId', data.user._id);
         setFullName('');
         setAccountType('');
         setAddress('');
@@ -91,16 +101,8 @@ const ContextProvider = ({ children }) => {
 
   const verifyOtp = async (path) => {
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/auth/verify-otp`,
-        { userId, otp },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      toast.success(response.data.msg);
+      const { data } = await verifyOtpApi({ userId, otp });
+      toast.success(data.msg);
       if (path) {
         navigate('/dashboard');
       } else {
@@ -113,16 +115,8 @@ const ContextProvider = ({ children }) => {
 
   const resendOtp = async () => {
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/auth/resend-otp`,
-        { userId },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      toast.success(response.data.msg);
+      const { data } = resendOtpApi({ userId });
+      toast.success(data.msg);
     } catch (err) {
       console.error(err);
     }
@@ -130,15 +124,11 @@ const ContextProvider = ({ children }) => {
 
   // Method to fetch User details
   const getUserAccount = async () => {
-    const userId = localStorage.getItem('userId');
-
     try {
-      const response = await axios.get(
-        `${BASE_API_URL}/auth/account/${userId}`
-      );
-      setAcountNumber(response.data.accountNumber);
-      setDebitCard(response.data.debitCard);
-      setCustomerId(response.data.customerId);
+      const { data } = await getUserAccountApi(userId);
+      setAcountNumber(data.accountNumber);
+      setDebitCard(data.debitCard);
+      setCustomerId(data.customerId);
     } catch (err) {
       console.error(err);
     }
@@ -150,17 +140,9 @@ const ContextProvider = ({ children }) => {
       // setting loading true until we back response
       if (password === confirmPassword) {
         // calling api and store response
-        const response = await axios.post(
-          `${BASE_API_URL}/auth/signup`,
-          { userId, password, mobileNumber },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+        const { data } = await signupApi({ userId, password, mobileNumber });
 
-        toast.success(response.data.msg); // success alert
+        toast.success(data.msg); // success alert
         navigate('/login'); // redirect to login page
         setLoading(false); //setting loading false
       } else {
@@ -185,14 +167,11 @@ const ContextProvider = ({ children }) => {
 
     try {
       setLoading(true);
-      const response = await axios.post(`${BASE_API_URL}/auth/login`, newUser, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      toast.success(response.data.msg); // success alert
-      localStorage.setItem('token', response.data.token); // storing token in localstorage
-      localStorage.setItem('userId', response.data.user._id);
-      localStorage.setItem('accountId', response.data.accountId);
+      const { data } = await loginApi(newUser);
+      toast.success(data.msg); // success alert
+      localStorage.setItem('token', data.token); // storing token in localstorage
+      localStorage.setItem('userId', data.user._id);
+      localStorage.setItem('accountId', data.accountId);
 
       navigate('/dashboard'); // redirecting to dashboard after successfull login
     } catch (err) {
@@ -212,12 +191,8 @@ const ContextProvider = ({ children }) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get(`${BASE_API_URL}/auth/user/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUser(response.data);
+      const { data } = await getUserApi(userId);
+      setUser(data);
     } catch (err) {
       console.error(err);
     }
@@ -225,10 +200,8 @@ const ContextProvider = ({ children }) => {
 
   const fetchCaptcha = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_API_URL}/auth/captcha?${new Date().getTime()}`
-      );
-      setCaptchaImg(response.data);
+      const { data } = await fetchCaptchaApi();
+      setCaptchaImg(data);
     } catch (err) {
       console.error(err);
     }
@@ -237,15 +210,8 @@ const ContextProvider = ({ children }) => {
   // Fetch User Account Balance
   const getBalance = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_API_URL}/account/${accountId}/balance`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setBalance(response.data.balance);
+      const { data } = await getBalanceApi(accountId);
+      setBalance(data.balance);
     } catch (err) {
       console.error(err);
     }
@@ -254,15 +220,8 @@ const ContextProvider = ({ children }) => {
   // Fetch User Debit Card
   const getDebitCard = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_API_URL}/account/${accountId}/debit-card`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setDebitCard(response.data.debitCard);
+      const { data } = await getDebitCardApi(accountId);
+      setDebitCard(data.debitCard);
     } catch (err) {
       console.error(err);
     }
@@ -270,15 +229,8 @@ const ContextProvider = ({ children }) => {
 
   const accountSummary = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_API_URL}/account/${accountId}/account-summary`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setAccount(response.data);
+      const { data } = await accountSummaryApi(accountId);
+      setAccount(data);
     } catch (err) {
       console.error(err);
     }
@@ -286,17 +238,8 @@ const ContextProvider = ({ children }) => {
 
   const blockUnblockDebitCart = async () => {
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/account/block-unblock-card`,
-        { debitCard },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      toast.success(response.data.msg);
-      console.log(response);
+      const { data } = await cardBlockUnblockApi({ debitCard });
+      toast.success(data.msg);
     } catch (err) {
       console.error(err);
     }
@@ -304,17 +247,8 @@ const ContextProvider = ({ children }) => {
 
   const generateCardPin = async (pin) => {
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/account/generate-pin`,
-        { debitCard, pin },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      toast.success(response.data.msg);
-      console.log(response);
+      const { data } = await cardPinApi({ debitCard, pin });
+      toast.success(data.msg);
     } catch (err) {
       console.error(err);
     }
@@ -322,16 +256,8 @@ const ContextProvider = ({ children }) => {
 
   const getAccount = async (accountNumber) => {
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/account/`,
-        { accountNumber },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setUserAccount(response.data);
+      const { data } = await getAccountApi({ accountNumber });
+      setUserAccount(data);
     } catch (err) {
       console.error(err);
     }
@@ -339,17 +265,11 @@ const ContextProvider = ({ children }) => {
 
   const setTransactionPassword = async (transactionPassword) => {
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/transaction/set-transaction-password`,
-        { debitCard, transactionPassword },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      toast.success(response.data.msg);
-      console.log(response);
+      const { data } = await setTransactionPasswordApi({
+        debitCard,
+        transactionPassword,
+      });
+      toast.success(data.msg);
     } catch (err) {
       console.error(err);
     }
@@ -364,22 +284,14 @@ const ContextProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        `${BASE_API_URL}/transaction/money-transfer`,
-        {
-          accountId,
-          receiverAccountNumber,
-          amount,
-          purpose,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const { data } = await moneyTransferApi({
+        accountId,
+        receiverAccountNumber,
+        amount,
+        purpose,
+      });
       setLoading(false);
-      toast.success(response.data.msg);
+      toast.success(data.msg);
     } catch (err) {
       toast.error(err.response.data.msg);
     }
@@ -388,19 +300,9 @@ const ContextProvider = ({ children }) => {
   const transactionOtp = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${BASE_API_URL}/transaction/transaction-otp`,
-        {
-          userId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const { data } = await transactionOtpApi({ userId });
       setLoading(false);
-      toast.success(response.data.msg);
+      toast.success(data.msg);
     } catch (err) {
       toast.error(err.response.data.msg);
     }
@@ -415,19 +317,11 @@ const ContextProvider = ({ children }) => {
   ) => {
     try {
       setLoading(true);
-      await axios.post(
-        `${BASE_API_URL}/transaction/verify-transaction-password`,
-        {
-          accountId,
-          transactionPassword,
-          otp,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await transactionPasswordVerifyApi({
+        accountId,
+        transactionPassword,
+        otp,
+      });
       await verifyOtp('dashboard');
       await sendMoney(accountId, receiverAccountNumber, amount, purpose);
       getBalance();
@@ -440,15 +334,8 @@ const ContextProvider = ({ children }) => {
   const getTransactions = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${BASE_API_URL}/transaction/${accountId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setTransactions(response.data);
+      const { data } = await getTransactionsApi(accountId);
+      setTransactions(data);
       setLoading(false);
     } catch (err) {
       toast.error(err.response.data.msg);
@@ -461,18 +348,10 @@ const ContextProvider = ({ children }) => {
         type === 'pdf' ? 'Account-statement.pdf' : 'Account-statement.csv'; // Set the file name based on type
 
       // Fetch the statement based on the type
-      const response = await axios.get(
-        `${BASE_API_URL}/transaction/${accountId}/download-statement/${type}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          responseType: 'blob', // Ensure binary response type
-        }
-      );
+      const { data } = await downloadStatementApi(accountId, type);
 
       // Create a URL for the blob response
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const url = window.URL.createObjectURL(new Blob([data]));
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', fileName); // Specify the file name
