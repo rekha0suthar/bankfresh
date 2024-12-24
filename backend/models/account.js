@@ -34,7 +34,7 @@ const accountSchema = new Schema({
 
   balance: {
     type: Number,
-    default: 1000,
+    default: 1000.0,
   },
   transactionPassword: {
     type: String,

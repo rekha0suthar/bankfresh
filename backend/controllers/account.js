@@ -4,12 +4,11 @@ import User from '../models/user.js';
 
 const getBalance = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { accountId } = req.params;
 
-    const userAccountBalance = await Account.findOne(
-      { userId },
-      { balance: 1 }
-    );
+    const userAccountBalance = await Account.findById(accountId, {
+      balance: 1,
+    });
 
     if (!userAccountBalance) {
       return res.status(404).json({ msg: 'Account not found' });
@@ -22,18 +21,17 @@ const getBalance = async (req, res) => {
 
 const accountDetails = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { accountId } = req.params;
 
-    const customerName = await User.findById(userId);
-
-    const account = await Account.findOne({ userId });
+    const account = await Account.findById(accountId);
+    const customerName = await User.findOne({ _id: account.userId });
 
     if (!customerName && account) {
       return res.status(404).json({ msg: 'Account not found' });
     }
 
     const userAccount = {
-      accountId: account._id,
+      accountId,
       customerName,
       accountNumber: account.accountNumber,
       accountType: account.accountType,
@@ -48,8 +46,8 @@ const accountDetails = async (req, res) => {
 
 const getDebitCard = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const userDebitCard = await Account.findOne({ userId }, { debitCard: 1 });
+    const { accountId } = req.params;
+    const userDebitCard = await Account.findById(accountId, { debitCard: 1 });
 
     if (!userDebitCard) {
       return res.status(404).json({ msg: 'Account not found' });
@@ -101,15 +99,14 @@ const generateCardPin = async (req, res) => {
 const getAccount = async (req, res) => {
   try {
     const { accountNumber } = req.body;
-    const account = await Account.findOne(
-      { accountNumber },
-      { accountNumber: 1, userId: 1 }
-    );
+    const account = await Account.findOne({ accountNumber }, { userId: 1 });
     if (!account) {
       return res.status(404).json({ message: 'Account not found' });
     }
-    const userId = account.userId;
-    const userName = await User.findById(userId, { fullName: 1, _id: 0 });
+    const userName = await User.findById(
+      { _id: account.userId },
+      { fullName: 1, _id: 0 }
+    );
     if (!userName) {
       return res.status(404).json({ message: 'User not found' });
     }
