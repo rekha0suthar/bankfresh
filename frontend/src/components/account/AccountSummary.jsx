@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Context } from '../context/Context';
+import { Context } from '../../context/Context';
 
 const AccountSummary = () => {
   const { account, accountSummary } = useContext(Context);

@@ -1,8 +1,8 @@
 import React from 'react';
 import '../styles/services.css';
 import HigherOrderComponent from '../components/HigherOrderComponent';
-import AccountSummary from '../components/AccountSummary';
-import AccountStatement from '../components/AccountStatement';
+import AccountSummary from '../components/account/AccountSummary';
+import AccountStatement from '../components/account/AccountStatement';
 
 const AccountServices = () => {
   return (

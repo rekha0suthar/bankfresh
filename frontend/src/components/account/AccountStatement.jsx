@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Context } from '../context/Context';
+import { Context } from '../../context/Context';
 
 const AccountStatement = () => {
   const [formatType, setFormatType] = React.useState('pdf');
