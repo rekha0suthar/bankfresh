@@ -18,12 +18,13 @@ const MoneyTransferWrapper = () => {
     <HigherOrderComponent>
       <div className="main-container">
         <h2 className="heading">Transfer Money</h2>
-        <p>Transfer Type</p>
-        <div className="money-transfer-header">
+        {/* For later use */}
+        {/* <p>Transfer Type</p> */}
+        {/* <div className="money-transfer-header">
           <h2>Within Bank</h2>
-          {/* <h2>Other Bank</h2>
-          <h2>Own Accounts</h2> */}
-        </div>
+          <h2>Other Bank</h2>
+          <h2>Own Accounts</h2>
+        </div> */}
         {!confirmTransfer && !verifyTransaction && (
           // Component: to send money using account number -- fetch account details, and add amount and proceed
           <Payment />

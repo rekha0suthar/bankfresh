@@ -39,11 +39,13 @@ const ContextProvider = ({ children }) => {
   const [balance, setBalance] = useState();
   const [account, setAccount] = useState({});
   const [userAccount, setUserAccount] = useState({});
+  const [transactions, setTransactions] = useState([]);
 
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
+  const accountId = localStorage.getItem('accountId');
 
   const createAccount = async () => {
     const newUser = {
@@ -98,7 +100,7 @@ const ContextProvider = ({ children }) => {
           },
         }
       );
-      console.log(response);
+      toast.success(response.data.msg);
       if (path) {
         navigate('/dashboard');
       } else {
@@ -120,7 +122,7 @@ const ContextProvider = ({ children }) => {
           },
         }
       );
-      console.log(response);
+      toast.success(response.data.msg);
     } catch (err) {
       console.error(err);
     }
@@ -190,6 +192,7 @@ const ContextProvider = ({ children }) => {
       toast.success(response.data.msg); // success alert
       localStorage.setItem('token', response.data.token); // storing token in localstorage
       localStorage.setItem('userId', response.data.user._id);
+      localStorage.setItem('accountId', response.data.accountId);
 
       navigate('/dashboard'); // redirecting to dashboard after successfull login
     } catch (err) {
@@ -203,7 +206,7 @@ const ContextProvider = ({ children }) => {
 
   // Method for logout
   const logout = () => {
-    localStorage.removeItem('token'); // removing token from localstorage
+    localStorage.clear(); // removing token from localstorage
     navigate('/'); // redirecting to login after logout
   };
 
@@ -235,7 +238,7 @@ const ContextProvider = ({ children }) => {
   const getBalance = async () => {
     try {
       const response = await axios.get(
-        `${BASE_API_URL}/account/${userId}/balance`,
+        `${BASE_API_URL}/account/${accountId}/balance`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -252,7 +255,7 @@ const ContextProvider = ({ children }) => {
   const getDebitCard = async () => {
     try {
       const response = await axios.get(
-        `${BASE_API_URL}/account/${userId}/debit-card`,
+        `${BASE_API_URL}/account/${accountId}/debit-card`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -268,7 +271,7 @@ const ContextProvider = ({ children }) => {
   const accountSummary = async () => {
     try {
       const response = await axios.get(
-        `${BASE_API_URL}/account/${userId}/account-summary`,
+        `${BASE_API_URL}/account/${accountId}/account-summary`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -427,11 +430,67 @@ const ContextProvider = ({ children }) => {
       );
       await verifyOtp('dashboard');
       await sendMoney(accountId, receiverAccountNumber, amount, purpose);
+      getBalance();
       setLoading(false);
     } catch (err) {
       toast.error(err.response.data.msg);
     }
   };
+
+  const getTransactions = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${BASE_API_URL}/transaction/${accountId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTransactions(response.data);
+      setLoading(false);
+    } catch (err) {
+      toast.error(err.response.data.msg);
+    }
+  };
+  const downloadStatement = async (type) => {
+    try {
+      setLoading(true);
+      const fileName =
+        type === 'pdf' ? 'Account-statement.pdf' : 'Account-statement.csv'; // Set the file name based on type
+
+      // Fetch the statement based on the type
+      const response = await axios.get(
+        `${BASE_API_URL}/transaction/${accountId}/download-statement/${type}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          responseType: 'blob', // Ensure binary response type
+        }
+      );
+
+      // Create a URL for the blob response
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', fileName); // Specify the file name
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up the link element
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url); // Release the blob URL
+    } catch (err) {
+      // Gracefully handle errors
+      const errorMessage = err.message || 'Error downloading statement';
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false); // Ensure loading state is reset
+    }
+  };
+
   return (
     <Context.Provider
       value={{
@@ -477,6 +536,8 @@ const ContextProvider = ({ children }) => {
         setAccount,
         userAccount,
         setUserAccount,
+        transactions,
+        setTransactions,
         signup,
         login,
         logout,
@@ -498,6 +559,8 @@ const ContextProvider = ({ children }) => {
         sendMoney,
         transactionOtp,
         transactionVerify,
+        getTransactions,
+        downloadStatement,
       }}
     >
       {children}

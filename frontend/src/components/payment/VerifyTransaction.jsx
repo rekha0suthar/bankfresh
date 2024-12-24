@@ -63,7 +63,7 @@ const VerifyTransaction = () => {
         <label>Transaction Password</label>
         <br />
         <input
-          type="text"
+          type="password"
           value={transactionPassword}
           onChange={(e) => setTransactionPassword(e.target.value)}
           name="transacion-password"

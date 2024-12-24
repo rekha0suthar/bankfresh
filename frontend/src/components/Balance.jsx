@@ -8,7 +8,9 @@ const Balance = () => {
     getBalance();
   }, []);
 
-  const currentDate = `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`;
+  const currentDate = `${new Date().getDate()}/${
+    new Date().getMonth() + 1
+  }/${new Date().getFullYear()}`;
   return (
     <div className="balance-container">
       <div>

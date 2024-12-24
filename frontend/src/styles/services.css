@@ -1,10 +1,10 @@
 /* services.css */
 
 .account-summary {
-  margin: 160px 20px 20px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  margin: 20px;
 }
 
 h2 {
@@ -32,4 +32,26 @@ th {
 tbody tr:hover {
   background-color: lightblue;
   cursor: pointer;
+}
+
+.mt {
+  margin-top: 160px !important;
+}
+
+.account-summary button {
+  background-color: rgb(10, 180, 236);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  margin-right: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.no-trans {
+  color: black;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../../context/Context';
-import AccountDetail from '../AccountDetail';
+import AccountDetail from './AccountDetail';
 import { useNavigate } from 'react-router-dom';
 import { MoneyContext } from '../../context/MoneyContext';
 
@@ -42,7 +42,7 @@ const Payment = () => {
         <button onClick={handleAccount}>Get Account Details</button>
       </div>
       {showAccount &&
-        (userAccount ? (
+        (Object.keys(userAccount).length !== 0 ? (
           <>
             <AccountDetail />
             <div>
@@ -64,7 +64,7 @@ const Payment = () => {
             </div>
           </>
         ) : (
-          <p>No Account found</p>
+          <p style={{ marginTop: '10px' }}>No Account found</p>
         ))}
       <div>
         <h3>Note:</h3>
