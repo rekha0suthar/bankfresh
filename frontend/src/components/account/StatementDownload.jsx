@@ -6,7 +6,7 @@ const StatementDownload = () => {
 
   const { downloadStatement } = useContext(Context);
   return (
-    <>
+    <div>
       <select
         value={formatType}
         onChange={(e) => setFormatType(e.target.value)}
@@ -14,10 +14,8 @@ const StatementDownload = () => {
         <option value="pdf">PDF</option>
         <option value="csv">CSV</option>
       </select>
-      <button onClick={() => downloadStatement(formatType)}>
-        Download Statement
-      </button>
-    </>
+      <button onClick={() => downloadStatement(formatType)}>Download</button>{' '}
+    </div>
   );
 };
 

@@ -82,6 +82,7 @@ select {
   box-shadow: 0px 0px 6px #ccc;
   outline: none;
   background-color: white;
+  cursor: pointer;
 }
 
 .main-wrapper h3 {

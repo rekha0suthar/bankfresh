@@ -59,6 +59,8 @@ const ContextProvider = ({ children }) => {
   const [account, setAccount] = useState({});
   const [userAccount, setUserAccount] = useState({});
   const [transactions, setTransactions] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -334,8 +336,10 @@ const ContextProvider = ({ children }) => {
   const getTransactions = async () => {
     try {
       setLoading(true);
-      const { data } = await getTransactionsApi(accountId);
-      setTransactions(data);
+      const { data } = await getTransactionsApi(accountId, currentPage);
+      setTransactions(data.transactions);
+      setTotalPages(data.totalPages);
+      setCurrentPage(data.currentPage);
       setLoading(false);
     } catch (err) {
       toast.error(err.response.data.msg);
@@ -423,6 +427,10 @@ const ContextProvider = ({ children }) => {
         fetchCaptcha,
         user,
         setUser,
+        totalPages,
+        setTotalPages,
+        currentPage,
+        setCurrentPage,
         getUserAccount,
         getUser,
         createAccount,

@@ -29,9 +29,18 @@ th {
   border-bottom: 2px solid #888;
 }
 
+.statement-table tr {
+  border-bottom: 1px solid #888;
+}
+
 tbody tr:hover {
-  background-color: lightblue;
+  background-color: rgba(20, 184, 238, 0.3);
   cursor: pointer;
+}
+
+.desc {
+  max-width: 300px;
+  word-break: keep-all;
 }
 
 .mt {
@@ -54,4 +63,38 @@ tbody tr:hover {
   text-align: center;
   border-top: 1px solid #ccc;
   padding-top: 10px;
+}
+
+.statement-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters select {
+  width: 30%;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.pagination {
+  text-align: center;
+  max-width: max-content;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  background-color: transparent;
+  color: black;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pagination span {
+  margin-bottom: 0px;
 }

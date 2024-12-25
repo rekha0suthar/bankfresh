@@ -62,8 +62,9 @@ export const transactionOtpApi = (data) =>
 
 export const transactionPasswordVerifyApi = (data) =>
   API.post('/transaction/verify-transaction-password', data);
-export const getTransactionsApi = (accountId) =>
-  API.get(`/transaction/${accountId}`);
+
+export const getTransactionsApi = (accountId, currentPage) =>
+  API.get(`/transaction/${accountId}/?page=${currentPage}&limit=5`);
 
 export const downloadStatementApi = (accountId, type) =>
   API.get(`/transaction/${accountId}/download-statement/${type}`, {

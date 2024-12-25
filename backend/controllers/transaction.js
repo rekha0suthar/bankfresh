@@ -144,15 +144,27 @@ const verifyTransactionPassword = async (req, res) => {
 
 const getTransactions = async (req, res) => {
   const { accountId } = req.params;
+  const { page = 1, limit = 1 } = req.query;
   try {
     const account = await Account.findById(accountId);
+    const pageInt = parseInt(page);
+    const limitInt = parseInt(limit);
     if (!account) {
       return res.status(404).json({ msg: 'Account not found' });
     }
+    const totalTransactions = await Transaction.find({
+      accountId,
+    })
+      .sort({ transactionDate: -1 })
+      .countDocuments();
+    const totalPages = Math.ceil(totalTransactions / limitInt);
     const transactions = await Transaction.find({
       accountId,
-    }).sort({ transactionDate: -1 });
-    res.status(200).json(transactions);
+    })
+      .sort({ transactionDate: -1 })
+      .skip((pageInt - 1) * limitInt)
+      .limit(limitInt);
+    res.status(200).json({ transactions, totalPages, currentPage: pageInt });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }

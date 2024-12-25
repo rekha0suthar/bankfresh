@@ -4,7 +4,7 @@ import { Context } from '../../context/Context';
 const StatementTable = () => {
   const { transactions } = useContext(Context);
   return (
-    <table>
+    <table className="statement-table">
       <thead>
         <tr>
           <th>Transaction Date</th>
@@ -17,9 +17,10 @@ const StatementTable = () => {
         {transactions.map((transaction) => (
           <tr key={transaction.id}>
             <td>{new Date(transaction.transactionDate).toLocaleString()}</td>
-            <td>
-              {transaction.description}/from {transaction.senderAccountNumber}
-              /to {transaction.receiverAccountNumber}
+            <td className="desc">
+              {transaction.description}/ from {transaction.senderAccountNumber}/
+              to {transaction.receiverAccountNumber}/
+              {new Date(transaction.transactionDate).toLocaleString()}
             </td>
             <td>
               ₹ {transaction.amount}
