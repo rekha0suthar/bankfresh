@@ -1,62 +1,78 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../context/Context';
 import StatementTable from './StatementTable';
 import StatementDownload from './StatementDownload';
 import Pagination from '../Pagination';
+import { getFilters } from '../../utils';
+import Filters from './Filters';
 
 const AccountStatement = () => {
+  const [type, setType] = useState('all');
+  const [time, setTime] = useState('current-month');
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
   const {
     transactions,
     getTransactions,
     loading,
     getUserAccount,
-    accountNumber,
     currentPage,
     totalPages,
   } = useContext(Context);
 
+  const reset = () => {
+    setType('all');
+    setTime('current-month');
+    setStartDate('');
+    setEndDate('');
+    getTransactions(getFilters(type, time, startDate, endDate));
+  };
+
+  const handleFilter = () => {
+    getTransactions(getFilters(type, time, startDate, endDate)); // Call getTransactions with filters
+  };
+
   useEffect(() => {
-    getTransactions();
-    getUserAccount();
+    getTransactions(getFilters(type, time, startDate, endDate)); // Fetch transactions on initial load
   }, [currentPage, totalPages]);
+
+  useEffect(
+    () => {
+      getUserAccount();
+    }, // Fetch user account details
+    []
+  );
 
   return (
     <div className="account-summary">
       <div className="statement-header">
         <h2>Account Statement</h2>
-        <StatementDownload />
+        <StatementDownload
+          initialDate={startDate}
+          finalDate={endDate}
+          time={time}
+          type={type}
+        />
       </div>
-      <div className="filters">
-        <div>
-          <label>Account Number</label>
-          <br />
-          <select>
-            <option value={accountNumber}>{accountNumber}</option>
-          </select>
-        </div>
-        <div>
-          <label>View Options</label>
-          <br />
-          <select>
-            <option value="current-month">Current Month</option>
-            <option value="previous-month">Previous Month</option>
-            <option value="date-range">Date Range</option>
-          </select>
-          <br />
-          <select>
-            <option value="all">All</option>
-            <option value="credit-only">Credit Only</option>
-            <option value="debit-only">Debit Only</option>
-          </select>
-        </div>
-        <button>Apply Filter</button>
-        <button>Reset</button>
-      </div>
+      <Filters
+        time={time}
+        setTime={setTime}
+        type={type}
+        setType={setType}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        handleFilter={handleFilter}
+        reset={reset}
+      />
       {!loading && transactions.length > 0 && (
         <>
-          <StatementTable /> <Pagination />
+          <StatementTable /> {/* Pass transactions to the table */}
+          <Pagination />
         </>
-      )}{' '}
+      )}
       {!loading && transactions.length === 0 && (
         <p className="no-trans">No transactions found</p>
       )}

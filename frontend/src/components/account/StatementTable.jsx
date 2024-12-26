@@ -15,7 +15,7 @@ const StatementTable = () => {
       </thead>
       <tbody>
         {transactions.map((transaction) => (
-          <tr key={transaction.id}>
+          <tr key={transaction._id}>
             <td>{new Date(transaction.transactionDate).toLocaleString()}</td>
             <td className="desc">
               {transaction.description}/ from {transaction.senderAccountNumber}/

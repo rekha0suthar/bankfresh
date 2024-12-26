@@ -333,10 +333,16 @@ const ContextProvider = ({ children }) => {
     }
   };
 
-  const getTransactions = async () => {
+  const getTransactions = async ({ transactionType, startDate, endDate }) => {
     try {
       setLoading(true);
-      const { data } = await getTransactionsApi(accountId, currentPage);
+      const { data } = await getTransactionsApi(
+        accountId,
+        currentPage,
+        startDate,
+        endDate,
+        transactionType
+      );
       setTransactions(data.transactions);
       setTotalPages(data.totalPages);
       setCurrentPage(data.currentPage);
@@ -345,14 +351,25 @@ const ContextProvider = ({ children }) => {
       toast.error(err.response.data.msg);
     }
   };
-  const downloadStatement = async (type) => {
+  const downloadStatement = async (
+    type,
+    startDate,
+    endDate,
+    transactionType
+  ) => {
     try {
       setLoading(true);
       const fileName =
-        type === 'pdf' ? 'Account-statement.pdf' : 'Account-statement.csv'; // Set the file name based on type
+        type === 'pdf' ? 'Bank-statement.pdf' : 'Bank-statement.csv'; // Set the file name based on type
 
       // Fetch the statement based on the type
-      const { data } = await downloadStatementApi(accountId, type);
+      const { data } = await downloadStatementApi(
+        accountId,
+        type,
+        startDate,
+        endDate,
+        transactionType
+      );
 
       // Create a URL for the blob response
       const url = window.URL.createObjectURL(new Blob([data]));

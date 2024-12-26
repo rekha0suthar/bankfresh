@@ -61,3 +61,49 @@ export const formatTime = (seconds) => {
   const secs = seconds % 60;
   return `${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 };
+
+export const getFilters = (type, time, startDate, endDate) => {
+  // Get current date
+  const currentDate = new Date();
+  // Prepare filter parameters
+  const filters = {
+    transactionType:
+      type === 'all'
+        ? 'Credit, Debit'
+        : type === 'credit-only'
+        ? 'Credit'
+        : 'Debit',
+    startDate: undefined,
+    endDate: undefined,
+  };
+
+  // Determine startDate and endDate based on the time parameter
+  if (time === 'current-month') {
+    filters.startDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+    filters.endDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      0
+    );
+  } else if (time === 'previous-month') {
+    filters.startDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1
+    );
+    filters.endDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      0
+    );
+  } else if (time === 'date-range') {
+    filters.startDate = new Date(startDate); // Assuming startDate is already in the correct format
+    filters.endDate = new Date(endDate); // Assuming endDate is already in the correct format
+  }
+
+  return filters;
+};

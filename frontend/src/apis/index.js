@@ -63,10 +63,27 @@ export const transactionOtpApi = (data) =>
 export const transactionPasswordVerifyApi = (data) =>
   API.post('/transaction/verify-transaction-password', data);
 
-export const getTransactionsApi = (accountId, currentPage) =>
-  API.get(`/transaction/${accountId}/?page=${currentPage}&limit=5`);
+export const getTransactionsApi = (
+  accountId,
+  currentPage,
+  startDate,
+  endDate,
+  transactionType
+) =>
+  API.get(
+    `/transaction/${accountId}/?page=${currentPage}&limit=5&startDate=${startDate}&endDate=${endDate}&transactionType=${transactionType}`
+  );
 
-export const downloadStatementApi = (accountId, type) =>
-  API.get(`/transaction/${accountId}/download-statement/${type}`, {
-    responseType: 'blob',
-  });
+export const downloadStatementApi = (
+  accountId,
+  type,
+  startDate,
+  endDate,
+  transactionType
+) =>
+  API.get(
+    `/transaction/${accountId}/download-statement/${type}/?startDate=${startDate}&endDate=${endDate}&transactionType=${transactionType}`,
+    {
+      responseType: 'blob',
+    }
+  );

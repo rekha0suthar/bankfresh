@@ -50,11 +50,35 @@ export const convertToCSV = (transactions) => {
   const header = ['Transaction Date', 'Descritpion', 'Amount', 'Balance'];
   const rows = transactions.map((transaction) => [
     new Date(transaction.transactionDate),
-    `${transaction.description} / from ${transaction.senderAccountNumber} / to ${transaction.receiverAccountNumber}`,
-    `₹ ${transaction.amount}`,
+    `${transaction.description} / from ${
+      transaction.senderAccountNumber
+    } / to ${transaction.receiverAccountNumber}/ ${new Date(
+      transaction.transactionDate
+    )}`,
+    `₹ ${transaction.amount} ${
+      transaction.transactionType === 'Debit' ? 'Dr' : 'Cr'
+    }`,
     `₹ ${transaction.balance}`,
   ]);
 
   const csvContent = [header, ...rows].map((e) => e.join(',')).join('\n');
   return csvContent;
+};
+
+export const getQuery = (startDate, endDate, transactionType, accountId) => {
+  // Convert startDate and endDate to ISO format
+  const start = new Date(startDate).toISOString();
+  const end = new Date(endDate).toISOString();
+
+  // Build the query object
+  const query = {
+    accountId,
+    transactionDate: { $gte: start, $lte: end },
+  };
+
+  // Add transaction type filtering
+  query.transactionType = {
+    $in: transactionType.split(',').map((type) => type.trim()),
+  };
+  return query;
 };

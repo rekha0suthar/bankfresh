@@ -1,7 +1,7 @@
 import Account from '../models/account.js';
 import Transaction from '../models/transaction.js';
 import User from '../models/user.js';
-import { convertToCSV } from '../utils/index.js';
+import { convertToCSV, getQuery } from '../utils/index.js';
 import { generateAndSendOtp } from './otp.js';
 import bcrypt from 'bcrypt';
 import PDFDocument from 'pdfkit';
@@ -144,26 +144,33 @@ const verifyTransactionPassword = async (req, res) => {
 
 const getTransactions = async (req, res) => {
   const { accountId } = req.params;
-  const { page = 1, limit = 1 } = req.query;
+  const {
+    page = 1,
+    limit = 1,
+    startDate,
+    endDate,
+    transactionType,
+  } = req.query;
+
   try {
     const account = await Account.findById(accountId);
     const pageInt = parseInt(page);
     const limitInt = parseInt(limit);
+
     if (!account) {
       return res.status(404).json({ msg: 'Account not found' });
     }
-    const totalTransactions = await Transaction.find({
-      accountId,
-    })
-      .sort({ transactionDate: -1 })
-      .countDocuments();
+
+    const query = getQuery(startDate, endDate, transactionType, accountId);
+
+    const totalTransactions = await Transaction.find(query).countDocuments();
     const totalPages = Math.ceil(totalTransactions / limitInt);
-    const transactions = await Transaction.find({
-      accountId,
-    })
+
+    const transactions = await Transaction.find(query)
       .sort({ transactionDate: -1 })
       .skip((pageInt - 1) * limitInt)
       .limit(limitInt);
+
     res.status(200).json({ transactions, totalPages, currentPage: pageInt });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -172,10 +179,13 @@ const getTransactions = async (req, res) => {
 
 const downLoadStatementCSV = async (req, res) => {
   const { accountId } = req.params;
+  const { startDate, endDate, transactionType } = req.query;
   try {
-    const transactions = await Transaction.find({
-      accountId,
-    }).sort({ transactionDate: -1 });
+    const query = getQuery(startDate, endDate, transactionType, accountId);
+
+    const transactions = await Transaction.find(query).sort({
+      transactionDate: -1,
+    });
     const csv = convertToCSV(transactions);
     res.header('Content-Type', 'text/csv');
     res.attachment('account-statement.csv');
@@ -187,9 +197,12 @@ const downLoadStatementCSV = async (req, res) => {
 
 const downLoadStatementPDF = async (req, res) => {
   const { accountId } = req.params;
+  const { startDate, endDate, transactionType } = req.query;
 
   try {
-    const transactions = await Transaction.find({ accountId });
+    const query = getQuery(startDate, endDate, transactionType, accountId);
+
+    const transactions = await Transaction.find(query);
 
     if (!transactions || transactions.length === 0) {
       return res
@@ -236,7 +249,13 @@ const downLoadStatementPDF = async (req, res) => {
         200,
         tableTop + rowHeight * (rowIndex + 1)
       );
-      doc.text(transaction.amount, 290, tableTop + rowHeight * (rowIndex + 1));
+      doc.text(
+        `${transaction.amount} ${
+          transaction.transactionType === 'Debit' ? 'Dr' : 'Cr'
+        }`,
+        290,
+        tableTop + rowHeight * (rowIndex + 1)
+      );
       doc.text(transaction.balance, 410, tableTop + rowHeight * (rowIndex + 1));
     });
 

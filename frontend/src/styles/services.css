@@ -70,9 +70,14 @@ tbody tr:hover {
   justify-content: space-between;
 }
 
-.filters select {
+.filters select,
+.filters input {
   width: 30%;
   margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.filters select {
   font-weight: bold;
 }
 
