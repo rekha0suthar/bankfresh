@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import HigherOrderComponent from '../components/HigherOrderComponent';
+import Container from '../components/Container';
 import { Context } from '../context/Context';
 import '../styles/customer-profile.css';
 import { formatDate } from '../utils';
@@ -14,7 +14,7 @@ const CustomerProfile = () => {
     getUserAccount();
   }, []);
   return (
-    <HigherOrderComponent>
+    <Container>
       <div className="main-container">
         <h2 className="heading">My Profile</h2>
         <div className="main-wrapper profile-wrapper">
@@ -65,7 +65,7 @@ const CustomerProfile = () => {
           <button onClick={() => navigate('/dashboard')}>Ok</button>
         </div>
       </div>
-    </HigherOrderComponent>
+    </Container>
   );
 };
 

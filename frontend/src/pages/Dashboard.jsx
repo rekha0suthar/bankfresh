@@ -1,15 +1,15 @@
 import React from 'react';
 import '../styles/dashboard.css';
 import Balance from '../components/Balance';
-import HigherOrderComponent from '../components/HigherOrderComponent';
+import Container from '../components/Container';
 
 const Dashboard = () => {
   return (
-    <HigherOrderComponent>
+    <Container>
       <div className="dashboard-section">
         <Balance />
       </div>
-    </HigherOrderComponent>
+    </Container>
   );
 };
 

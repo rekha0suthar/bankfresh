@@ -26,7 +26,7 @@ const Signup = () => {
   return (
     <div className="account-form wd-6">
       <h1>
-        Register to <span>NetBanking</span>
+        Register to <strong>NetBanking</strong>
       </h1>
       <InputGroup
         inputValue={accountNumber}
@@ -83,7 +83,7 @@ const Signup = () => {
         divClass="account-form-field"
         inputClass="input-box"
         labelClass="label-box"
-        labelValue="Confirm Password"
+        labelValue="Re-enter Password"
         nameValue="confirm-password"
         minLen={6}
       />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import '../styles/nav.css';
 import { useNavigate } from 'react-router-dom';
 import { FaUserCog } from 'react-icons/fa';
@@ -7,6 +7,7 @@ import { Context } from '../context/Context';
 
 const Nav = () => {
   const [showProfile, setShowProfile] = useState(false);
+  const userContainerRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -14,11 +15,27 @@ const Nav = () => {
 
   useEffect(() => {
     getUser();
+    const handleClickOutside = (event) => {
+      if (
+        userContainerRef.current &&
+        !userContainerRef.current.contains(event.target)
+      ) {
+        setShowProfile(false);
+      }
+    };
+
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   return (
-    <>
-      <div className="nav-container">
+    <div onClick={() => setShowProfile(false)}>
+      <div className="nav-container" onClick={(e) => e.stopPropagation()}>
         <h1 onClick={() => navigate('/dashboard')}>BankFresh</h1>
         <div className="user-profile">
           <div onClick={() => setShowProfile(!showProfile)}>
@@ -39,15 +56,17 @@ const Nav = () => {
         </div>
       </div>
       {showProfile && (
-        <div className="user-container">
+        <div className="user-container" ref={userContainerRef}>
           <p onClick={() => navigate('/customer-profile')}>Profile</p>
           <p onClick={() => navigate('/transaction-password')}>
             Generate New Transaction Password
           </p>
-          <p>Change Login Password</p>
+          <p onClick={() => navigate('/change-password')}>
+            Change Login Password
+          </p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

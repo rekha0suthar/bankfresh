@@ -1,15 +1,15 @@
 import React from 'react';
 import '../styles/services.css';
-import HigherOrderComponent from '../components/HigherOrderComponent';
+import Container from '../components/Container';
 import AccountSummary from '../components/account/AccountSummary';
 import AccountStatement from '../components/account/AccountStatement';
 
 const AccountServices = () => {
   return (
-    <HigherOrderComponent>
+    <Container>
       <AccountSummary />
       <AccountStatement />
-    </HigherOrderComponent>
+    </Container>
   );
 };
 

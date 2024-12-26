@@ -5,9 +5,7 @@ const Address = () => {
   const { address, setAddress } = useContext(Context);
   return (
     <div className="address">
-      <label className="label-box">
-        Address<span>*</span>
-      </label>
+      <label className="label-box">Address *</label>
       <div className="address-fields">
         <div style={{ display: 'flex' }}>
           <input

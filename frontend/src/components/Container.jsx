@@ -2,7 +2,7 @@ import React from 'react';
 import Nav from './Nav';
 import ServiceMenu from './ServiceMenu';
 
-const HigherOrderComponent = ({ children }) => {
+const Container = ({ children }) => {
   return (
     <>
       <Nav />
@@ -12,4 +12,4 @@ const HigherOrderComponent = ({ children }) => {
   );
 };
 
-export default HigherOrderComponent;
+export default Container;

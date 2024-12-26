@@ -95,9 +95,7 @@ const CreateAcount = () => {
       {/* AccountType field */}
       <div className="account-form-field">
         {' '}
-        <label className="label-box">
-          Account Type<span>*</span>
-        </label>
+        <label className="label-box">Account Type *</label>
         <div className="input-box">
           <input
             type="radio"
@@ -119,9 +117,7 @@ const CreateAcount = () => {
       </div>
       {/* Gender field */}
       <div className="account-form-field">
-        <label className="label-box">
-          Gender<span>*</span>
-        </label>
+        <label className="label-box">Gender *</label>
         <div className="input-box">
           <input
             type="radio"
@@ -153,9 +149,7 @@ const CreateAcount = () => {
       {/* Nationality field */}
       <div className="account-form-field">
         {' '}
-        <label className="label-box">
-          Nationality<span>*</span>
-        </label>
+        <label className="label-box">Nationality *</label>
         <div className="input-box">
           <input
             type="radio"
@@ -178,9 +172,7 @@ const CreateAcount = () => {
       {/* Address field Component */}
       <Address />
       <div>
-        <label className="label-box">
-          Enter Captcha<span>*</span>
-        </label>
+        <label className="label-box">Enter Captcha *</label>
       </div>
       <ImageCaptcha />
       <button onClick={createAccount}>Save and Continue</button>

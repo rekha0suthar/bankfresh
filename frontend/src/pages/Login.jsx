@@ -24,40 +24,38 @@ const Login = () => {
   }, []);
 
   return (
-    <>
-      <div className="form-container">
-        <h1>
-          Welcome to <span>NetBanking</span>
-        </h1>
+    <div className="form-container">
+      <h1>
+        Welcome to <strong>NetBanking</strong>
+      </h1>
 
-        <InputGroup
-          inputValue={customerId}
-          setInputValue={setCustomerId}
-          nameValue="cusomterId"
-          labelValue="Customer ID"
-        />
+      <InputGroup
+        inputValue={customerId}
+        setInputValue={setCustomerId}
+        nameValue="cusomterId"
+        labelValue="Customer ID"
+      />
 
-        <InputGroup
-          inputValue={password}
-          setInputValue={setPassword}
-          nameValue="password"
-          labelValue="Password"
-          inputType="password"
-        />
+      <InputGroup
+        inputValue={password}
+        setInputValue={setPassword}
+        nameValue="password"
+        labelValue="Password"
+        inputType="password"
+      />
 
-        <ImageCaptcha />
+      <ImageCaptcha />
 
-        <div className="btns">
-          <button onClick={login}>{loading ? 'Logging ...' : 'Login'}</button>
-          <button onClick={() => navigate('/forget-password')}>
-            Forget Password
-          </button>
-          <button onClick={() => navigate('/signup')}>
-            New User Registration
-          </button>
-        </div>
+      <div className="btns">
+        <button onClick={login}>{loading ? 'Logging ...' : 'Login'}</button>
+        <button onClick={() => navigate('/forget-password')}>
+          Forget/Rest Password
+        </button>
+        <button onClick={() => navigate('/signup')}>
+          New User Registration
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 

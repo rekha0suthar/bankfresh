@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import HigherOrderComponent from '../HigherOrderComponent';
+import Container from '../Container';
 import { MoneyContext } from '../../context/MoneyContext';
 import Payment from './Payment';
 import PaymentInfo from './PaymentInfo';
 import VerifyTransaction from './VerifyTransaction';
 import { Context } from '../../context/Context';
+import Wrapper from '../Wrapper';
 
 const MoneyTransferWrapper = () => {
   const { confirmTransfer, verifyTransaction } = useContext(MoneyContext);
@@ -15,16 +16,8 @@ const MoneyTransferWrapper = () => {
     accountSummary();
   }, []);
   return (
-    <HigherOrderComponent>
-      <div className="main-container">
-        <h2 className="heading">Transfer Money</h2>
-        {/* For later use */}
-        {/* <p>Transfer Type</p> */}
-        {/* <div className="money-transfer-header">
-          <h2>Within Bank</h2>
-          <h2>Other Bank</h2>
-          <h2>Own Accounts</h2>
-        </div> */}
+    <Container>
+      <Wrapper heading="Manage Debit Card">
         {!confirmTransfer && !verifyTransaction && (
           // Component: to send money using account number -- fetch account details, and add amount and proceed
           <Payment />
@@ -37,8 +30,8 @@ const MoneyTransferWrapper = () => {
           // Component: Add Transaction password and otp -- verify transaction
           <VerifyTransaction />
         )}
-      </div>
-    </HigherOrderComponent>
+      </Wrapper>
+    </Container>
   );
 };
 

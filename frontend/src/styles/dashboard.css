@@ -111,7 +111,7 @@
   font-style: oblique;
 }
 
-.side-bar-container {
+.service-menu-container {
   padding: 0px 10px;
   position: fixed;
   top: 0%;
@@ -132,10 +132,26 @@
   font-size: 20px;
   cursor: pointer;
   border-right: 2px solid white;
-  padding-right: 10px;
+  padding: 10px;
 }
 
-.services:hover,
-.services p:hover {
-  color: orange;
+.active {
+  color: coral;
+  font-weight: bold;
+}
+
+/* Change Password */
+
+.change-password h4 {
+  margin-top: 0px;
+  color: gray;
+}
+
+.change-password input {
+  width: 30%;
+  margin-bottom: 10px;
+}
+
+.change-password button {
+  margin-top: 10px;
 }

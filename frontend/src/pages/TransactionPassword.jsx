@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import HigherOrderComponent from '../components/HigherOrderComponent';
+import Container from '../components/Container';
 import { Context } from '../context/Context';
 import { useNavigate } from 'react-router-dom';
 import CardDetail from '../components/card/CardDetail';
@@ -50,7 +50,7 @@ const TransactionPassword = () => {
     getDebitCard();
   }, []);
   return (
-    <HigherOrderComponent>
+    <Container>
       <div className="main-container">
         <h2 className="heading">Generate New Transaction Password</h2>
         <div className="main-wrapper">
@@ -76,7 +76,7 @@ const TransactionPassword = () => {
           )}
         </div>
       </div>
-    </HigherOrderComponent>
+    </Container>
   );
 };
 

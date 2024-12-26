@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from 'react';
-import HigherOrderComponent from '../HigherOrderComponent';
+import Container from '../Container';
 import { CardContext } from '../../context/CardContext';
 import SetPin from './SetPin';
 import CardDetails from './CardInfo';
 import CardBlock from './CardBlock';
 import { Context } from '../../context/Context';
 import { toast } from 'react-toastify';
+import Wrapper from '../Wrapper';
 
 const Card = () => {
   const {
@@ -43,9 +44,8 @@ const Card = () => {
   }, []);
 
   return (
-    <HigherOrderComponent>
-      <div className="main-container">
-        <h2 className="heading">Manage Debit Card</h2>
+    <Container>
+      <Wrapper heading="Manage Debit Card">
         <div className="main-wrapper">
           <h4>
             <input type="radio" />
@@ -87,8 +87,8 @@ const Card = () => {
             Generate PIN
           </button>
         </div>
-      </div>{' '}
-    </HigherOrderComponent>
+      </Wrapper>{' '}
+    </Container>
   );
 };
 
