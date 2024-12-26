@@ -61,13 +61,6 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre('save', function (next) {
-  if (!this.isModified(this.password)) {
-    this.password = bcrypt.hash(this.password, 10);
-  }
-  next();
-});
-
 userSchema.methods.checkPassword = function (password) {
   return bcrypt.compare(this.password, password);
 };

@@ -12,6 +12,8 @@ import MoneyTransfer from '../pages/MoneyTransfer';
 import Cards from '../pages/CardManagment';
 import CustomerProfile from '../pages/CustomerProfile';
 import TransactionPassword from '../pages/TransactionPassword';
+import ChangeLoginPassword from '../pages/ChangeLoginPassword';
+import ForgetPassword from '../pages/ForgetPassword';
 
 export const Router = () => {
   return (
@@ -21,6 +23,7 @@ export const Router = () => {
       <Route path="/signup" Component={Signup} />
       <Route path="/login" Component={Login} />
       <Route path="/verify-otp" Component={OtpVerfication} />
+      <Route path="/forget-password" Component={ForgetPassword} />
       <Route Component={ProtectedRoute}>
         <Route path="/dashboard" Component={Dashboard} />
         <Route path="/account-summary" Component={AccountServices} />
@@ -28,6 +31,7 @@ export const Router = () => {
         <Route path="/cards" Component={Cards} />
         <Route path="/customer-profile" Component={CustomerProfile} />
         <Route path="/transaction-password" Component={TransactionPassword} />
+        <Route path="/change-password" Component={ChangeLoginPassword} />
       </Route>
     </Routes>
   );

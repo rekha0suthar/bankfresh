@@ -15,7 +15,7 @@ const InputGroup = ({
 }) => {
   return (
     <div className={divClass}>
-      <label className={labelClass}>{labelValue}*</label>
+      <label className={labelClass}>{labelValue} *</label>
 
       <input
         className={inputClass}

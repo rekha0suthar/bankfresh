@@ -10,6 +10,7 @@ import {
   createAccountApi,
   downloadStatementApi,
   fetchCaptchaApi,
+  forgetPasswordApi,
   getAccountApi,
   getBalanceApi,
   getDebitCardApi,
@@ -212,6 +213,30 @@ const ContextProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
+  const forgetPassword = async () => {
+    try {
+      setLoading(true);
+      if (password === confirmPassword) {
+        const { data } = await forgetPasswordApi({
+          customerId,
+          accountNumber,
+          identityProof: identity,
+          password,
+          captcha,
+        });
+        toast.success(data.msg); // success alert
+        navigate('/login');
+      } else {
+        toast.error('Password does not match');
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response.data.msg);
+    }
+  };
+
   // Method for logout
   const logout = () => {
     localStorage.clear(); // removing token from localstorage
@@ -493,6 +518,7 @@ const ContextProvider = ({ children }) => {
         getTransactions,
         downloadStatement,
         changeLoginPassword,
+        forgetPassword,
       }}
     >
       {children}

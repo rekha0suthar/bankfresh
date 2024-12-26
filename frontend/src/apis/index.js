@@ -32,6 +32,8 @@ export const fetchCaptchaApi = () =>
 export const changeLoginPasswordApi = (data) =>
   API.post('/auth/change-login-password', data);
 
+export const forgetPasswordApi = (data) =>
+  API.post('/auth/forget-password', data);
 // ------------------------------------------------------------ //
 
 // Account APIs

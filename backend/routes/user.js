@@ -7,6 +7,7 @@ import {
   login,
   signup,
   changeLoginPassword,
+  forgetPassword,
 } from '../controllers/user.js';
 import { verifyToken } from '../middleware/verifyToken.js';
 import { resendOtp, verifyOtp } from '../controllers/otp.js';
@@ -22,4 +23,5 @@ router.get('/captcha', getCaptcha);
 router.post('/verify-otp', verifyOtp);
 router.post('/resend-otp', resendOtp);
 router.post('/change-login-password', verifyToken, changeLoginPassword);
+router.post('/forget-password', forgetPassword);
 export default router;

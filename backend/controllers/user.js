@@ -178,6 +178,9 @@ const login = async (req, res) => {
   }
 };
 
+// @desc  Set Change User Password
+// @route POST /api/auth/change-password
+// @access private
 const changeLoginPassword = async (req, res) => {
   const { userId, password, newPassword } = req.body;
   try {
@@ -194,6 +197,37 @@ const changeLoginPassword = async (req, res) => {
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
     res.status(200).json({ msg: 'Password changed successfully' });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+// @desc  Set Forget User Password
+// @route POST /api/auth/forget-password
+// @access public
+const forgetPassword = async (req, res) => {
+  const { customerId, accountNumber, identityProof, password, captcha } =
+    req.body;
+  try {
+    const account = await Account.findOne({ accountNumber, customerId });
+    let user = await User.findOne({ identityProof });
+
+    console.log(sessionCaptcha, captcha);
+
+    if (captcha != sessionCaptcha) {
+      return res.status(400).json({ msg: 'Invalid captcha' });
+    }
+
+    if (!user) {
+      return res.status(401).json({ msg: 'Incorrect identity proof' });
+    }
+    if (!account) {
+      return res.status(401).json({ msg: 'Incorrect user info' });
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+    await user.save();
+    res.status(200).json({ msg: 'Password reset successfully' });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -247,4 +281,5 @@ export {
   getUserAccount,
   getUser,
   getCaptcha,
+  forgetPassword,
 };
