@@ -6,6 +6,7 @@ import {
   accountSummaryApi,
   cardBlockUnblockApi,
   cardPinApi,
+  changeLoginPasswordApi,
   createAccountApi,
   downloadStatementApi,
   fetchCaptchaApi,
@@ -185,10 +186,36 @@ const ContextProvider = ({ children }) => {
     }
   };
 
+  const changeLoginPassword = async (
+    currentPassword,
+    newPassword,
+    confirmPassword
+  ) => {
+    try {
+      setLoading(true);
+      if (newPassword === confirmPassword) {
+        const { data } = await changeLoginPasswordApi({
+          userId,
+          password: currentPassword,
+          newPassword,
+        });
+
+        toast.success(data.msg); // success alert
+        navigate('/login');
+      } else {
+        toast.error('Passwords do not match');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response.data.msg);
+    } finally {
+      setLoading(false);
+    }
+  };
   // Method for logout
   const logout = () => {
     localStorage.clear(); // removing token from localstorage
-    navigate('/'); // redirecting to login after logout
+    navigate('/login'); // redirecting to login after logout
   };
 
   const getUser = async () => {
@@ -465,6 +492,7 @@ const ContextProvider = ({ children }) => {
         transactionVerify,
         getTransactions,
         downloadStatement,
+        changeLoginPassword,
       }}
     >
       {children}

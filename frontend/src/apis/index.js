@@ -29,6 +29,9 @@ export const getUserApi = (userId) => API.get(`/auth/user/${userId}`);
 export const fetchCaptchaApi = () =>
   API.get(`/auth/captcha?${new Date().getTime()}`);
 
+export const changeLoginPasswordApi = (data) =>
+  API.post('/auth/change-login-password', data);
+
 // ------------------------------------------------------------ //
 
 // Account APIs

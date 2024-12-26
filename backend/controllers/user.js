@@ -167,14 +167,33 @@ const login = async (req, res) => {
     user.updateLogin();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res
-      .status(200)
-      .json({
-        msg: 'User login successfull',
-        token,
-        user,
-        accountId: userAccount._id,
-      });
+    res.status(200).json({
+      msg: 'User login successfull',
+      token,
+      user,
+      accountId: userAccount._id,
+    });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+const changeLoginPassword = async (req, res) => {
+  const { userId, password, newPassword } = req.body;
+  try {
+    let user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    const checkPassword = user.checkPassword(password);
+    console.log(user, password, checkPassword);
+    if (!checkPassword) {
+      return res.status(401).json({ msg: 'Incorrect current password' });
+    }
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+    res.status(200).json({ msg: 'Password changed successfully' });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -220,4 +239,12 @@ const getUser = async (req, res) => {
   }
 };
 
-export { createAccount, signup, login, getUserAccount, getUser, getCaptcha };
+export {
+  createAccount,
+  signup,
+  login,
+  changeLoginPassword,
+  getUserAccount,
+  getUser,
+  getCaptcha,
+};
