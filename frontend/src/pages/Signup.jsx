@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Context } from '../context/Context';
 import { useNavigate } from 'react-router-dom';
 import '../styles/form.css';
-import InputGroup from '../components/InputGroup';
+import InputGroup from '../components/form/InputGroup';
 
 const Signup = () => {
   const {

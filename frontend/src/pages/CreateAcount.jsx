@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import '../styles/account-form.css';
 import { Context } from '../context/Context';
-import ImageCaptcha from '../components/ImageCaptcha';
-import InputGroup from '../components/InputGroup';
-import Address from '../components/Address';
+import ImageCaptcha from '../components/form/ImageCaptcha';
+import InputGroup from '../components/form/InputGroup';
+import Address from '../components/form/Address';
 import { useNavigate } from 'react-router-dom';
 
 const CreateAcount = () => {

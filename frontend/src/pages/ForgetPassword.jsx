@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Context } from '../context/Context';
 import '../styles/form.css';
-import InputGroup from '../components/InputGroup';
+import InputGroup from '../components/form/InputGroup';
 import { useNavigate } from 'react-router-dom';
-import ImageCaptcha from '../components/ImageCaptcha';
+import ImageCaptcha from '../components/form/ImageCaptcha';
 
 const ForgetPassword = () => {
   const {

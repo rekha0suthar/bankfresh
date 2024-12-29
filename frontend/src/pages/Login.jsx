@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { Context } from '../context/Context';
 import '../styles/form.css';
 import { useNavigate } from 'react-router-dom';
-import ImageCaptcha from '../components/ImageCaptcha';
-import InputGroup from '../components/InputGroup';
+import ImageCaptcha from '../components/form/ImageCaptcha';
+import InputGroup from '../components/form/InputGroup';
 
 const Login = () => {
   const {

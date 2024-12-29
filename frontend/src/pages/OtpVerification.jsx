@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Otp from '../components/Otp';
+import Otp from '../components/form/Otp';
 import { Context } from '../context/Context';
 import '../styles/otp.css';
 

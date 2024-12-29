@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { svgToDataUrl } from '../utils';
+import { svgToDataUrl } from '../../utils';
 import { LuRefreshCw } from 'react-icons/lu';
-import { Context } from '../context/Context';
+import { Context } from '../../context/Context';
 
 const ImageCaptcha = () => {
   const { captchaImg, captcha, setCaptcha, fetchCaptcha } = useContext(Context);
