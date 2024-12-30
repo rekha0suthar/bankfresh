@@ -49,7 +49,7 @@ const Login = () => {
       <div className="btns">
         <button onClick={login}>{loading ? 'Logging ...' : 'Login'}</button>
         <button onClick={() => navigate('/forget-password')}>
-          Forget/Rest Password
+          Forget/Reset Password
         </button>
         <button onClick={() => navigate('/signup')}>
           New User Registration

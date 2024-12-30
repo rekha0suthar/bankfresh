@@ -5,7 +5,7 @@
 }
 
 .balance-container {
-  background-color: blue;
+  background-color: #00a0e3;
   box-shadow: 0px 0px 6px #ccc;
   max-width: max-content;
   height: max-content;
@@ -14,6 +14,7 @@
   text-align: center;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 20px;
   border-top-right-radius: 50px;
 }
@@ -25,12 +26,23 @@
 }
 
 .balance {
-  border: 5px solid orange;
+  border: 5px solid #ffa64d;
   border-radius: 50%;
   max-width: max-content;
   padding: 10px 30px;
   justify-content: center;
   align-items: center;
+}
+
+.view-statement-btn {
+  background-color: #ffa64d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  height: max-content;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .date {
@@ -109,35 +121,6 @@
   color: black;
   font-size: 16px;
   font-style: oblique;
-}
-
-.service-menu-container {
-  padding: 0px 10px;
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  right: 0%;
-  margin-top: 80px;
-  display: flex;
-  gap: 10px;
-  justify-content: start;
-  background-color: rgb(10, 180, 236);
-}
-
-.services {
-  display: flex;
-  align-items: center;
-  color: white;
-  gap: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  border-right: 2px solid white;
-  padding: 10px;
-}
-
-.active {
-  color: coral;
-  font-weight: bold;
 }
 
 /* Change Password */

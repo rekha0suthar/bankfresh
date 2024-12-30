@@ -14,11 +14,7 @@
   margin: 10px 0px;
 }
 
-.address {
+.user-field .address {
   flex-wrap: wrap;
   max-width: 250px;
-}
-
-button {
-  cursor: pointer;
 }

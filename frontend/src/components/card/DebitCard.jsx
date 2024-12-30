@@ -8,7 +8,7 @@ import { Context } from '../../context/Context';
 import { toast } from 'react-toastify';
 import Wrapper from '../Wrapper';
 
-const Card = () => {
+const DebitCard = () => {
   const {
     showBlockMsg,
     setShowBlockMsg,
@@ -92,4 +92,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default DebitCard;

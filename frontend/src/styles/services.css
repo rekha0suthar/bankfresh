@@ -48,13 +48,7 @@ tbody tr:hover {
 }
 
 .account-summary button {
-  background-color: rgb(10, 180, 236);
-  color: white;
-  padding: 10px 20px;
-  border: none;
   margin-right: 10px;
-  border-radius: 10px;
-  font-size: 16px;
   margin-left: 10px;
 }
 
@@ -90,16 +84,22 @@ tbody tr:hover {
 }
 
 .pagination button {
-  padding: 10px 20px;
-  margin-right: 10px;
-  border: none;
   background-color: transparent;
   color: black;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
 }
 
 .pagination span {
   margin-bottom: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .filters input,
+  .filters select {
+    width: 100%;
+  }
+
+  .statement-header {
+    display: block;
+    margin-bottom: 20px;
+  }
 }

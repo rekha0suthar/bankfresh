@@ -2,3 +2,136 @@
   position: relative;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+.main-container {
+  margin-top: 160px !important;
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 5px;
+}
+
+.main-wrapper {
+  border: 1px solid #00a0e3;
+  border-radius: 30px;
+  margin: 10px 0px;
+  padding: 20px 30px;
+  color: rgb(48, 47, 47);
+  line-height: 1.5;
+}
+
+.main-container .header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #00a0e3;
+  color: white;
+  padding: 10px 30px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.main-container .header h3 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.main-container h4 {
+  margin-top: 0px;
+}
+
+.main-container p {
+  color: gray;
+  font-size: 16px;
+  margin-top: 0px;
+}
+
+.card-container {
+  display: flex;
+  gap: 20px;
+}
+
+.side-menu {
+  flex: 1;
+}
+
+.sub-menu {
+  background-color: #00a0e3;
+  padding: 10px 20px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.active {
+  color: #ffa64d !important;
+  font-weight: bold;
+}
+
+.main-section {
+  flex: 3;
+}
+
+button {
+  background-color: #00a0e3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  box-shadow: 0px 0px 6px #ccc;
+}
+
+.captcha {
+  display: flex;
+  gap: 20px;
+  height: 40px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.refesh-captcha {
+  margin-left: -10px;
+  margin-top: -10px;
+  color: #00a0e3;
+  cursor: pointer;
+}
+
+.captcha img {
+  border: 1px solid #ccc;
+  width: max-content !important;
+  height: 100%;
+}
+
+form {
+  background-color: white;
+  box-shadow: 0px 0px 6px #ccc;
+  padding: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .card-container {
+    display: block;
+  }
+
+  button {
+    margin-bottom: 10px;
+  }
+
+  .main-section {
+    padding: 10px;
+  }
+}

@@ -34,21 +34,22 @@ export const formatCardNumber = (cardNumber) => {
   return formatted ? formatted.join(' ') : '';
 };
 
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
 export const formatDate = (date) => {
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
   const day = new Date(date).getDate();
   const month = months[new Date(date).getMonth()];
   const year = new Date().getFullYear();
@@ -106,4 +107,20 @@ export const getFilters = (type, time, startDate, endDate) => {
   }
 
   return filters;
+};
+
+export const formatISOTime = () => {
+  const weekDays = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  const weekDay = weekDays[date.getDay()];
+  // Determine AM or PM
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  return `ISO ${weekDay} ${day} ${month} ${year} ${hours}:${minutes}:${seconds} ${ampm}`;
 };

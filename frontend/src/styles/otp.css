@@ -18,10 +18,7 @@
   padding: 5px;
   margin-right: 5px;
   border-radius: 3px;
-  border: 1px solid #ccc;
-  outline: none;
   text-align: center;
-  font-size: 16px;
 }
 
 .otp input:focus {
@@ -30,15 +27,7 @@
 
 .container button {
   text-align: center !important;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: blue;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
   margin-right: 10px;
-  cursor: pointer;
   margin-top: 20px;
   margin-left: 10px;
 }

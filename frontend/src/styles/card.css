@@ -1,0 +1,33 @@
+.card-block {
+  padding: 0px 20px 20px;
+}
+
+.generate-pin {
+  margin: -5px 20px 20px;
+}
+
+.generate-pin input {
+  margin-bottom: 10px;
+}
+
+.card-details {
+  margin-bottom: 20px;
+  margin-left: 30px;
+}
+
+.card-details span {
+  max-width: 250px;
+  margin-bottom: -5px;
+}
+
+span {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  span {
+    display: block;
+  }
+}

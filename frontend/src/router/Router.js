@@ -9,7 +9,7 @@ import CreateAcount from '../pages/CreateAcount';
 import Dashboard from '../pages/Dashboard';
 import AccountServices from '../pages/Account&Services';
 import MoneyTransfer from '../pages/MoneyTransfer';
-import Cards from '../pages/CardManagment';
+import Cards from '../pages/Cards';
 import CustomerProfile from '../pages/CustomerProfile';
 import TransactionPassword from '../pages/TransactionPassword';
 import ChangeLoginPassword from '../pages/ChangeLoginPassword';
@@ -18,20 +18,21 @@ import ForgetPassword from '../pages/ForgetPassword';
 export const Router = () => {
   return (
     <Routes>
-      <Route path="/" Component={Home} />
-      <Route path="/create-account" Component={CreateAcount} />
-      <Route path="/signup" Component={Signup} />
-      <Route path="/login" Component={Login} />
-      <Route path="/verify-otp" Component={OtpVerfication} />
-      <Route path="/forget-password" Component={ForgetPassword} />
-      <Route Component={ProtectedRoute}>
-        <Route path="/dashboard" Component={Dashboard} />
-        <Route path="/account-summary" Component={AccountServices} />
-        <Route path="/money-transfer" Component={MoneyTransfer} />
-        <Route path="/cards" Component={Cards} />
-        <Route path="/customer-profile" Component={CustomerProfile} />
-        <Route path="/transaction-password" Component={TransactionPassword} />
-        <Route path="/change-password" Component={ChangeLoginPassword} />
+      <Route path="/" element={<Home />} />
+      <Route path="/create-account" element={<CreateAcount />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/verify-otp" element={<OtpVerfication />} />
+      <Route path="/forget-password" element={<ForgetPassword />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/account-summary" element={<AccountServices />} />
+        <Route path="/money-transfer" element={<MoneyTransfer />} />
+        <Route path="/customer-profile" element={<CustomerProfile />} />
+        <Route path="/transaction-password" element={<TransactionPassword />} />
+        <Route path="/change-password" element={<ChangeLoginPassword />} />
+        <Route path="/manage-debit-card" element={<Cards />} />
+        <Route path="/apply-credit-card" element={<Cards />} />
       </Route>
     </Routes>
   );

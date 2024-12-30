@@ -1,7 +1,12 @@
 import React, { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { validityCheck } from '../utils';
+import {
+  isValidEmail,
+  validAadharNumber,
+  validityCheck,
+  validMobileNumber,
+} from '../utils';
 import {
   accountSummaryApi,
   cardBlockUnblockApi,
@@ -97,6 +102,12 @@ const ContextProvider = ({ children }) => {
         setNationality('');
         setEmail('');
         navigate('/verify-otp');
+      } else if (!isValidEmail(email)) {
+        toast.warn('Invalid Email');
+      } else if (!validAadharNumber(identity)) {
+        toast.warn('Invalid Aadhar Number');
+      } else if (!validMobileNumber(mobileNumber)) {
+        toast.warn('Invalid Mobile Number');
       }
     } catch (err) {
       console.error(err);

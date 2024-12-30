@@ -1,6 +1,6 @@
 .nav-container {
   justify-content: space-between;
-  background-color: orange;
+  background-color: #ffa64d;
   padding: 0px 10px;
   position: fixed;
   top: 0%;
@@ -11,12 +11,12 @@
 }
 
 .nav-container h1 {
-  color: white;
+  color: #000000;
   text-align: center;
+  font-weight: bold;
 }
 .nav-container h1:hover {
   cursor: pointer;
-  color: yellow;
 }
 
 .nav-container a {
@@ -95,6 +95,34 @@
 .user-container p:hover {
   background-color: #eee;
   cursor: pointer;
+}
+
+/* ServiceMenu */
+.service-menu-container {
+  padding: 0px 10px;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  margin-top: 70px;
+  display: flex;
+  gap: 10px;
+  justify-content: start;
+  background-color: #00a0e3;
+}
+
+.services {
+  display: flex;
+  align-items: center;
+  color: white;
+  gap: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.services:not(:last-child) {
+  border-right: 2px solid white;
 }
 
 @media screen and (max-width: 530px) {

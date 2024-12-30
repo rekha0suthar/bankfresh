@@ -1,9 +1,6 @@
 .form-container {
   max-width: 400px;
   margin: 150px auto;
-  background-color: white;
-  box-shadow: 0px 0px 6px #ccc;
-  padding: 20px;
 }
 
 .form-container h1 {
@@ -16,30 +13,20 @@
   color: orange;
 }
 
-.form-container div input,
-.form-container button {
+.form-container div input {
   width: 100%;
-  margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 5px;
-  outline: none;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
 .form-container button {
-  color: white;
-  background-color: blue;
-  font-weight: bold;
-  cursor: pointer;
   font-size: 20px !important;
   border-radius: 50px;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .form-container div label {
   font-size: 18px;
-  font-weight: bold;
 }
 
 .form-container .msg {
@@ -50,19 +37,14 @@
   font-size: 18px;
 }
 
-.captcha {
-  display: flex;
-}
-
-.captcha img {
-  width: 50%;
-  height: 50px;
-}
-
 .btns {
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
+}
+
+.captcha input {
+  margin-bottom: 0px !important;
 }
 
 @media screen and (max-width: 750px) {

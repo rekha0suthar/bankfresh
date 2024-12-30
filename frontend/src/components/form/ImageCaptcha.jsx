@@ -20,11 +20,7 @@ const ImageCaptcha = () => {
         onChange={(e) => setCaptcha(e.target.value)}
         required
       />
-      <img
-        src={captchaDataUrl}
-        alt="Captcha"
-        style={{ cursor: 'pointer', marginBottom: '10px' }}
-      />
+      <img src={captchaDataUrl} alt="Captcha" style={{ cursor: 'pointer' }} />
       <div className="refesh-captcha" onClick={fetchCaptcha}>
         <LuRefreshCw />
       </div>

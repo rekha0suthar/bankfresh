@@ -19,7 +19,7 @@ const services = [
   {
     name: 'Cards',
     icon: <FaCreditCard />,
-    path: '/cards',
+    path: '/manage-debit-card',
   },
 ];
 

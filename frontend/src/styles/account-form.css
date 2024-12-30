@@ -1,8 +1,5 @@
 .account-form {
   margin: 50px auto;
-  background-color: white;
-  box-shadow: 0px 0px 6px #ccc;
-  padding: 20px;
   line-height: 1.5;
 }
 
@@ -41,15 +38,6 @@
   margin-right: 10px;
 }
 
-.account-form div input,
-.captcha input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  outline: none;
-}
-
 .account-form .account-form-field .label-box {
   flex: 1;
 }
@@ -61,7 +49,6 @@
 .address {
   display: flex !important;
   flex-wrap: wrap;
-  max-width: 100%;
 }
 
 .address label {
@@ -74,41 +61,11 @@
 
 .address input {
   margin: 5px;
-  width: 150px;
+  max-width: 175px;
 }
 
 .account-form button {
-  text-align: left !important;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: blue;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.captcha {
-  gap: 20px;
-  height: 40px;
-  margin-bottom: 30px;
-  margin-top: 10px;
-  align-items: center;
-}
-
-.refesh-captcha {
-  margin-left: -10px;
-  margin-top: -10px;
-  color: rgb(14, 188, 247);
-  cursor: pointer;
-}
-
-.captcha img {
-  border: 1px solid #ccc;
-  width: max-content !important;
-  height: 100%;
+  margin-right: 20px;
 }
 
 /* .wd-7 {

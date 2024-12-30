@@ -17,7 +17,7 @@ const MoneyTransferWrapper = () => {
   }, []);
   return (
     <Container>
-      <Wrapper heading="Manage Debit Card">
+      <Wrapper heading="Money Transfer">
         {!confirmTransfer && !verifyTransaction && (
           // Component: to send money using account number -- fetch account details, and add amount and proceed
           <Payment />

@@ -3,6 +3,7 @@ import { Context } from '../../context/Context';
 import AccountDetail from './AccountDetail';
 import { useNavigate } from 'react-router-dom';
 import { MoneyContext } from '../../context/MoneyContext';
+import { toast } from 'react-toastify';
 
 const Payment = () => {
   const [showAccount, setShowAccount] = useState(false);
@@ -21,6 +22,14 @@ const Payment = () => {
   const handleAccount = async () => {
     setShowAccount(true);
     await getAccount(inputAccount);
+  };
+
+  const handleTransfer = () => {
+    if (inputAmount && purpose) {
+      setConfirmTransfer(true);
+    } else {
+      toast.error('Amount and purpose are required');
+    }
   };
   return (
     <div className="main-wrapper money-transfer">
@@ -52,6 +61,7 @@ const Payment = () => {
                 className="trans-input"
                 value={inputAmount}
                 onChange={(e) => setInputAmount(e.target.value)}
+                required
               />
               <br />
               <input
@@ -60,6 +70,7 @@ const Payment = () => {
                 className="trans-input"
                 value={purpose}
                 onChange={(e) => setPurpose(e.target.value)}
+                required
               />
             </div>
           </>
@@ -80,7 +91,7 @@ const Payment = () => {
           </li>
         </ul>
       </div>
-      <button onClick={() => setConfirmTransfer(true)}>Transfer</button>
+      <button onClick={handleTransfer}>Transfer</button>
       <button onClick={() => navigate('/dashboard')}>Cancel</button>
     </div>
   );
