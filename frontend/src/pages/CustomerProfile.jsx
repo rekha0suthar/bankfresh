@@ -42,6 +42,10 @@ const CustomerProfile = () => {
               <span>Aadhar Number</span>
               <span>{user.identityProof}</span>
             </div>
+            <div className="user-field">
+              <span>Pancard Number</span>
+              <span>{user.pancard}</span>
+            </div>
           </div>
           <h2>Contact Information</h2>
           <div>
