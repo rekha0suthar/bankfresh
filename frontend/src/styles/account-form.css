@@ -1,6 +1,9 @@
 .account-form {
   margin: 50px auto;
   line-height: 1.5;
+  background-color: white;
+  box-shadow: 0px 0px 6px #ccc;
+  padding: 20px;
 }
 
 .account-form h1 {
@@ -67,10 +70,6 @@
 .account-form button {
   margin-right: 20px;
 }
-
-/* .wd-7 {
-  max-width: 600px;
-} */
 
 .wd-6 {
   max-width: 600px;

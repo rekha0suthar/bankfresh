@@ -13,7 +13,7 @@ const TransactionPassword = ({
     <>
       <h4>Set Transaction Password</h4>
       <input
-        type="text"
+        type="password"
         placeholder="Transaction Password"
         value={transPass}
         onChange={(e) => setTransPass(e.target.value)}
@@ -23,7 +23,7 @@ const TransactionPassword = ({
       />
       <br />
       <input
-        type="text"
+        type="password"
         placeholder="Confirm Transaction Password"
         value={confirmTransPass}
         onChange={(e) => setConfirmTransPass(e.target.value)}

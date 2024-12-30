@@ -20,6 +20,8 @@ const CreateAcount = () => {
     setIdentity,
     nationality,
     setNationality,
+    pancard,
+    setPancard,
     email,
     setEmail,
     mobileNumber,
@@ -66,6 +68,19 @@ const CreateAcount = () => {
         minLen={12}
         maxLen={12}
         placeHolder="Enter your aadhar number"
+      />
+      {/* Identity Field */}
+      <InputGroup
+        inputValue={pancard}
+        setInputValue={setPancard}
+        divClass="account-form-field"
+        inputClass="input-box"
+        labelClass="label-box"
+        labelValue="Pancard"
+        nameValue="pancard"
+        minLen={10}
+        maxLen={10}
+        placeHolder="Enter your pancard number"
       />
       {/* Email Field */}
       <InputGroup

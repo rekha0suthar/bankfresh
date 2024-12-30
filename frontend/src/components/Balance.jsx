@@ -20,7 +20,7 @@ const Balance = () => {
         <p className="date"> {currentDate}</p>
       </div>
       <div className="balance">
-        <p>Assets</p>
+        <p>Balance</p>
         <p>₹ {balance}</p>
       </div>
       <button

@@ -26,6 +26,7 @@ const createAccount = async (req, res) => {
       mobileNumber,
       address,
       identityProof,
+      pancard,
       accountType,
       captcha,
     } = req.body;
@@ -56,6 +57,7 @@ const createAccount = async (req, res) => {
       mobileNumber,
       address,
       identityProof,
+      pancard,
       accountType,
     }).save();
 
@@ -139,7 +141,7 @@ const login = async (req, res) => {
     let user;
 
     if (userId !== null) {
-      user = await User.findById({ userId });
+      user = await User.findById({ _id: userId });
     } else {
       const account = await Account.findOne(
         { customerId },

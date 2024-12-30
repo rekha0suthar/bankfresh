@@ -55,6 +55,20 @@ const addTransaction = async (req, res) => {
       return res.status(400).json({ msg: 'Insufficient balance' });
     }
 
+    if (!senderAccount.transactionPassword) {
+      return res.status(400).json({ msg: 'Set Transaction password' });
+    }
+
+    if (!senderAccount.debitCard.active || senderAccount.debitCard.blocked) {
+      return res
+        .status(400)
+        .json({ msg: 'Card is either blocked or inactive' });
+    }
+
+    if (!senderAccount.debitCard.pin) {
+      return res.status(400).json({ msg: 'Set card pin' });
+    }
+
     const receiverAccount = await Account.findOne({
       accountNumber: receiverAccountNumber,
     }).session(session);

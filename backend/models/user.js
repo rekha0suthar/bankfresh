@@ -42,6 +42,11 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
+  pancard: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   accountType: {
     type: String,
     enum: ['Saving', 'Current'],
