@@ -10,6 +10,7 @@ const MoneyContextProvider = ({ children }) => {
   const [transactionPassword, setTransactionPassword] = useState('');
   const [isResendEnabled, setIsResendEnabled] = useState(false);
   const [purpose, setPurpose] = useState('');
+  const [beneficiaries, setBeneficiaries] = useState([]);
   return (
     <MoneyContext.Provider
       value={{
@@ -27,6 +28,8 @@ const MoneyContextProvider = ({ children }) => {
         setIsResendEnabled,
         transactionPassword,
         setTransactionPassword,
+        beneficiaries,
+        setBeneficiaries,
       }}
     >
       {children}

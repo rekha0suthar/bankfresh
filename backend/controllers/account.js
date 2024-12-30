@@ -65,7 +65,7 @@ const blockUnblockDebitCart = async (req, res) => {
     const account = await Account.findOne({ debitCard });
 
     if (!account) {
-      return res.status(404).json({ message: 'Debit card not found' });
+      return res.status(404).json({ msg: 'Debit card not found' });
     }
     if (account.debitCard.blocked) {
       account.debitCard.blocked = false;
@@ -76,7 +76,7 @@ const blockUnblockDebitCart = async (req, res) => {
     await account.save();
     res.status(200).json({ msg: 'Card blocked' });
   } catch (err) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ msg: 'Internal server error' });
   }
 };
 
@@ -92,7 +92,7 @@ const generateCardPin = async (req, res) => {
     await account.save();
     res.status(200).json({ msg: 'Card pin generated' });
   } catch (err) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ msg: 'Internal server error' });
   }
 };
 
@@ -108,7 +108,7 @@ const getAccount = async (req, res) => {
       { fullName: 1, _id: 0 }
     );
     if (!userName) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ msg: 'User not found' });
     }
     const accountDetails = {
       accountNumber,
@@ -116,7 +116,57 @@ const getAccount = async (req, res) => {
     };
     res.status(200).json(accountDetails);
   } catch (err) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ msg: 'Internal server error' });
+  }
+};
+
+const addBeneficiary = async (req, res) => {
+  const { accountId, accountNumber, beneficiaryName } = req.body;
+  try {
+    const account = await Account.findById(accountId);
+    if (!account) {
+      return res.status(404).json({ msg: 'Account not found' });
+    }
+
+    const beneficiaryAccount = await Account.findOne({ accountNumber });
+
+    const user = await User.findById(beneficiaryAccount.userId, {
+      fullName: 1,
+    });
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    const existBeneficiary = account.beneficiary.find(
+      (ben) => ben.accountNumber === accountNumber
+    );
+    if (existBeneficiary) {
+      return res.status(400).json({ msg: 'Beneficiary already exists' });
+    }
+    account.beneficiary.push({
+      accountId: beneficiaryAccount._id,
+      accountNumber,
+      beneficiaryName,
+      realName: user.fullName,
+    });
+    await account.save();
+    res.status(200).json({ msg: 'Beneficiary added successfully' });
+  } catch (err) {
+    res.status(500).json({ msg: 'Internal server error' });
+  }
+};
+
+const getBeneficiaries = async (req, res) => {
+  const { accountId } = req.params;
+  try {
+    const account = await Account.findById(accountId);
+    if (!account) {
+      return res.status(404).json({ msg: 'Account not found' });
+    }
+    const beneficiaries = account.beneficiary;
+    res.status(200).json(beneficiaries);
+  } catch (err) {
+    res.status(500).json({ msg: 'Internal server error' });
   }
 };
 
@@ -127,4 +177,6 @@ export {
   blockUnblockDebitCart,
   generateCardPin,
   getAccount,
+  addBeneficiary,
+  getBeneficiaries,
 };

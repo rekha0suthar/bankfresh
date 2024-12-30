@@ -15,6 +15,10 @@ const accountSchema = new Schema({
     enum: ['Saving', 'Current'],
     required: true,
   },
+  balance: {
+    type: Number,
+    default: 1000.0,
+  },
   customerId: {
     type: String,
     unique: true,
@@ -31,13 +35,11 @@ const accountSchema = new Schema({
     active: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
   },
-
-  balance: {
-    type: Number,
-    default: 1000.0,
-  },
   transactionPassword: {
     type: String,
+  },
+  beneficiary: {
+    type: Array,
   },
   createdAt: {
     type: Date,

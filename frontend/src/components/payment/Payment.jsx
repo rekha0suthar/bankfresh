@@ -1,9 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../context/Context';
 import AccountDetail from './AccountDetail';
 import { useNavigate } from 'react-router-dom';
 import { MoneyContext } from '../../context/MoneyContext';
 import { toast } from 'react-toastify';
+import { getBeneficiaryApi } from '../../apis';
+import Beneficiary from './Beneficiary';
 
 const Payment = () => {
   const [showAccount, setShowAccount] = useState(false);
@@ -15,8 +17,11 @@ const Payment = () => {
     purpose,
     setPurpose,
     setConfirmTransfer,
+    beneficiaries,
+    setBeneficiaries,
   } = useContext(MoneyContext);
-  const { account, balance, userAccount, getAccount } = useContext(Context);
+  const { account, balance, userAccount, getAccount, setLoading } =
+    useContext(Context);
   const navigate = useNavigate();
 
   const handleAccount = async () => {
@@ -31,6 +36,24 @@ const Payment = () => {
       toast.error('Amount and purpose are required');
     }
   };
+  const getBeneficiaries = async () => {
+    setLoading(true);
+    try {
+      const accountId = localStorage.getItem('accountId');
+
+      const { data } = await getBeneficiaryApi(accountId);
+      setBeneficiaries(data);
+    } catch (error) {
+      toast.error('Failed to fetch beneficiaries.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getBeneficiaries();
+  }, []); // Add account as a dependency to re-fetch beneficiaries when account changes
+
   return (
     <div className="main-wrapper money-transfer">
       <div>
@@ -48,12 +71,24 @@ const Payment = () => {
           value={inputAccount}
           onChange={(e) => setInputAccount(e.target.value)}
         />
-        <button onClick={handleAccount}>Get Account Details</button>
+        <button onClick={handleAccount}>Fetch Account</button>
+        <button onClick={() => navigate('/add-beneficiary')}>
+          Add Beneficiary
+        </button>
+      </div>
+      <div>
+        {beneficiaries.map((beneficiary) => (
+          <Beneficiary
+            key={beneficiary.accountId}
+            beneficiary={beneficiary}
+            setShowAccount={setShowAccount}
+          />
+        ))}
       </div>
       {showAccount &&
-        (Object.keys(userAccount).length !== 0 ? (
+        (Object.keys(userAccount).length !== 0 || beneficiaries.length !== 0 ? (
           <>
-            <AccountDetail />
+            {Object.keys(userAccount).length !== 0 && <AccountDetail />}
             <div>
               <input
                 type="text"

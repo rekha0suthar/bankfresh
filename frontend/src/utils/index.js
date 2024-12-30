@@ -7,19 +7,30 @@ export const isValidEmail = (email) => {
   return emailPattern.test(email);
 };
 
-export const validMobileNumber = (mobileNumber) => {
-  return mobileNumber.length === 10;
+export const isValidMobileNumber = (mobileNumber) => {
+  // Check if mobile number is exactly 10 digits and starts with 7, 8 or 9
+  const mobileNumberPattern = /^[789]\d{9}$/;
+  return mobileNumberPattern.test(mobileNumber);
 };
 
-export const validAadharNumber = (aadharNumber) => {
-  return aadharNumber.length === 12;
+export const isValidAadharNumber = (aadharNumber) => {
+  // Check if Aadhaar number is exactly 12 digits
+  const aadharNumberPattern = /^\d{12}$/;
+  return aadharNumberPattern.test(aadharNumber);
 };
 
-export const validityCheck = (email, mobileNumber, aadharNumber) => {
+export const isValidPancard = (pancard) => {
+  // Check if Pancard is in the format: 5 letters, 4 digits, 1 letter
+  const pancardPattern = /^[A-Z]{5}\d{4}[A-Z]{1}$/;
+  return pancardPattern.test(pancard);
+};
+
+export const validityCheck = (email, mobileNumber, aadharNumber, pancard) => {
   return (
     isValidEmail(email) &&
-    validAadharNumber(aadharNumber) &&
-    validMobileNumber(mobileNumber)
+    isValidAadharNumber(aadharNumber) &&
+    isValidMobileNumber(mobileNumber) &&
+    isValidPancard(pancard)
   );
 };
 

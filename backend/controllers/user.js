@@ -192,7 +192,6 @@ const changeLoginPassword = async (req, res) => {
     }
 
     const checkPassword = user.checkPassword(password);
-    console.log(user, password, checkPassword);
     if (!checkPassword) {
       return res.status(401).json({ msg: 'Incorrect current password' });
     }
@@ -213,8 +212,6 @@ const forgetPassword = async (req, res) => {
   try {
     const account = await Account.findOne({ accountNumber, customerId });
     let user = await User.findOne({ identityProof });
-
-    console.log(sessionCaptcha, captcha);
 
     if (captcha != sessionCaptcha) {
       return res.status(400).json({ msg: 'Invalid captcha' });

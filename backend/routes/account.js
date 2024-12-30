@@ -7,6 +7,8 @@ import {
   blockUnblockDebitCart,
   generateCardPin,
   getAccount,
+  addBeneficiary,
+  getBeneficiaries,
 } from '../controllers/account.js';
 
 const router = Router();
@@ -17,5 +19,6 @@ router.get('/:accountId/account-summary', verifyToken, accountDetails);
 router.post('/block-unblock-card', verifyToken, blockUnblockDebitCart);
 router.post('/generate-pin', verifyToken, generateCardPin);
 router.post('/', verifyToken, getAccount);
-
+router.post('/add-beneficiary', verifyToken, addBeneficiary);
+router.get('/:accountId/beneficiaries', verifyToken, getBeneficiaries);
 export default router;

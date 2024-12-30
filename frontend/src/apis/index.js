@@ -51,6 +51,11 @@ export const cardBlockUnblockApi = (data) =>
 
 export const cardPinApi = (data) => API.post('/account/generate-pin', data);
 
+export const addBeneficiaryApi = (data) =>
+  API.post('/account/add-beneficiary', data);
+
+export const getBeneficiaryApi = (accountId) =>
+  API.get(`/account/${accountId}/beneficiaries`);
 // ------------------------------------------------------------ //
 
 // Transaction APIs
