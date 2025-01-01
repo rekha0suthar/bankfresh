@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import '../styles/nav.css';
+import '../../styles/nav.css';
 import { useNavigate } from 'react-router-dom';
 import { FaUserCog } from 'react-icons/fa';
 import { RiLogoutCircleRLine } from 'react-icons/ri';
-import { Context } from '../context/Context';
+import { Context } from '../../context/Context';
 
 const Nav = () => {
   const [showProfile, setShowProfile] = useState(false);

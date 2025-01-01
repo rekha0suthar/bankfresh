@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../context/Context';
 import StatementTable from './StatementTable';
 import StatementDownload from './StatementDownload';
-import Pagination from '../Pagination';
+import Pagination from './Pagination';
 import { getFilters } from '../../utils';
 import Filters from './Filters';
 

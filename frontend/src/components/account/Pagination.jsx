@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { GrPrevious } from 'react-icons/gr';
 import { GrNext } from 'react-icons/gr';
-import '../styles/services.css';
-import { Context } from '../context/Context';
+import '../../styles/services.css';
+import { Context } from '../../context/Context';
 
 const Pagination = () => {
   const { currentPage, setCurrentPage, totalPages } = useContext(Context);

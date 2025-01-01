@@ -1,8 +1,9 @@
 import React from 'react';
-import '../styles/dashboard.css';
+import '../../styles/dashboard.css';
 import { ImUsers } from 'react-icons/im';
 import { MdOutlineCompareArrows } from 'react-icons/md';
 import { FaCreditCard } from 'react-icons/fa6';
+import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const services = [
@@ -20,6 +21,11 @@ const services = [
     name: 'Cards',
     icon: <FaCreditCard />,
     path: '/manage-debit-card',
+  },
+  {
+    name: 'Pay Bills',
+    icon: <FaRegMoneyBillAlt />,
+    path: '/pay-bills',
   },
 ];
 

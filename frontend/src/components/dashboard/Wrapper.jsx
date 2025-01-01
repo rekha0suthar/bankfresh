@@ -1,6 +1,6 @@
 import React from 'react';
-import { formatISOTime } from '../utils';
-import SideMenu from './SideMenu';
+import { formatISOTime } from '../../utils';
+import SideMenu from '../card/SideMenu';
 import { useLocation } from 'react-router-dom';
 
 const Wrapper = ({ children, heading }) => {

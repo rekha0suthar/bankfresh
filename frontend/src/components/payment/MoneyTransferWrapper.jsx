@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import Container from '../Container';
+import Container from '../dashboard/Container';
 import { MoneyContext } from '../../context/MoneyContext';
 import Payment from './Payment';
 import PaymentInfo from './PaymentInfo';
 import VerifyTransaction from './VerifyTransaction';
 import { Context } from '../../context/Context';
-import Wrapper from '../Wrapper';
+import Wrapper from '../dashboard/Wrapper';
 
 const MoneyTransferWrapper = () => {
   const { confirmTransfer, verifyTransaction } = useContext(MoneyContext);

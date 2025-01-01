@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import Container from '../components/Container';
+import Container from '../components/dashboard/Container';
 import { Context } from '../context/Context';
 import '../styles/customer-profile.css';
 import { formatDate } from '../utils';

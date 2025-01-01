@@ -1,6 +1,6 @@
 import React from 'react';
-import Wrapper from '../Wrapper';
-import Container from '../Container';
+import Wrapper from '../dashboard/Wrapper';
+import Container from '../dashboard/Container';
 
 const CreditCard = () => {
   return (

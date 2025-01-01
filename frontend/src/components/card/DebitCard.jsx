@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
-import Container from '../Container';
+import Container from '../dashboard/Container';
 import { CardContext } from '../../context/CardContext';
 import SetPin from './SetPin';
 import CardDetails from './CardInfo';
 import CardBlock from './CardBlock';
 import { Context } from '../../context/Context';
 import { toast } from 'react-toastify';
-import Wrapper from '../Wrapper';
+import Wrapper from '../dashboard/Wrapper';
 
 const DebitCard = () => {
   const {

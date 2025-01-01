@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/dashboard.css';
-import Balance from '../components/Balance';
-import Container from '../components/Container';
+import Balance from '../components/dashboard/Balance';
+import Container from '../components/dashboard/Container';
 
 const Dashboard = () => {
   return (

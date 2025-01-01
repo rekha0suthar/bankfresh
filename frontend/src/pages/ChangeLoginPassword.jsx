@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import Container from '../components/Container';
-import Wrapper from '../components/Wrapper';
+import Container from '../components/dashboard/Container';
+import Wrapper from '../components/dashboard/Wrapper';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../context/Context';
 
