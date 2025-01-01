@@ -1,7 +1,5 @@
 .dashboard-section {
-  margin-top: 200px;
-  display: flex;
-  justify-content: space-between;
+  margin-top: 200px !important;
 }
 
 .balance-container {
@@ -137,4 +135,32 @@
 
 .change-password button {
   margin-top: 10px;
+}
+
+.bill {
+  background-color: #00a0e3;
+  padding: 10px 20px;
+  border-radius: 50px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bill h3 {
+  margin: -10px 0px;
+  color: white;
+}
+
+.bill button {
+  color: #ffa64d;
+}
+
+.bill-detail {
+  max-width: 500px;
+}
+
+.confirm-message {
+  margin-bottom: 10px;
+  padding: 10px;
 }

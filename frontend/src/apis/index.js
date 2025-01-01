@@ -34,6 +34,7 @@ export const changeLoginPasswordApi = (data) =>
 
 export const forgetPasswordApi = (data) =>
   API.post('/auth/forget-password', data);
+
 // ------------------------------------------------------------ //
 
 // Account APIs
@@ -97,3 +98,11 @@ export const downloadStatementApi = (
       responseType: 'blob',
     }
   );
+
+// ------------------------------------------------------------ //
+
+// Bill APIs
+export const getBillsApi = (userId) => API.get(`/bill/${userId}`);
+
+export const payUtilityBillApi = (data) =>
+  API.post('/bill/pay-utility-bill', data);

@@ -45,7 +45,7 @@ export const formatCardNumber = (cardNumber) => {
   return formatted ? formatted.join(' ') : '';
 };
 
-const months = [
+export const months = [
   'Jan',
   'Feb',
   'Mar',

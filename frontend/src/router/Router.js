@@ -15,6 +15,7 @@ import TransactionPassword from '../pages/TransactionPassword';
 import ChangeLoginPassword from '../pages/ChangeLoginPassword';
 import ForgetPassword from '../pages/ForgetPassword';
 import AddBeneficiary from '../pages/AddBeneficiary';
+import PayBills from '../pages/PayBills';
 
 export const Router = () => {
   return (
@@ -35,6 +36,7 @@ export const Router = () => {
         <Route path="/manage-debit-card" element={<Cards />} />
         <Route path="/apply-credit-card" element={<Cards />} />
         <Route path="/add-beneficiary" element={<AddBeneficiary />} />
+        <Route path="/pay-bills" element={<PayBills />} />
       </Route>
     </Routes>
   );

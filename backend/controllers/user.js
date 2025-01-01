@@ -1,7 +1,5 @@
 import User from '../models/user.js';
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
-import Otp from '../models/otp.js';
 import {
   generateAccountNumber,
   generateCustomerId,
@@ -15,6 +13,9 @@ import { generateAndSendOtp } from './otp.js';
 
 let sessionCaptcha = '';
 
+// @desc  Create Account
+// @route POST /api/auth/create-account
+// @access public
 const createAccount = async (req, res) => {
   try {
     const {
@@ -88,7 +89,7 @@ const createAccount = async (req, res) => {
 };
 
 // @desc  User Registeration
-// @route POST /api/user/signup
+// @route POST /api/auth/signup
 // @access public
 const signup = async (req, res) => {
   try {
@@ -128,7 +129,7 @@ const getCaptcha = async (req, res) => {
 };
 
 // @desc  User Login
-// @route POST /api/user/login
+// @route POST /api/auth/login
 // @access public
 const login = async (req, res) => {
   try {

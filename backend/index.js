@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.js';
 import accountRoutes from './routes/account.js';
 import transactionRoutes from './routes/transaction.js';
+import billRoutes from './routes/bill.js';
 
 const PORT = 8888;
 dotenv.config();
@@ -31,6 +32,7 @@ app.use(
 app.use('/api/auth', userRoutes);
 app.use('/api/account', accountRoutes);
 app.use('/api/transaction', transactionRoutes);
+app.use('/api/bill', billRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
