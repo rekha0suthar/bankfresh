@@ -156,6 +156,11 @@
   color: #ffa64d;
 }
 
+.bill button:hover {
+  color: #ff9900;
+  background-color: transparent;
+}
+
 .bill-detail {
   max-width: 500px;
 }
