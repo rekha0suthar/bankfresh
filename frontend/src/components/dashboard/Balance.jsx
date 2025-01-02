@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Context } from '../../context/Context';
-import { useNavigate } from 'react-router-dom';
 import '../../styles/dashboard.css';
+
 import QuickActions from './QuickActions';
 
 const Balance = () => {
   const { balance, getBalance } = useContext(Context);
-  const navigate = useNavigate();
   useEffect(() => {
     getBalance();
   }, []);

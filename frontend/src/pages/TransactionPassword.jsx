@@ -1,9 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Container from '../components/dashboard/Container';
+import React, { lazy, Suspense, useContext, useEffect, useState } from 'react';
 import { Context } from '../context/Context';
 import { useNavigate } from 'react-router-dom';
-import CardDetail from '../components/card/CardDetail';
-import SetTransactionPassword from '../components/payment/SetTransactionPassword';
+
+const Container = lazy(() => import('../components/dashboard/Container'));
+const CardDetail = lazy(() => import('../components/card/CardDetail'));
+const SetTransactionPassword = lazy(() =>
+  import('../components/payment/SetTransactionPassword')
+);
 
 const TransactionPassword = () => {
   const [transPass, setTransPass] = useState('');
@@ -50,33 +53,35 @@ const TransactionPassword = () => {
     getDebitCard();
   }, []);
   return (
-    <Container>
-      <div className="main-container">
-        <h2 className="heading">Generate New Transaction Password</h2>
-        <div className="main-wrapper">
-          {!next ? (
-            <CardDetail
-              debitCard={debitCard}
-              cardDetail={cardDetail}
-              setCardDetail={setCardDetail}
-              navigate={navigate}
-              handleNext={handleNext}
-              error={error}
-            />
-          ) : (
-            <SetTransactionPassword
-              transPass={transPass}
-              setTransPass={setTransPass}
-              confirmTransPass={confirmTransPass}
-              setConfirmTransPass={setConfirmTransPass}
-              handleTransactionPassword={handleTransactionPassword}
-              error={error}
-              clearInput={clearInput}
-            />
-          )}
+    <Suspense fallback={<div>Loading...</div>}>
+      <Container>
+        <div className="main-container">
+          <h2 className="heading">Generate New Transaction Password</h2>
+          <div className="main-wrapper">
+            {!next ? (
+              <CardDetail
+                debitCard={debitCard}
+                cardDetail={cardDetail}
+                setCardDetail={setCardDetail}
+                navigate={navigate}
+                handleNext={handleNext}
+                error={error}
+              />
+            ) : (
+              <SetTransactionPassword
+                transPass={transPass}
+                setTransPass={setTransPass}
+                confirmTransPass={confirmTransPass}
+                setConfirmTransPass={setConfirmTransPass}
+                handleTransactionPassword={handleTransactionPassword}
+                error={error}
+                clearInput={clearInput}
+              />
+            )}
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </Suspense>
   );
 };
 

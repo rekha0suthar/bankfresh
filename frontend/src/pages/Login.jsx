@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { Context } from '../context/Context';
 import '../styles/form.css';
 import { useNavigate } from 'react-router-dom';
-import ImageCaptcha from '../components/form/ImageCaptcha';
-import InputGroup from '../components/form/InputGroup';
+
+const ImageCaptcha = lazy(() => import('../components/form/ImageCaptcha'));
+const InputGroup = lazy(() => import('../components/form/InputGroup'));
 
 const Login = () => {
   const {
@@ -24,38 +25,40 @@ const Login = () => {
   }, []);
 
   return (
-    <div className="form-container">
-      <h1>
-        Welcome to <strong>NetBanking</strong>
-      </h1>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="form-container">
+        <h1>
+          Welcome to <strong>NetBanking</strong>
+        </h1>
 
-      <InputGroup
-        inputValue={customerId}
-        setInputValue={setCustomerId}
-        nameValue="cusomterId"
-        labelValue="Customer ID"
-      />
+        <InputGroup
+          inputValue={customerId}
+          setInputValue={setCustomerId}
+          nameValue="cusomterId"
+          labelValue="Customer ID"
+        />
 
-      <InputGroup
-        inputValue={password}
-        setInputValue={setPassword}
-        nameValue="password"
-        labelValue="Password"
-        inputType="password"
-      />
+        <InputGroup
+          inputValue={password}
+          setInputValue={setPassword}
+          nameValue="password"
+          labelValue="Password"
+          inputType="password"
+        />
 
-      <ImageCaptcha />
+        <ImageCaptcha />
 
-      <div className="btns">
-        <button onClick={login}>{loading ? 'Logging ...' : 'Login'}</button>
-        <button onClick={() => navigate('/forget-password')}>
-          Forget/Reset Password
-        </button>
-        <button onClick={() => navigate('/signup')}>
-          New User Registration
-        </button>
+        <div className="btns">
+          <button onClick={login}>{loading ? 'Logging ...' : 'Login'}</button>
+          <button onClick={() => navigate('/forget-password')}>
+            Forget/Reset Password
+          </button>
+          <button onClick={() => navigate('/signup')}>
+            New User Registration
+          </button>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 

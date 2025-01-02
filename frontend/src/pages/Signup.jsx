@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { Context } from '../context/Context';
 import { useNavigate } from 'react-router-dom';
 import '../styles/form.css';
-import InputGroup from '../components/form/InputGroup';
+
+const InputGroup = lazy(() => import('../components/form/InputGroup'));
 
 const Signup = () => {
   const {
@@ -24,72 +25,74 @@ const Signup = () => {
     getUserAccount();
   }, []);
   return (
-    <div className="account-form wd-6">
-      <h1>
-        Register to <strong>NetBanking</strong>
-      </h1>
-      <InputGroup
-        inputValue={accountNumber}
-        divClass="account-form-field"
-        inputClass="input-box"
-        labelClass="label-box"
-        labelValue="Current/Saving Account Number"
-        nameValue="account-number"
-      />
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="account-form wd-6">
+        <h1>
+          Register to <strong>NetBanking</strong>
+        </h1>
+        <InputGroup
+          inputValue={accountNumber}
+          divClass="account-form-field"
+          inputClass="input-box"
+          labelClass="label-box"
+          labelValue="Current/Saving Account Number"
+          nameValue="account-number"
+        />
 
-      <InputGroup
-        inputValue={debitCard?.cardNumber}
-        divClass="account-form-field"
-        inputClass="input-box"
-        labelClass="label-box"
-        labelValue="ATM cum Debit Card Number"
-        nameValue="card-number"
-      />
-      <InputGroup
-        inputValue={customerId}
-        divClass="account-form-field"
-        inputClass="input-box"
-        labelClass="label-box"
-        labelValue="Customer ID"
-        nameValue="customer-id"
-      />
+        <InputGroup
+          inputValue={debitCard?.cardNumber}
+          divClass="account-form-field"
+          inputClass="input-box"
+          labelClass="label-box"
+          labelValue="ATM cum Debit Card Number"
+          nameValue="card-number"
+        />
+        <InputGroup
+          inputValue={customerId}
+          divClass="account-form-field"
+          inputClass="input-box"
+          labelClass="label-box"
+          labelValue="Customer ID"
+          nameValue="customer-id"
+        />
 
-      <InputGroup
-        inputValue={mobileNumber}
-        setInputValue={setMobileNumber}
-        divClass="account-form-field"
-        inputClass="input-box"
-        labelClass="label-box"
-        labelValue="Registered Mobile Number"
-        nameValue="mobile-number"
-        minLen={10}
-        maxLen={12}
-      />
-      <InputGroup
-        inputValue={password}
-        inputType="password"
-        setInputValue={setPassword}
-        divClass="account-form-field"
-        inputClass="input-box"
-        labelClass="label-box"
-        labelValue="Password"
-        nameValue="password"
-        minLen={6}
-      />
-      <InputGroup
-        inputValue={confirmPassword}
-        inputType="password"
-        setInputValue={setConfirmPassword}
-        divClass="account-form-field"
-        inputClass="input-box"
-        labelClass="label-box"
-        labelValue="Re-enter Password"
-        nameValue="confirm-password"
-        minLen={6}
-      />
-      <button onClick={signup}>Register</button>
-      <button onClick={() => navigate('/login')}>Login</button>
-    </div>
+        <InputGroup
+          inputValue={mobileNumber}
+          setInputValue={setMobileNumber}
+          divClass="account-form-field"
+          inputClass="input-box"
+          labelClass="label-box"
+          labelValue="Registered Mobile Number"
+          nameValue="mobile-number"
+          minLen={10}
+          maxLen={12}
+        />
+        <InputGroup
+          inputValue={password}
+          inputType="password"
+          setInputValue={setPassword}
+          divClass="account-form-field"
+          inputClass="input-box"
+          labelClass="label-box"
+          labelValue="Password"
+          nameValue="password"
+          minLen={6}
+        />
+        <InputGroup
+          inputValue={confirmPassword}
+          inputType="password"
+          setInputValue={setConfirmPassword}
+          divClass="account-form-field"
+          inputClass="input-box"
+          labelClass="label-box"
+          labelValue="Re-enter Password"
+          nameValue="confirm-password"
+          minLen={6}
+        />
+        <button onClick={signup}>Register</button>
+        <button onClick={() => navigate('/login')}>Login</button>
+      </div>
+    </Suspense>
   );
 };
 

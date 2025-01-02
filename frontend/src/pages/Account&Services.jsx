@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import '../styles/services.css';
-import Container from '../components/dashboard/Container';
-import AccountSummary from '../components/account/AccountSummary';
-import AccountStatement from '../components/account/AccountStatement';
+import { AccountContextProvider } from '../context/AccountContext';
+
+const Container = lazy(() => import('../components/dashboard/Container'));
+const AccountSummary = lazy(() =>
+  import('../components/account/AccountSummary')
+);
+const AccountStatement = lazy(() =>
+  import('../components/account/AccountStatement')
+);
 
 const AccountServices = () => {
   return (
-    <Container>
-      <AccountSummary />
-      <AccountStatement />
-    </Container>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Container>
+        <AccountSummary />
+        <AccountContextProvider>
+          <AccountStatement />
+        </AccountContextProvider>
+      </Container>
+    </Suspense>
   );
 };
 

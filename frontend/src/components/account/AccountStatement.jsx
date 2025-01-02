@@ -1,16 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { Context } from '../../context/Context';
-import StatementTable from './StatementTable';
-import StatementDownload from './StatementDownload';
-import Pagination from './Pagination';
 import { getFilters } from '../../utils';
-import Filters from './Filters';
+import { AccountContext } from '../../context/AccountContext';
+
+const Filters = lazy(() => import('./Filters'));
+const StatementTable = lazy(() => import('./StatementTable'));
+const StatementDownload = lazy(() => import('./StatementDownload'));
+const Pagination = lazy(() => import('./Pagination'));
 
 const AccountStatement = () => {
-  const [type, setType] = useState('all');
-  const [time, setTime] = useState('current-month');
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const {
+    type,
+    setType,
+    time,
+    setTime,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+  } = useContext(AccountContext);
 
   const {
     transactions,
@@ -45,39 +53,25 @@ const AccountStatement = () => {
   );
 
   return (
-    <div className="account-summary">
-      <div className="statement-header">
-        <h2>Account Statement</h2>
-        <StatementDownload
-          initialDate={startDate}
-          finalDate={endDate}
-          time={time}
-          type={type}
-        />
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="account-summary">
+        <div className="statement-header">
+          <h2>Account Statement</h2>
+          <StatementDownload />
+        </div>
+        <Filters handleFilter={handleFilter} reset={reset} />
+        {!loading && transactions.length > 0 && (
+          <>
+            <StatementTable /> {/* Pass transactions to the table */}
+            <Pagination />
+          </>
+        )}
+        {!loading && transactions.length === 0 && (
+          <p className="no-trans">No transactions found</p>
+        )}
+        {loading && <p className="no-trans">Loading...</p>}
       </div>
-      <Filters
-        time={time}
-        setTime={setTime}
-        type={type}
-        setType={setType}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-        handleFilter={handleFilter}
-        reset={reset}
-      />
-      {!loading && transactions.length > 0 && (
-        <>
-          <StatementTable /> {/* Pass transactions to the table */}
-          <Pagination />
-        </>
-      )}
-      {!loading && transactions.length === 0 && (
-        <p className="no-trans">No transactions found</p>
-      )}
-      {loading && <p className="no-trans">Loading...</p>}
-    </div>
+    </Suspense>
   );
 };
 

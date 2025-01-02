@@ -81,9 +81,16 @@ button {
   cursor: pointer;
   font-weight: bold;
   font-size: 18px;
+  margin-right: 10px;
 }
 
-input {
+button:hover {
+  background-color: #ffa64d;
+  color: black;
+}
+
+input,
+select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -92,6 +99,7 @@ input {
   box-sizing: border-box;
   cursor: pointer;
   box-shadow: 0px 0px 6px #ccc;
+  background-color: white;
 }
 
 .captcha {
@@ -114,6 +122,31 @@ input {
   border: 1px solid #ccc;
   width: max-content !important;
   height: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures borders are collapsed */
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 12px; /* Adds padding to table cells */
+  text-align: left; /* Aligns text to the left */
+}
+
+th {
+  border-bottom: 2px solid #888;
+}
+
+.statement-table tr {
+  border-bottom: 1px solid #888;
+}
+
+tbody tr:hover {
+  background-color: rgba(20, 184, 238, 0.3);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,7 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Otp from '../components/form/Otp';
+import React, { lazy, Suspense, useContext, useEffect, useState } from 'react';
 import { Context } from '../context/Context';
 import '../styles/otp.css';
+import { formatTime } from '../utils';
+
+const Otp = lazy(() => import('../components/form/Otp'));
 
 const OtpVerification = () => {
   const { setOtp, verifyOtp, resendOtp, userId } = useContext(Context);
@@ -48,31 +50,25 @@ const OtpVerification = () => {
     }
   };
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes < 10 ? '0' : ''}${minutes}:${
-      secs < 10 ? '0' : ''
-    }${secs}`;
-  };
-
   return (
-    <div className="container">
-      <h2>Enter the OTP</h2>
-      <Otp length={6} onChangeOTP={setOtp} />
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
-      <div className="otp-text">
-        {isResendEnabled
-          ? 'Resend OTP now'
-          : `OTP valid till ${formatTime(timer)}`}
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="container">
+        <h2>Enter the OTP</h2>
+        <Otp length={6} onChangeOTP={setOtp} />
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+        <div className="otp-text">
+          {isResendEnabled
+            ? 'Resend OTP now'
+            : `OTP valid till ${formatTime(timer)}`}
+        </div>
+        <button onClick={onVerifyOtp} disabled={loading}>
+          {loading ? 'Verifying...' : 'Verify OTP'}
+        </button>
+        <button onClick={onResendOtp} disabled={!isResendEnabled || loading}>
+          {loading ? 'Resending...' : 'Resend OTP'}
+        </button>
       </div>
-      <button onClick={onVerifyOtp} disabled={loading}>
-        {loading ? 'Verifying...' : 'Verify OTP'}
-      </button>
-      <button onClick={onResendOtp} disabled={!isResendEnabled || loading}>
-        {loading ? 'Resending...' : 'Resend OTP'}
-      </button>
-    </div>
+    </Suspense>
   );
 };
 

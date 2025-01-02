@@ -1,16 +1,19 @@
-import React from 'react';
-import Wrapper from '../dashboard/Wrapper';
-import Container from '../dashboard/Container';
+import React, { lazy, Suspense } from 'react';
+
+const Wrapper = lazy(() => import('../dashboard/Wrapper'));
+const Container = lazy(() => import('../dashboard/Container'));
 
 const CreditCard = () => {
   return (
-    <Container>
-      <Wrapper heading="Apply for Credit Card">
-        <div className="main-wrapper">
-          <button>Apply Credit Card</button>
-        </div>
-      </Wrapper>
-    </Container>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Container>
+        <Wrapper heading="Apply for Credit Card">
+          <div className="main-wrapper">
+            <button>Apply Credit Card</button>
+          </div>
+        </Wrapper>
+      </Container>
+    </Suspense>
   );
 };
 

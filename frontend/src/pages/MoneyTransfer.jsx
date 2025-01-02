@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import '../styles/money-transfer.css';
+
 import { MoneyContextProvider } from '../context/MoneyContext';
-import MoneyTransferWrapper from '../components/payment/MoneyTransferWrapper';
+const MoneyTransferWrapper = lazy(() =>
+  import('../components/payment/MoneyTransferWrapper')
+);
 
 const MoneyTransfer = () => {
   return (
-    <MoneyContextProvider>
-      <MoneyTransferWrapper />
-    </MoneyContextProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <MoneyContextProvider>
+        <MoneyTransferWrapper />
+      </MoneyContextProvider>
+    </Suspense>
   );
 };
 
