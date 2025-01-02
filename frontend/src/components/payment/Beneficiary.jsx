@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 import { MoneyContext } from '../../context/MoneyContext';
 
-const Beneficiary = ({ beneficiary, setShowAccount }) => {
+const Beneficiary = memo(({ beneficiary, setShowAccount }) => {
   const { setInputAccount } = useContext(MoneyContext);
 
   const handleInputAccount = async () => {
@@ -30,6 +30,6 @@ const Beneficiary = ({ beneficiary, setShowAccount }) => {
       </tbody>
     </table>
   );
-};
+});
 
 export default Beneficiary;

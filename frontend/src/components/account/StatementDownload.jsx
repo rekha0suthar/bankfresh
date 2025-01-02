@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { Context } from '../../context/Context';
 import { getFilters } from '../../utils';
 import { AccountContext } from '../../context/AccountContext';
@@ -14,13 +14,14 @@ const StatementDownload = () => {
   } = useContext(AccountContext);
   const { downloadStatement } = useContext(Context);
 
+  // useMemo -- to avoid re-renders
+  const filters = useMemo(
+    () => getFilters(type, time, initialDate, finalDate),
+    [type, time, initialDate, finalDate]
+  );
+
   const handleDownload = () => {
-    const { transactionType, startDate, endDate } = getFilters(
-      type,
-      time,
-      initialDate,
-      finalDate
-    );
+    const { transactionType, startDate, endDate } = filters;
     downloadStatement(formatType, startDate, endDate, transactionType);
   };
   return (

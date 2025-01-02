@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext, useEffect } from 'react';
+import React, { lazy, Suspense, useContext, useEffect, useMemo } from 'react';
 import { Context } from '../../context/Context';
 import { getFilters } from '../../utils';
 import { AccountContext } from '../../context/AccountContext';
@@ -29,20 +29,26 @@ const AccountStatement = () => {
     totalPages,
   } = useContext(Context);
 
+  // useMemo -- to avoid re-renders
+  const filters = useMemo(
+    () => getFilters(type, time, startDate, endDate),
+    [type, time, startDate, endDate]
+  );
+
   const reset = () => {
     setType('all');
     setTime('current-month');
     setStartDate('');
     setEndDate('');
-    getTransactions(getFilters(type, time, startDate, endDate));
+    getTransactions(filters);
   };
 
   const handleFilter = () => {
-    getTransactions(getFilters(type, time, startDate, endDate)); // Call getTransactions with filters
+    getTransactions(filters); // Call getTransactions with filters
   };
 
   useEffect(() => {
-    getTransactions(getFilters(type, time, startDate, endDate)); // Fetch transactions on initial load
+    getTransactions(filters); // Fetch transactions on initial load
   }, [currentPage, totalPages]);
 
   useEffect(
