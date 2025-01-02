@@ -3,6 +3,7 @@ import { Context } from '../../context/Context';
 import { useNavigate } from 'react-router-dom';
 import { formatTime } from '../../utils';
 import { MoneyContext } from '../../context/MoneyContext';
+import Input from '../form/Input';
 
 const userId = localStorage.getItem('userId');
 
@@ -62,21 +63,15 @@ const VerifyTransaction = () => {
         <h2>Verify Payment</h2>
         <label>Transaction Password</label>
         <br />
-        <input
+        <Input
           type="password"
           value={transactionPassword}
-          onChange={(e) => setTransactionPassword(e.target.value)}
-          name="transacion-password"
+          setValue={setTransactionPassword}
         />
         <br />
         <label>Otp</label>
         <br />
-        <input
-          type="text"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
-          name="otp"
-        />{' '}
+        <Input value={otp} setValue={setOtp} />{' '}
         <button disabled={!isResendEnabled} onClick={onResendOtp}>
           {loading ? 'Resending.....' : 'Resend'}
         </button>

@@ -1,10 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../../context/Context';
 import { getFilters } from '../../utils';
+import { AccountContext } from '../../context/AccountContext';
 
-const StatementDownload = ({ initialDate, finalDate, time, type }) => {
+const StatementDownload = () => {
   const [formatType, setFormatType] = useState('pdf');
 
+  const {
+    startDate: initialDate,
+    endDate: finalDate,
+    time,
+    type,
+  } = useContext(AccountContext);
   const { downloadStatement } = useContext(Context);
 
   const handleDownload = () => {

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { CardContext } from '../../context/CardContext';
+import Input from '../form/Input';
 
 const SetPin = ({ handleGeneratePin }) => {
   const { pin, setPin, confirmPin, setConfirmPin, setShowPinMsg } =
@@ -7,18 +8,12 @@ const SetPin = ({ handleGeneratePin }) => {
   return (
     <div className="generate-pin">
       <h4>Generate PIN</h4>
-      <input
-        type="text"
-        placeholder="Enter PIN"
-        value={pin}
-        onChange={(e) => setPin(e.target.value)}
-      />
+      <Input placeholder="Enter PIN" value={pin} setValue={setPin} />
       <br />
-      <input
-        type="text"
+      <Input
         placeholder="Re-enter PIN"
         value={confirmPin}
-        onChange={(e) => setConfirmPin(e.target.value)}
+        setValue={setConfirmPin}
       />
       <br />
       <button onClick={handleGeneratePin}>Submit</button>

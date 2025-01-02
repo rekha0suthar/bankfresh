@@ -1,18 +1,19 @@
 import React, { useContext } from 'react';
 import { Context } from '../../context/Context';
+import { AccountContext } from '../../context/AccountContext';
+import Input from '../form/Input';
 
-const Filters = ({
-  time,
-  setTime,
-  type,
-  setType,
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  handleFilter,
-  reset,
-}) => {
+const Filters = ({ handleFilter, reset }) => {
+  const {
+    time,
+    setTime,
+    type,
+    setType,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+  } = useContext(AccountContext);
   const { accountNumber } = useContext(Context);
   return (
     <div className="filters">
@@ -36,19 +37,11 @@ const Filters = ({
           <div>
             <label> Date From</label>
             <br />
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
+            <Input type="date" value={startDate} setValue={setStartDate} />
             <br />
             <label> Date To</label>
             <br />
-            <input
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
+            <Input type="date" value={endDate} setValue={setEndDate} />
           </div>
         )}
         <select value={type} onChange={(e) => setType(e.target.value)}>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { svgToDataUrl } from '../../utils';
 import { LuRefreshCw } from 'react-icons/lu';
 import { Context } from '../../context/Context';
+import Input from './Input';
 
 const ImageCaptcha = () => {
   const { captchaImg, captcha, setCaptcha, fetchCaptcha } = useContext(Context);
@@ -12,13 +13,10 @@ const ImageCaptcha = () => {
   }, []);
   return (
     <div className="captcha">
-      <input
-        type="text"
-        name="captcha"
+      <Input
         placeholder="Enter captcha"
         value={captcha}
-        onChange={(e) => setCaptcha(e.target.value)}
-        required
+        setValue={setCaptcha}
       />
       <img src={captchaDataUrl} alt="Captcha" style={{ cursor: 'pointer' }} />
       <div className="refesh-captcha" onClick={fetchCaptcha}>

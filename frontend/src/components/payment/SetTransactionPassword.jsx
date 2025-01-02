@@ -1,6 +1,7 @@
 import React from 'react';
+import Input from '../form/Input';
 
-const TransactionPassword = ({
+const SetTransactionPassword = ({
   transPass,
   setTransPass,
   confirmTransPass,
@@ -12,31 +13,31 @@ const TransactionPassword = ({
   return (
     <>
       <h4>Set Transaction Password</h4>
-      <input
+      <Input
         type="password"
         placeholder="Transaction Password"
         value={transPass}
-        onChange={(e) => setTransPass(e.target.value)}
-        min={6}
-        required
+        setValue={setTransPass}
         className="trans-input"
       />
       <br />
-      <input
+      <Input
         type="password"
         placeholder="Confirm Transaction Password"
         value={confirmTransPass}
-        onChange={(e) => setConfirmTransPass(e.target.value)}
-        min={6}
-        required
+        setValue={setConfirmTransPass}
         className="trans-input"
       />
       <br />
-      {error && <p style={{ color: 'red' }}>Incorrect match</p>}
+      {error && (
+        <p style={{ color: 'red' }}>
+          Incorrect match or Password length should be more than 6 characters
+        </p>
+      )}
       <button onClick={handleTransactionPassword}>Save</button>
       <button onClick={clearInput}>Clear</button>
     </>
   );
 };
 
-export default TransactionPassword;
+export default SetTransactionPassword;
