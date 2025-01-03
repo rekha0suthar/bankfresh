@@ -89,6 +89,12 @@ button:hover {
   color: black;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  background-color: #00a0e3;
+  color: white;
+}
+
 input,
 select {
   padding: 10px;
@@ -100,6 +106,12 @@ select {
   cursor: pointer;
   box-shadow: 0px 0px 6px #ccc;
   background-color: white;
+}
+
+span {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .captcha {
