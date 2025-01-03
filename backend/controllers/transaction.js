@@ -6,7 +6,11 @@ import { generateAndSendOtp } from './otp.js';
 import bcrypt from 'bcrypt';
 import PDFDocument from 'pdfkit';
 import mongoose from 'mongoose';
+import { getSession } from '../index.js';
 
+// @desc  Set Transaction Password
+// @route POST /api/transaction/set-transaction-password
+// @access private
 const setTransactionPassword = async (req, res) => {
   try {
     const { debitCard, transactionPassword } = req.body;
@@ -19,10 +23,13 @@ const setTransactionPassword = async (req, res) => {
     await account.save();
     res.status(200).json({ msg: 'Transaction password set' });
   } catch (err) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ msg: 'Internal server error' });
   }
 };
 
+// @desc  Add Transaction
+// @route POST /api/transaction/money-transfer
+// @access private
 const addTransaction = async (req, res) => {
   const { accountId, receiverAccountNumber, amount, purpose } = req.body;
 
@@ -34,7 +41,7 @@ const addTransaction = async (req, res) => {
   let session;
 
   try {
-    session = await mongoose.startSession();
+    session = await getSession();
     session.startTransaction();
 
     const senderAccount = await Account.findOne({ _id: accountId }).session(
@@ -121,6 +128,7 @@ const addTransaction = async (req, res) => {
   }
 };
 
+// Method to send otp
 const sendOtp = async (req, res) => {
   const { userId } = req.body;
   try {
@@ -135,6 +143,9 @@ const sendOtp = async (req, res) => {
   }
 };
 
+// @desc  Verify Transaction Password
+// @route POST /api/transaction/verify-transaction-password
+// @access private
 const verifyTransactionPassword = async (req, res) => {
   const { accountId, transactionPassword } = req.body;
   try {
@@ -156,6 +167,9 @@ const verifyTransactionPassword = async (req, res) => {
   }
 };
 
+// @desc  Fetch Transactions
+// @route POST /api/transaction/:accountId
+// @access private
 const getTransactions = async (req, res) => {
   const { accountId } = req.params;
   const {
@@ -191,8 +205,90 @@ const getTransactions = async (req, res) => {
   }
 };
 
-const downLoadStatementCSV = async (req, res) => {
-  const { accountId } = req.params;
+// Method to convert transactions into csv format
+const csvStatement = (transactions, res) => {
+  const csv = convertToCSV(transactions);
+  res.header('Content-Type', 'text/csv');
+  res.attachment('account-statement.csv');
+  res.send(csv);
+};
+
+// Method to convert transactions into pdf format
+const pdfStatement = (transactions, res) => {
+  if (!transactions || transactions.length === 0) {
+    return res
+      .status(404)
+      .json({ msg: 'No transactions found for this account.' });
+  }
+
+  const doc = new PDFDocument();
+  const fileName = 'statement.pdf';
+
+  // Set response headers
+  res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
+  res.setHeader('Content-type', 'application/pdf');
+
+  // Pipe the PDF into the response
+  doc.pipe(res);
+
+  // Add a title
+  doc.fontSize(25).text('Account Statement', { align: 'center' });
+  doc.moveDown();
+
+  // Add a line
+  doc.moveTo(50, 100).lineTo(550, 100).stroke();
+
+  // Add table headers
+  const headers = ['Transaction Date', 'Description', 'Amount', 'Balance'];
+  const tableTop = 120;
+  const rowHeight = 20;
+
+  // Draw headers
+  headers.forEach((header, index) => {
+    doc.fontSize(12).text(header, 50 + index * 120, tableTop);
+  });
+
+  // Draw each transaction
+  transactions.forEach((transaction, rowIndex) => {
+    doc.text(
+      transaction.transactionDate.toLocaleString(),
+      50,
+      tableTop + rowHeight * (rowIndex + 1)
+    );
+    doc.text(
+      transaction.description,
+      200,
+      tableTop + rowHeight * (rowIndex + 1)
+    );
+    doc.text(
+      `₹ ${transaction.amount} ${
+        transaction.transactionType === 'Debit' ? 'Dr' : 'Cr'
+      }`,
+      290,
+      tableTop + rowHeight * (rowIndex + 1)
+    );
+    doc.text(
+      `₹ ${transaction.balance}`,
+      410,
+      tableTop + rowHeight * (rowIndex + 1)
+    );
+  });
+
+  // Add a footer
+  doc.moveDown(50);
+  doc
+    .fontSize(10)
+    .text('Thank you for using our service!', { align: 'center' });
+
+  // Finalize the PDF and end the stream
+  doc.end();
+};
+
+// @desc  Download Transactions
+// @route POST /api/transaction/:accountId/download-transaction/:type
+// @access private
+const downLoadStatement = async (req, res) => {
+  const { accountId, type } = req.params;
   const { startDate, endDate, transactionType } = req.query;
   try {
     const query = getQuery(startDate, endDate, transactionType, accountId);
@@ -200,92 +296,14 @@ const downLoadStatementCSV = async (req, res) => {
     const transactions = await Transaction.find(query).sort({
       transactionDate: -1,
     });
-    const csv = convertToCSV(transactions);
-    res.header('Content-Type', 'text/csv');
-    res.attachment('account-statement.csv');
-    res.send(csv);
+
+    if (type === 'csv') {
+      csvStatement(transactions, res);
+    } else {
+      pdfStatement(transactions, res);
+    }
   } catch (err) {
     res.status(500).json({ msg: err.message });
-  }
-};
-
-const downLoadStatementPDF = async (req, res) => {
-  const { accountId } = req.params;
-  const { startDate, endDate, transactionType } = req.query;
-
-  try {
-    const query = getQuery(startDate, endDate, transactionType, accountId);
-
-    const transactions = await Transaction.find(query);
-
-    if (!transactions || transactions.length === 0) {
-      return res
-        .status(404)
-        .json({ msg: 'No transactions found for this account.' });
-    }
-
-    const doc = new PDFDocument();
-    const fileName = 'statement.pdf';
-
-    // Set response headers
-    res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
-    res.setHeader('Content-type', 'application/pdf');
-
-    // Pipe the PDF into the response
-    doc.pipe(res);
-
-    // Add a title
-    doc.fontSize(25).text('Account Statement', { align: 'center' });
-    doc.moveDown();
-
-    // Add a line
-    doc.moveTo(50, 100).lineTo(550, 100).stroke();
-
-    // Add table headers
-    const headers = ['Transaction Date', 'Description', 'Amount', 'Balance'];
-    const tableTop = 120;
-    const rowHeight = 20;
-
-    // Draw headers
-    headers.forEach((header, index) => {
-      doc.fontSize(12).text(header, 50 + index * 120, tableTop);
-    });
-
-    // Draw each transaction
-    transactions.forEach((transaction, rowIndex) => {
-      doc.text(
-        transaction.transactionDate.toLocaleString(),
-        50,
-        tableTop + rowHeight * (rowIndex + 1)
-      );
-      doc.text(
-        transaction.description,
-        200,
-        tableTop + rowHeight * (rowIndex + 1)
-      );
-      doc.text(
-        `${transaction.amount} ${
-          transaction.transactionType === 'Debit' ? 'Dr' : 'Cr'
-        }`,
-        290,
-        tableTop + rowHeight * (rowIndex + 1)
-      );
-      doc.text(transaction.balance, 410, tableTop + rowHeight * (rowIndex + 1));
-    });
-
-    // Add a footer
-    doc.moveDown(50);
-    doc
-      .fontSize(10)
-      .text('Thank you for using our service!', { align: 'center' });
-
-    // Finalize the PDF and end the stream
-    doc.end();
-  } catch (err) {
-    console.error('Error generating PDF:', err);
-    res
-      .status(500)
-      .json({ msg: 'Internal Server Error. Please try again later.' });
   }
 };
 
@@ -295,6 +313,5 @@ export {
   verifyTransactionPassword,
   setTransactionPassword,
   getTransactions,
-  downLoadStatementCSV,
-  downLoadStatementPDF,
+  downLoadStatement,
 }; // Export the functions

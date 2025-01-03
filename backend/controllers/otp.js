@@ -32,6 +32,9 @@ export const generateAndSendOtp = async (email, mobileNumber) => {
 };
 
 // Resend OTP API controller
+// @desc  Resend Otp
+// @route POST /api/user/resend-otp
+// @access private
 export const resendOtp = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -51,6 +54,9 @@ export const resendOtp = async (req, res) => {
 };
 
 // Verify OTP controller
+// @desc  Verify Otp
+// @route POST /api/user/verify-otp
+// @access private
 export const verifyOtp = async (req, res) => {
   const { userId, otp } = req.body;
   const user = await User.findById(userId);

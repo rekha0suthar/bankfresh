@@ -1,7 +1,9 @@
 import Account from '../models/account.js';
-import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 
+// @desc  Fetch Account Balance
+// @route GET /api/account/:accountId/balance
+// @access private
 const getBalance = async (req, res) => {
   try {
     const { accountId } = req.params;
@@ -19,7 +21,10 @@ const getBalance = async (req, res) => {
   }
 };
 
-const accountDetails = async (req, res) => {
+// @desc  Fetch Account Summary
+// @route GET /api/account/:accountId/account-summary
+// @access private
+const accountSummary = async (req, res) => {
   try {
     const { accountId } = req.params;
 
@@ -44,6 +49,9 @@ const accountDetails = async (req, res) => {
   }
 };
 
+// @desc  Fetch Debit Card
+// @route GET /api/account/:accountId/debit-card
+// @access private
 const getDebitCard = async (req, res) => {
   try {
     const { accountId } = req.params;
@@ -58,6 +66,9 @@ const getDebitCard = async (req, res) => {
   }
 };
 
+// @desc  Block/Unblock Card
+// @route POST /api/account/block-unblock-card
+// @access private
 const blockUnblockDebitCart = async (req, res) => {
   try {
     const { debitCard } = req.body;
@@ -80,6 +91,9 @@ const blockUnblockDebitCart = async (req, res) => {
   }
 };
 
+// @desc  Set Debit Card
+// @route POST /api/account/generate-pin
+// @access private
 const generateCardPin = async (req, res) => {
   const { debitCard, pin } = req.body;
   try {
@@ -96,6 +110,9 @@ const generateCardPin = async (req, res) => {
   }
 };
 
+// @desc  Fetch Account Details
+// @route GET /api/account/
+// @access private
 const getAccount = async (req, res) => {
   try {
     const { accountNumber } = req.body;
@@ -110,16 +127,19 @@ const getAccount = async (req, res) => {
     if (!userName) {
       return res.status(404).json({ msg: 'User not found' });
     }
-    const accountDetails = {
+    const accountSummary = {
       accountNumber,
       customerName: userName.fullName,
     };
-    res.status(200).json(accountDetails);
+    res.status(200).json(accountSummary);
   } catch (err) {
     res.status(500).json({ msg: 'Internal server error' });
   }
 };
 
+// @desc  Add Beneficiary
+// @route POST /api/account/add-beneficiary
+// @access private
 const addBeneficiary = async (req, res) => {
   const { accountId, accountNumber, beneficiaryName } = req.body;
   try {
@@ -156,6 +176,9 @@ const addBeneficiary = async (req, res) => {
   }
 };
 
+// @desc  Fetch Beneficiaries
+// @route GET /api/account/:accountId/beneficiaries
+// @access private
 const getBeneficiaries = async (req, res) => {
   const { accountId } = req.params;
   try {
@@ -173,7 +196,7 @@ const getBeneficiaries = async (req, res) => {
 export {
   getBalance,
   getDebitCard,
-  accountDetails,
+  accountSummary,
   blockUnblockDebitCart,
   generateCardPin,
   getAccount,

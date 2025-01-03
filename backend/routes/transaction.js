@@ -6,8 +6,7 @@ import {
   verifyTransactionPassword,
   setTransactionPassword,
   getTransactions,
-  downLoadStatementPDF,
-  downLoadStatementCSV,
+  downLoadStatement,
 } from '../controllers/transaction.js';
 
 const router = Router();
@@ -22,14 +21,9 @@ router.post(
 );
 router.get('/:accountId', verifyToken, getTransactions);
 router.get(
-  '/:accountId/download-statement/pdf',
+  '/:accountId/download-statement/:type',
   verifyToken,
-  downLoadStatementPDF
-);
-router.get(
-  '/:accountId/download-statement/csv',
-  verifyToken,
-  downLoadStatementCSV
+  downLoadStatement
 );
 
 export default router;

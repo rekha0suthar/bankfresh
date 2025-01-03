@@ -21,7 +21,7 @@ app.use(
   session({
     secret: process.env.JWT_SECRET, // Replace with a strong secret key
     resave: false, // Forces session to be saved back to the session store
-    saveUninitialized: true, // Forces a session that is "uninitialized" to be saved to the store
+    saveUninitialized: false, // Forces a session that is "uninitialized" to be saved to the store
     cookie: {
       secure: false,
       maxAge: 1000 * 60 * 60 * 24, // Set cookie expiration (1 day in this case)
@@ -29,14 +29,21 @@ app.use(
   })
 );
 
+// Create a connection pool
+const db = mongoose.connect(process.env.MONGO_URI);
+
+// Define a function to get a session from the connection pool
+export const getSession = async () => {
+  return await mongoose.startSession();
+};
+
 app.use('/api/auth', userRoutes);
 app.use('/api/account', accountRoutes);
 app.use('/api/transaction', transactionRoutes);
 app.use('/api/bill', billRoutes);
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log(`MongoDB connect`))
-  .catch((err) => console.error(err));
+db.then(() => console.log(`MongoDB connect`)).catch((err) =>
+  console.error(err)
+);
 
 app.listen(PORT, () => `Server is running on ${PORT}`);
