@@ -10,7 +10,11 @@ import {
   addBeneficiary,
   getBeneficiaries,
 } from '../controllers/account.js';
-
+import {
+  applyCreditCard,
+  blockUnblockCreditCart,
+  getCreditCard,
+} from '../controllers/creditCard.js';
 const router = Router();
 
 router.get('/:accountId/balance', verifyToken, getBalance);
@@ -21,4 +25,8 @@ router.post('/generate-pin', verifyToken, generateCardPin);
 router.post('/', verifyToken, getAccount);
 router.post('/add-beneficiary', verifyToken, addBeneficiary);
 router.get('/:accountId/beneficiaries', verifyToken, getBeneficiaries);
+
+router.post('/apply-credit-card', verifyToken, applyCreditCard);
+router.get('/:userId/credit-card', verifyToken, getCreditCard);
+router.post('/block-unblock-credit-card', verifyToken, blockUnblockCreditCart);
 export default router;

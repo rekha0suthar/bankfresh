@@ -121,6 +121,18 @@ perform various banking operations. The application is built using React, Expres
 - Parameter: `accountId`
 - Response: `{beneficiaries}`
 
+- **POST /apply-credit-card**: Apply for credit card
+- Request Body: `{userId, accountNumber, cardHolder, cardType, billingAddress}`
+- Response: `{message}`
+
+- **GET /:accountId/credit-card**: Get credit cards
+- Parameter: `userId`
+- Response: `{creditcards}`
+
+- **POST /block-unblock-credit-card**: Block/unblock credit card
+- Request Body: `{userId, cardId}`
+- Response: `{message}`
+
 ### Transaction Endpoints -- /api/transaction
 
 - **POST /set-transaction-password**: Set transaction password

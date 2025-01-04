@@ -8,6 +8,10 @@ const CardContextProvider = ({ children }) => {
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
   const [showCardDetail, setShowCardDetail] = useState(false);
+  const [billingAddress, setBillingAddress] = useState('');
+  const [cardHolder, setCardHolder] = useState('');
+  const [cardType, setCardType] = useState('');
+  const [creditCards, setCreditCards] = useState([]);
   return (
     <CardContext.Provider
       value={{
@@ -21,6 +25,14 @@ const CardContextProvider = ({ children }) => {
         setPin,
         confirmPin,
         setConfirmPin,
+        billingAddress,
+        setBillingAddress,
+        cardHolder,
+        setCardHolder,
+        cardType,
+        setCardType,
+        creditCards,
+        setCreditCards,
       }}
     >
       {children}

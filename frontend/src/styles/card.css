@@ -20,6 +20,36 @@
   margin-bottom: -5px;
 }
 
+.credit-card-container {
+  display: flex;
+  gap: 20px;
+}
+
+.card-form {
+  flex: 1;
+}
+
+.credit-cards {
+  flex: 1;
+}
+
+.credit-cards h2 {
+  margin: 0px;
+}
+
+.card-info {
+  margin-left: 30px;
+}
+
+.card-form input,
+.card-form select {
+  width: 250px;
+}
+
+.btn-mt {
+  margin-top: 10px;
+}
+
 @media screen and (max-width: 768px) {
   span {
     display: block;

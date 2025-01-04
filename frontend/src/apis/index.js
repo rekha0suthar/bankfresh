@@ -62,6 +62,16 @@ export const addBeneficiaryApi = (data) =>
 
 export const getBeneficiaryApi = (accountId) =>
   API.get(`/account/${accountId}/beneficiaries`);
+
+export const applyCreditCardApi = (data) =>
+  API.post('/account/apply-credit-card', data);
+
+export const getCreditCardApi = (userId) =>
+  API.get(`/account/${userId}/credit-card`);
+
+export const blockUnblockCreditCartApi = (data) =>
+  API.post('/account/block-unblock-credit-card', data);
+
 // ------------------------------------------------------------ //
 
 // Transaction APIs

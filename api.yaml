@@ -807,6 +807,137 @@ paths:
                 properties:
                   message:
                     type: string
+  /account/apply-credit-card:
+    post:
+      summary: Apply for a credit card
+      description: Apply for a credit card for a specific account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accountId:
+                  type: string
+                accountNumber:
+                  type: string
+                beneficiaryName:
+                  type: string
+      responses:
+        '200':
+          description: Credit card application submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '409':
+          description: Credit card for this type already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /account/{userId}/credit-card:
+    get:
+      summary: Get Credit cards 
+      description: Get Credit cards
+ ```yaml
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Credit cards retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  beneficiaries:
+                    type: array
+                    items:
+                      type: object
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /account/block-unblock-credit-card:
+    post:
+      summary: Block/Unblock credit card
+      description: Block/Unblock credit card for a specific account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accountId:
+                  type: string
+                accountNumber:
+                  type: string
+                beneficiaryName:
+                  type: string
+      responses:
+        '200':
+          description: Credit card status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Credit Card not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 
   /transaction/set-transaction-password:
     post:

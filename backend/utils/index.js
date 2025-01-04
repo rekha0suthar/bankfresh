@@ -1,11 +1,11 @@
 import nodemailer from 'nodemailer';
 
 export const generateAccountNumber = () => {
-  return `123${Math.floor(10000 + Math.random() * 90000)}`;
+  return `123${Math.floor(10000 + Math.random() * 90000)}`; // Random 8 Digits account number
 };
 
 export const generateCustomerId = () => {
-  return `CUST${Math.floor(100000 + Math.random() * 900000)}`;
+  return `CUST${Math.floor(100000 + Math.random() * 900000)}`; // Random 10 Digits customer ID
 };
 
 export const generateDebitCardDetails = () => {
@@ -121,4 +121,26 @@ export const sendTransactionEmail = async (
     -4
   )} on ${new Date()}. Kindly check your account for more details. \n\n Best regards, \n Bank Fresh`;
   await sendEmail(user.email, subject, text);
+};
+
+export const generateCreditCard = () => {
+  // Generate a random 16 digit credit card number
+  const cardNumber = `5${Math.floor(
+    100000000000000 + Math.random() * 900000000000000
+  )}`;
+
+  // Generate a random 3 digit cvv
+  const cvv = Math.floor(100 + Math.random() * 900);
+
+  // Generate issue date (current month and year)
+  const issueMonth = new Date().getMonth() + 1;
+  const issueYear = new Date().getFullYear();
+
+  // Generate expiry date(2 years from now)
+  const expiryMonth = (issueMonth + 24) % 12 || 12;
+  const expiryYear = issueYear + Math.floor((issueMonth + 24) / 12);
+
+  const expirationDate = expiryMonth / expiryYear;
+
+  return { cardNumber, cvv, expirationDate };
 };
