@@ -55,7 +55,7 @@ paths:
                     type: object
                   message:
                     type: string
-        '400':
+        '401':
           description: Invalid captcha
           content:
             application/json:
@@ -64,7 +64,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '403':
+        '409':
           description: Account for this user already exists
           content:
             application/json:
@@ -187,7 +187,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '400':
+        '401':
           description: Invalid request
           content:
             application/json:
@@ -198,6 +198,15 @@ paths:
                     type: string
         '404':
           description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '409':
+          description: User already exists
           content:
             application/json:
               schema:
@@ -274,7 +283,7 @@ paths:
                     type: string
                   message:
                     type: string
-        '400':
+        '401':
           description: Invalid request
           content:
             application/json:
@@ -731,6 +740,15 @@ paths:
                     type: string
         '404':
           description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '409':
+          description: Beneficiary already exists
           content:
             application/json:
               schema:

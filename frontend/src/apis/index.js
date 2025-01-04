@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+let env = 'dev';
+
 const API = axios.create({
-  baseURL: 'https://bankfresh.onrender.com/api',
+  baseURL:
+    env === 'dev'
+      ? 'http://localhost:8888/api'
+      : 'https://bankfresh.onrender.com/api',
 });
 
 API.interceptors.request.use((req) => {

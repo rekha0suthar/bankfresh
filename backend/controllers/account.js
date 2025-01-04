@@ -161,7 +161,7 @@ const addBeneficiary = async (req, res) => {
       (ben) => ben.accountNumber === accountNumber
     );
     if (existBeneficiary) {
-      return res.status(400).json({ msg: 'Beneficiary already exists' });
+      return res.status(409).json({ msg: 'Beneficiary already exists' });
     }
     account.beneficiary.push({
       accountId: beneficiaryAccount._id,

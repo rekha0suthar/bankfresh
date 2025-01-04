@@ -33,7 +33,7 @@ const createAccount = async (req, res) => {
     } = req.body;
 
     if (captcha != sessionCaptcha) {
-      return res.status(400).json({ msg: 'Invalid captcha' });
+      return res.status(401).json({ msg: 'Invalid captcha' });
     }
 
     const existUser = await User.findOne({
@@ -44,7 +44,7 @@ const createAccount = async (req, res) => {
       const existAccount = await Account.findById(existUser._id);
       if (existAccount) {
         return res
-          .status(403)
+          .status(409)
           .json({ msg: 'Account for this user already exists' });
       }
     }
@@ -98,19 +98,24 @@ const signup = async (req, res) => {
     // Validate input here (e.g., check if userId and password are provided)
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.findByIdAndUpdate(userId, {
-      password: hashedPassword,
-    });
+    const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(403).json({ msg: 'User  does not exist' });
+      return res.status(404).json({ msg: 'User not found, Create an account' });
+    }
+
+    if (user.password) {
+      return res.status(409).json({ msg: 'User already exists, Kindly Login' });
     }
 
     if (user.mobileNumber !== mobileNumber) {
-      return res.status(400).json({ msg: 'Incorrect mobile number' });
+      return res.status(401).json({ msg: 'Incorrect mobile number' });
     }
 
-    res.status(200).json({ msg: 'User  registered successfully' });
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ msg: 'User registered successfully' });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -136,7 +141,7 @@ const login = async (req, res) => {
     const { userId, customerId, password, captcha } = req.body;
 
     if (captcha != sessionCaptcha) {
-      return res.status(400).json({ msg: 'Invalid captcha' });
+      return res.status(401).json({ msg: 'Invalid captcha' });
     }
 
     let user;
@@ -158,7 +163,7 @@ const login = async (req, res) => {
     }
 
     if (!userAccount) {
-      return res.status(400).json({ msg: 'Incorrect customerID' });
+      return res.status(401).json({ msg: 'Incorrect customerID' });
     }
 
     const checkPassword = user.checkPassword(password);
@@ -194,7 +199,7 @@ const changeLoginPassword = async (req, res) => {
 
     const checkPassword = user.checkPassword(password);
     if (!checkPassword) {
-      return res.status(401).json({ msg: 'Incorrect current password' });
+      return res.status(403).json({ msg: 'Incorrect current password' });
     }
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
@@ -215,14 +220,14 @@ const forgetPassword = async (req, res) => {
     let user = await User.findOne({ identityProof });
 
     if (captcha != sessionCaptcha) {
-      return res.status(400).json({ msg: 'Invalid captcha' });
+      return res.status(403).json({ msg: 'Invalid captcha' });
     }
 
     if (!user) {
-      return res.status(401).json({ msg: 'Incorrect identity proof' });
+      return res.status(403).json({ msg: 'Incorrect identity proof' });
     }
     if (!account) {
-      return res.status(401).json({ msg: 'Incorrect user info' });
+      return res.status(403).json({ msg: 'Incorrect user info' });
     }
 
     user.password = await bcrypt.hash(password, 10);
@@ -246,7 +251,7 @@ const getUserAccount = async (req, res) => {
     );
 
     if (!userAccount) {
-      return res.status(403).json({ msg: ' User account does not found' });
+      return res.status(404).json({ msg: 'User account not found' });
     }
 
     res.status(200).json(userAccount);
@@ -264,7 +269,7 @@ const getUser = async (req, res) => {
 
     const user = await User.findById(id);
     if (!user) {
-      return res.status(403).json({ msg: ' User  does not found' });
+      return res.status(404).json({ msg: ' User not found' });
     }
 
     res.status(200).json(user);

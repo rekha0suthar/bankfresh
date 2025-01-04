@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { Context } from '../context/Context';
 import { useNavigate } from 'react-router-dom';
-import '../styles/form.css';
+import '../styles/account-form.css';
 
 const InputGroup = lazy(() => import('../components/form/InputGroup'));
 

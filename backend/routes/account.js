@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { verifyToken } from '../middleware/verifyToken.js';
 import {
-  accountDetails,
+  accountSummary,
   getBalance,
   getDebitCard,
   blockUnblockDebitCart,
@@ -15,7 +15,7 @@ const router = Router();
 
 router.get('/:accountId/balance', verifyToken, getBalance);
 router.get('/:accountId/debit-card', verifyToken, getDebitCard);
-router.get('/:accountId/account-summary', verifyToken, accountDetails);
+router.get('/:accountId/account-summary', verifyToken, accountSummary);
 router.post('/block-unblock-card', verifyToken, blockUnblockDebitCart);
 router.post('/generate-pin', verifyToken, generateCardPin);
 router.post('/', verifyToken, getAccount);

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useContext } from 'react';
 import { Context } from '../context/Context';
-import '../styles/form.css';
+import '../styles/account-form.css';
 import { useNavigate } from 'react-router-dom';
 
 const ImageCaptcha = lazy(() => import('../components/form/ImageCaptcha'));
