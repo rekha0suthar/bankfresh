@@ -1,11 +1,16 @@
 import Account from '../models/account.js';
 import Transaction from '../models/transaction.js';
 import User from '../models/user.js';
-import { convertToCSV, getQuery } from '../utils/index.js';
+import {
+  convertToCSV,
+  getQuery,
+  sendEmail,
+  sendTransactionEmail,
+  validateTransactionDetails,
+} from '../utils/index.js';
 import { generateAndSendOtp } from './otp.js';
 import bcrypt from 'bcrypt';
 import PDFDocument from 'pdfkit';
-import mongoose from 'mongoose';
 import { getSession } from '../index.js';
 
 // @desc  Set Transaction Password
@@ -51,37 +56,15 @@ const addTransaction = async (req, res) => {
       return res.status(404).json({ msg: 'Sender account not found' });
     }
 
-    // Handle same-account transaction: prevent or treat it differently
-    if (senderAccount.accountNumber === receiverAccountNumber) {
-      return res
-        .status(400)
-        .json({ msg: 'Cannot transfer to the same account' });
-    }
-
-    if (senderAccount.balance < floatAmount) {
-      return res.status(400).json({ msg: 'Insufficient balance' });
-    }
-
-    if (!senderAccount.transactionPassword) {
-      return res.status(400).json({ msg: 'Set Transaction password' });
-    }
-
-    if (!senderAccount.debitCard.active || senderAccount.debitCard.blocked) {
-      return res
-        .status(400)
-        .json({ msg: 'Card is either blocked or inactive' });
-    }
-
-    if (!senderAccount.debitCard.pin) {
-      return res.status(400).json({ msg: 'Set card pin' });
-    }
-
     const receiverAccount = await Account.findOne({
       accountNumber: receiverAccountNumber,
     }).session(session);
     if (!receiverAccount) {
       return res.status(404).json({ msg: 'Receiver account not found' });
     }
+
+    // Some validation before transaction
+    validateTransactionDetails(senderAccount, receiverAccount, floatAmount);
 
     // Transaction -- for sender -- debit
     await new Transaction({
@@ -115,6 +98,31 @@ const addTransaction = async (req, res) => {
     await receiverAccount.save({ session });
 
     await session.commitTransaction();
+
+    const senderUser = await User.findOne(
+      { _id: senderAccount.userId },
+      { email: 1, fullName: 1 }
+    );
+
+    const receiverUser = await User.findOne(
+      { _id: receiverAccount.userId },
+      { email: 1, fullName: 1 }
+    );
+
+    // Send email to sender and receiver
+    sendTransactionEmail(
+      senderUser,
+      amount,
+      'debited',
+      senderAccount.accountNumber
+    );
+    sendTransactionEmail(
+      receiverUser,
+      amount,
+      'credited',
+      receiverAccountNumber
+    );
+
     res.status(200).json({ msg: 'Transaction successful' });
   } catch (error) {
     if (session) {

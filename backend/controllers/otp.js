@@ -4,8 +4,8 @@ import { sendEmail } from '../utils/index.js';
 
 // Function to send OTP on mail
 const sendEmailOtp = async (email, otp) => {
-  const subject = 'Verification OTP code';
-  const text = `Your new account verification OTP ${otp}`;
+  const subject = 'Verification code';
+  const text = `Your bank account verification code ${otp}`;
 
   sendEmail(email, subject, text);
 };

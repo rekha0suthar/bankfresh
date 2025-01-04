@@ -75,7 +75,7 @@ const createAccount = async (req, res) => {
     }).save();
 
     const subject = 'Your Bank Account Details';
-    const text = `Hello User, \n\nYour account has been created successfully on BankFresh. \n\nBelow is your account details. \nAccount Number: ${accountNumber}\nCustomer ID: ${customerId}\n Debit Card Number: ${debitCard.cardNumber}.\n\nThank you for choosing us.`;
+    const text = `Hello ${newUser.fullName}, \n\nYour account has been created successfully on BankFresh. \n\nBelow is your account details. \nAccount Number: ${accountNumber}\nCustomer ID: ${customerId}\n Debit Card Number: ${debitCard.cardNumber}.\n\nThank you for choosing us.`;
 
     await sendEmail(email, subject, text);
     await generateAndSendOtp(email, mobileNumber);

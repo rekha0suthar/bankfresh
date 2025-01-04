@@ -82,3 +82,43 @@ export const getQuery = (startDate, endDate, transactionType, accountId) => {
   };
   return query;
 };
+
+export const validateTransactionDetails = (
+  senderAccount,
+  receiverAccount,
+  amount
+) => {
+  if (isNaN(amount) || parseFloat(amount) <= 0) {
+    throw new Error('Invalid amount');
+  }
+  if (senderAccount.balance < amount) {
+    throw new Error('Insufficient balance');
+  }
+  if (senderAccount.accountNumber === receiverAccount.accountNumber) {
+    throw new Error('Cannot transfer to the same account');
+  }
+  if (!senderAccount.transactionPassword) {
+    throw new Error('Set Transaction password');
+  }
+  if (!senderAccount.debitCard.active || senderAccount.debitCard.blocked) {
+    throw new Error('Card is either blocked or inactive');
+  }
+  if (!senderAccount.debitCard.pin) {
+    throw new Error('Set card pin');
+  }
+};
+
+export const sendTransactionEmail = async (
+  user,
+  amount,
+  type,
+  accountNumber
+) => {
+  const subject = 'Transaction Details';
+  const text = `Hello ${
+    user.fullName
+  }, \n\n Rs ${amount} has been ${type.toUpperCase()} to your A/c XXXX${accountNumber.slice(
+    -4
+  )} on ${new Date()}. Kindly check your account for more details. \n\n Best regards, \n Bank Fresh`;
+  await sendEmail(user.email, subject, text);
+};
