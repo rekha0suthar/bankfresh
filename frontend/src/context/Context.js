@@ -107,7 +107,7 @@ const ContextProvider = ({ children }) => {
         setMobileNumber('');
         setNationality('');
         setEmail('');
-        toast.success(data.msg);
+        toast.success(data?.msg);
         navigate('/verify-otp');
       } else if (!isValidEmail(email)) {
         toast.warn('Invalid Email');
@@ -130,7 +130,7 @@ const ContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await verifyOtpApi({ userId, otp });
-      toast.success(data.msg);
+      toast.success(data?.msg);
       if (path) {
         navigate('/dashboard');
       } else {
@@ -149,7 +149,7 @@ const ContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = resendOtpApi({ userId });
-      toast.success(data.msg);
+      toast.success(data?.msg);
     } catch (err) {
       console.error(err);
       toast.error(err.response.data?.msg);
@@ -162,9 +162,9 @@ const ContextProvider = ({ children }) => {
   const getUserAccount = async () => {
     try {
       const { data } = await getUserAccountApi(userId);
-      setAcountNumber(data.accountNumber);
-      setDebitCard(data.debitCard);
-      setCustomerId(data.customerId);
+      setAcountNumber(data?.accountNumber);
+      setDebitCard(data?.debitCard);
+      setCustomerId(data?.customerId);
     } catch (err) {
       console.error(err);
     }
@@ -179,7 +179,7 @@ const ContextProvider = ({ children }) => {
         // calling api and store response
         const { data } = await signupApi({ userId, password, mobileNumber });
 
-        toast.success(data.msg); // success alert
+        toast.success(data?.msg); // success alert
         navigate('/login'); // redirect to login page
         setLoading(false); //setting loading false
       } else {
@@ -203,10 +203,10 @@ const ContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await loginApi(newUser);
-      toast.success(data.msg); // success alert
-      localStorage.setItem('token', data.token); // storing token in localstorage
-      localStorage.setItem('userId', data.user._id);
-      localStorage.setItem('accountId', data.accountId);
+      toast.success(data?.msg); // success alert
+      localStorage.setItem('token', data?.token); // storing token in localstorage
+      localStorage.setItem('userId', data?.user._id);
+      localStorage.setItem('accountId', data?.accountId);
 
       navigate('/dashboard'); // redirecting to dashboard after successfull login
     } catch (err) {
@@ -232,7 +232,7 @@ const ContextProvider = ({ children }) => {
           newPassword,
         });
 
-        toast.success(data.msg); // success alert
+        toast.success(data?.msg); // success alert
         navigate('/login');
       } else {
         toast.error('Passwords do not match');
@@ -256,14 +256,14 @@ const ContextProvider = ({ children }) => {
           password,
           captcha,
         });
-        toast.success(data.msg); // success alert
+        toast.success(data?.msg); // success alert
         navigate('/login');
       } else {
         toast.error('Password does not match');
       }
     } catch (err) {
       console.error(err);
-      toast.error(err.response.data.msg);
+      toast.error(err.response.data?.msg);
     } finally {
       setLoading(false); // Ensure loading state is reset
     }
@@ -278,7 +278,7 @@ const ContextProvider = ({ children }) => {
   const getUser = async () => {
     try {
       const { data } = await getUserApi(userId);
-      setUser(data);
+      setUser(data || {});
     } catch (err) {
       console.error(err);
     }
@@ -287,7 +287,7 @@ const ContextProvider = ({ children }) => {
   const fetchCaptcha = async () => {
     try {
       const { data } = await fetchCaptchaApi();
-      setCaptchaImg(data);
+      setCaptchaImg(data || '');
     } catch (err) {
       console.error(err);
     }
@@ -297,7 +297,7 @@ const ContextProvider = ({ children }) => {
   const getBalance = async () => {
     try {
       const { data } = await getBalanceApi(accountId);
-      setBalance(data.balance);
+      setBalance(data?.balance);
     } catch (err) {
       console.error(err);
     }
@@ -307,7 +307,7 @@ const ContextProvider = ({ children }) => {
   const getDebitCard = async () => {
     try {
       const { data } = await getDebitCardApi(accountId);
-      setDebitCard(data.debitCard);
+      setDebitCard(data?.debitCard);
     } catch (err) {
       console.error(err);
     }
@@ -316,7 +316,7 @@ const ContextProvider = ({ children }) => {
   const accountSummary = async () => {
     try {
       const { data } = await accountSummaryApi(accountId);
-      setAccount(data);
+      setAccount(data || {});
     } catch (err) {
       console.error(err);
     }
@@ -326,7 +326,7 @@ const ContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await cardBlockUnblockApi({ debitCard });
-      toast.success(data.msg);
+      toast.success(data?.msg);
       getDebitCard();
     } catch (err) {
       console.error(err);
@@ -339,7 +339,7 @@ const ContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await cardPinApi({ debitCard, pin });
-      toast.success(data.msg);
+      toast.success(data?.msg);
       getDebitCard();
     } catch (err) {
       console.error(err);
@@ -351,7 +351,7 @@ const ContextProvider = ({ children }) => {
   const getAccount = async (accountNumber) => {
     try {
       const { data } = await getAccountApi({ accountNumber });
-      setUserAccount(data);
+      setUserAccount(data || {});
     } catch (err) {
       console.error(err);
     }
@@ -364,7 +364,7 @@ const ContextProvider = ({ children }) => {
         debitCard,
         transactionPassword,
       });
-      toast.success(data.msg);
+      toast.success(data?.msg);
     } catch (err) {
       console.error(err);
     } finally {
@@ -387,9 +387,9 @@ const ContextProvider = ({ children }) => {
         amount,
         purpose,
       });
-      toast.success(data.msg);
+      toast.success(data?.msg);
     } catch (err) {
-      toast.error(err.response.data.msg);
+      toast.error(err.response.data?.msg);
     } finally {
       setLoading(false); // Ensure loading state is reset
     }
@@ -399,9 +399,9 @@ const ContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await transactionOtpApi({ userId });
-      toast.success(data.msg);
+      toast.success(data?.msg);
     } catch (err) {
-      toast.error(err.response.data.msg);
+      toast.error(err.response.data?.msg);
     } finally {
       setLoading(false); // Ensure loading state is reset
     }
@@ -462,7 +462,7 @@ const ContextProvider = ({ children }) => {
       setCurrentPage(data.currentPage);
       setLoading(false);
     } catch (err) {
-      toast.error(err.response.data.msg);
+      toast.error(err.response.data?.msg);
     } finally {
       setLoading(false); // Ensure loading state is reset
     }
@@ -515,7 +515,7 @@ const ContextProvider = ({ children }) => {
         accountNumber,
         beneficiaryName,
       });
-      toast.success(data.msg);
+      toast.success(data?.msg);
       navigate('/money-transfer');
     } catch (err) {
       console.error(err);

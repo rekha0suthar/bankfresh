@@ -44,7 +44,7 @@ const Payment = () => {
       const accountId = localStorage.getItem('accountId');
 
       const { data } = await getBeneficiaryApi(accountId);
-      setBeneficiaries(data);
+      setBeneficiaries(data || []);
     } catch (error) {
       toast.error('Failed to fetch beneficiaries.');
     } finally {

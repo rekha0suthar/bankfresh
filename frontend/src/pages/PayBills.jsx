@@ -16,7 +16,7 @@ const PayBills = () => {
 
   const getBills = async () => {
     const { data } = await getBillsApi(userId);
-    setBills(data);
+    setBills(data || []);
   };
 
   const getBill = (billNumber) => {
