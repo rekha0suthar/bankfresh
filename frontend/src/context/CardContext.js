@@ -10,7 +10,7 @@ const CardContextProvider = ({ children }) => {
   const [showCardDetail, setShowCardDetail] = useState(false);
   const [billingAddress, setBillingAddress] = useState('');
   const [cardHolder, setCardHolder] = useState('');
-  const [cardType, setCardType] = useState('');
+  const [cardType, setCardType] = useState('Basic');
   const [creditCards, setCreditCards] = useState([]);
   const [accountNumber, setAccountNumber] = useState('');
   return (
