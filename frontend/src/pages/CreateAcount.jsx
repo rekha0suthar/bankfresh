@@ -28,6 +28,7 @@ const CreateAcount = () => {
     mobileNumber,
     setMobileNumber,
     createAccount,
+    loading,
   } = useContext(Context);
 
   const navigate = useNavigate();
@@ -192,7 +193,9 @@ const CreateAcount = () => {
           <label className="label-box">Enter Captcha *</label>
         </div>
         <ImageCaptcha />
-        <button onClick={createAccount}>Save and Continue</button>
+        <button onClick={createAccount}>
+          {loading ? 'Saving...' : 'Save and Continue'}
+        </button>
         <button onClick={() => navigate('/login')}>Login</button>
       </div>
     </Suspense>

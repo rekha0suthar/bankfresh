@@ -51,17 +51,23 @@ const PayBills = () => {
           <div className="main-wrapper">
             {!showBill ? (
               <div className="bills">
-                {bills.map((bill) => (
-                  <div key={bill._id} className="bill">
-                    <h3>
-                      {bill.utilityType} -{' '}
-                      {months[new Date(bill.billDate).getMonth()]}
-                    </h3>
-                    <button onClick={() => getBill(bill.billNumber)}>
-                      Open Bill
-                    </button>
-                  </div>
-                ))}
+                {bills.length > 0 &&
+                  bills.map((bill) => (
+                    <div key={bill._id} className="bill">
+                      <h3>
+                        {bill.utilityType} -{' '}
+                        {months[new Date(bill.billDate).getMonth()]}
+                      </h3>
+                      <button onClick={() => getBill(bill.billNumber)}>
+                        Open Bill
+                      </button>
+                    </div>
+                  ))}
+                {bills.length === 0 && (
+                  <p style={{ textAlign: 'center', fontSize: '20px' }}>
+                    No bills found.
+                  </p>
+                )}
               </div>
             ) : (
               <div className="bill-detail">

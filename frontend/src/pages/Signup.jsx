@@ -18,6 +18,7 @@ const Signup = () => {
     confirmPassword,
     setConfirmPassword,
     signup,
+    loading,
   } = useContext(Context);
 
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ const Signup = () => {
           nameValue="confirm-password"
           minLen={6}
         />
-        <button onClick={signup}>Register</button>
+        <button onClick={signup}>{loading ? 'Signing...' : 'Register'}</button>
         <button onClick={() => navigate('/login')}>Login</button>
       </div>
     </Suspense>
