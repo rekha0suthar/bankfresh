@@ -26,6 +26,8 @@ const InputGroup = ({
         min={minLen}
         max={maxLen}
         placeholder={placeHolder}
+        onCopy={(e) => e.preventDefault()}
+        onPaste={(e) => e.preventDefault()}
         required
       />
     </div>
