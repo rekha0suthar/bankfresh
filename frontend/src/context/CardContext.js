@@ -12,6 +12,7 @@ const CardContextProvider = ({ children }) => {
   const [cardHolder, setCardHolder] = useState('');
   const [cardType, setCardType] = useState('');
   const [creditCards, setCreditCards] = useState([]);
+  const [accountNumber, setAccountNumber] = useState('');
   return (
     <CardContext.Provider
       value={{
@@ -33,6 +34,8 @@ const CardContextProvider = ({ children }) => {
         setCardType,
         creditCards,
         setCreditCards,
+        accountNumber,
+        setAccountNumber,
       }}
     >
       {children}

@@ -13,7 +13,6 @@ const Container = lazy(() => import('../dashboard/Container'));
 const Input = lazy(() => import('../form/Input'));
 
 const CreditCard = () => {
-  const { accountNumber, setAccountNumber } = useContext(Context);
   const {
     billingAddress,
     setBillingAddress,
@@ -23,6 +22,8 @@ const CreditCard = () => {
     setCardType,
     creditCards,
     setCreditCards,
+    accountNumber,
+    setAccountNumber,
   } = useContext(CardContext);
   const [showCard, setShowCard] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState('');
