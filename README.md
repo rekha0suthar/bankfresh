@@ -1,7 +1,5 @@
 # BankFresh - NetBanking Application
 
-=====================================
-
 ### Overview
 
 BankFresh is a web-based banking application that allows users to manage their accounts, transfer funds, and
